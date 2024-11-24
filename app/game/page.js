@@ -52,8 +52,14 @@ function GameContent() {
       if (audioRef.current) {
         audioRef.current.src = song.url;
         audioRef.current.currentTime = startTime;
-        await audioRef.current.play().catch((error) =>
-          console.error("Audio playback error:", error)
+
+        // Error handling
+        await audioRef.current.play().catch((error) => {
+          console.error("Audio playback error:", error);
+          setFeedback("Error playing song. Skipping to the next song.");
+          setFeedbackColor(COLORS.incorrectText);
+          setTimeout(fetchRandomSong, 2500); // Skip to the next song
+        });
         );
       }
     } catch (error) {
@@ -77,34 +83,42 @@ function GameContent() {
           clearInterval(timerInterval);
           audioRef.current.pause();
   
-          // Avoid multiple decrements by using the updated state
-          if (lives > 0) {
-            setLives((prevLives) => {
-              const updatedLives = prevLives - 1;
-  
-              if (updatedLives <= 0) {
-                setFeedback("Game Over! You've run out of lives.");
-                setTimeout(() => {
-                  setIsPlaying(false);
-                  setScore(0);
-                  setLives(initialLives); // Reset lives
-                }, 3000);
-              } else {
-                const primaryStyle = currentSong.style.split(",")[0].trim();
-                setFeedback(`Time's up! The correct answer was "${primaryStyle}".`);
-                setFeedbackColor(COLORS.incorrectText);
-                setTimeout(fetchRandomSong, 2500);
-              }
-  
-              return updatedLives; // Ensure the state is updated only once
-            });
-          }
+          // Decrement lives and handle game state
+          handleLifeLoss();
         }
       }, 100);
   
       return () => clearInterval(timerInterval);
     }
-  }, [isAudioPlaying, currentSong, clipDuration, lives, initialLives]);  
+  }, [isAudioPlaying, currentSong, clipDuration]);
+  
+  const handleLifeLoss = () => {
+    if (lives > 0) {
+      setLives((prevLives) => {
+        const updatedLives = prevLives - 1;
+  
+        if (updatedLives <= 0) {
+          setFeedback("Game Over! You've run out of lives.");
+          setFeedbackColor(COLORS.incorrectText);
+  
+          setTimeout(() => {
+            setIsPlaying(false);
+            setScore(0);
+            setLives(initialLives); // Reset lives
+          }, 3000);
+        } else {
+          // Show the correct answer and fetch the next song
+          const primaryStyle = currentSong.style.split(",")[0].trim();
+          setFeedback(`Time's up! The correct answer was "${primaryStyle}".`);
+          setFeedbackColor(COLORS.incorrectText);
+  
+          setTimeout(fetchRandomSong, 2500);
+        }
+  
+        return updatedLives; // Ensure lives are decremented once
+      });
+    }
+  };  
 
   const handleGuess = () => {
     if (!guess.trim()) return;
