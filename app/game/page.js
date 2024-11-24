@@ -144,6 +144,15 @@ function GameContent() {
           <h1 style={styles.header}>Ballroom Music Quiz</h1>
           <p style={styles.score}>Score: {score}</p>
 
+          {lives !== -1 && (
+        <p style={styles.lives}>
+          Lives Remaining:{" "}
+          <span style={styles.livesHighlight}>
+            {lives}
+          </span>
+        </p>
+      )}
+
           <div style={styles.progressBarContainer}>
             <div style={{ ...styles.progressBar, width: `${progress}%`, transition: "width 0.1s linear" }} />
           </div>
@@ -210,9 +219,14 @@ const styles = {
   },
   lives: {
     fontSize: "1.5rem",
-    color: COLORS.textPrimary,
     marginBottom: "10px",
+    color: COLORS.textPrimary,
+    textAlign: "center",
   },
+  livesHighlight: {
+    fontWeight: "bold",
+    color: COLORS.correctText,
+  },  
   progressBarContainer: {
     width: "80%",
     height: "20px",
