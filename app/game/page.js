@@ -37,7 +37,7 @@ function GameContent() {
       if (!response.ok) throw new Error('Failed to fetch song.');
       const song = await response.json();
 
-      const startTime = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
+      const startTime = Math.floor(Math.random() * (60 - 20 + 1)) + 20;
       setCurrentSong({ ...song, startTime });
 
       setTimer(clipDuration);
