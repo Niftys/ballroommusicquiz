@@ -1,21 +1,21 @@
 'use client';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 const COLORS = {
-  backgroundGradientStart: "#3e1c5e",
-  backgroundGradientEnd: "#1a0c3e",
-  textPrimary: "#e0e0e0",
-  progressBar: "#9b59b6",
+  backgroundGradientStart: "#6a11cb",
+  backgroundGradientEnd: "#2575fc",
+  textPrimary: "#ffffff",
+  progressBar: "#28a745",
   correct: "#ffc107",
   incorrect: "#dc3545",
-  buttonBackground: "#333",
-  buttonHover: "#444",
+  buttonBackground: "#17a2b8",
+  buttonHover: "#138496",
 };
 
-export default function Game() {
+function GameComponent() {
   const searchParams = useSearchParams();
-  const clipDuration = parseInt(searchParams.get('duration'), 10) || 10; // Default to 10 seconds
+  const clipDuration = parseInt(searchParams.get('duration'), 10) || 10;
 
   const [currentSong, setCurrentSong] = useState(null);
   const [timer, setTimer] = useState(clipDuration);
@@ -70,9 +70,9 @@ export default function Game() {
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
           audioRef.current.pause();
-          setFeedback(`Time's up! The correct answer was: ${currentSong.style}`);
+          setFeedback("Time's up!");
           setFeedbackColor(COLORS.incorrect);
-          setTimeout(fetchRandomSong, 3000); // Wait 3 seconds before fetching the next song
+          fetchRandomSong();
         }
       }, 100);
 
@@ -147,6 +147,14 @@ export default function Game() {
   );
 }
 
+export default function Game() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <GameComponent />
+    </Suspense>
+  );
+}
+
 const styles = {
   container: {
     display: "flex",
@@ -161,7 +169,7 @@ const styles = {
     fontSize: "3rem",
     color: COLORS.textPrimary,
     marginBottom: "20px",
-    textShadow: "2px 2px 4px rgba(255, 255, 255, 0.2)",
+    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
   },
   score: {
     fontSize: "1.5rem",
@@ -171,7 +179,7 @@ const styles = {
   progressBarContainer: {
     width: "80%",
     height: "20px",
-    backgroundColor: COLORS.buttonHover,
+    backgroundColor: "#ddd",
     borderRadius: "10px",
     overflow: "hidden",
     margin: "20px 0",
@@ -195,12 +203,12 @@ const styles = {
     fontSize: "1.2rem",
     padding: "10px",
     margin: "10px 0",
-    border: "2px solid #555",
+    border: "2px solid #ccc",
     borderRadius: "5px",
     width: "80%",
     textAlign: "center",
-    backgroundColor: COLORS.buttonHover,
-    color: COLORS.textPrimary,
+    backgroundColor: "#fff",
+    color: "#000",
   },
   button: {
     padding: "10px 20px",

@@ -27,10 +27,10 @@ export default function Home() {
         Ballroom Music Quiz
       </h1>
       <p style={styles.instructions}>
-        Welcome to the Ballroom Music Quiz! Here's how to play:
+        Welcome to the Ballroom Music Quiz! Here&#39;s how to play:
       </p>
       <ul style={styles.list}>
-        <li>You'll hear a 10-second or 5-second clip of a ballroom dance song.</li>
+        <li>You&#39;ll hear a 10-second or 5-second clip of a ballroom dance song.</li>
         <li>Guess the correct dance style associated with the song.</li>
         <li>Score points for every correct answer within the time limit.</li>
       </ul>
