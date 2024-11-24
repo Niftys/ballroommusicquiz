@@ -60,7 +60,6 @@ function GameContent() {
           setFeedbackColor(COLORS.incorrectText);
           setTimeout(fetchRandomSong, 2500); // Skip to the next song
         });
-        );
       }
     } catch (error) {
       console.error("Error fetching song:", error);
