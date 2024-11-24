@@ -27,6 +27,7 @@ function GameContent() {
   const [progress, setProgress] = useState(100);
   const [guess, setGuess] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false); // Track when audio is playing
 
   const audioRef = useRef(null);
 
@@ -44,6 +45,7 @@ function GameContent() {
       setFeedback("");
       setFeedbackColor(COLORS.textPrimary);
       setGuess("");
+      setIsAudioPlaying(false); // Reset audio playing flag
 
       if (audioRef.current) {
         audioRef.current.src = song.url;
@@ -63,7 +65,7 @@ function GameContent() {
   };
 
   useEffect(() => {
-    if (currentSong && audioRef.current) {
+    if (isAudioPlaying && currentSong && audioRef.current) {
       const timerInterval = setInterval(() => {
         const timeLeft = Math.max(0, clipDuration - (audioRef.current.currentTime - currentSong.startTime));
         setTimer(Math.ceil(timeLeft));
@@ -74,13 +76,13 @@ function GameContent() {
           audioRef.current.pause();
           setFeedback(`Time's up! The correct answer was "${currentSong.style}".`);
           setFeedbackColor(COLORS.incorrectText);
-          fetchRandomSong();
+          setTimeout(fetchRandomSong, 2500);
         }
       }, 100);
 
       return () => clearInterval(timerInterval);
     }
-  }, [currentSong, clipDuration]);
+  }, [isAudioPlaying, currentSong, clipDuration]);
 
   const handleGuess = () => {
     if (!guess.trim()) return;
@@ -89,9 +91,9 @@ function GameContent() {
       setFeedback("Correct!");
       setFeedbackColor(COLORS.correctText);
       setScore((prev) => prev + 1);
-      fetchRandomSong();
+      setTimeout(fetchRandomSong, 750);
     } else {
-      setFeedback(`Wrong! The correct answer was "${currentSong.style}".`);
+      setFeedback(`Wrong! Try again.`);
       setFeedbackColor(COLORS.incorrectText);
     }
 
@@ -142,7 +144,11 @@ function GameContent() {
             Submit Guess
           </button>
 
-          <audio ref={audioRef} style={{ display: 'none' }} />
+          <audio
+            ref={audioRef}
+            style={{ display: 'none' }}
+            onPlay={() => setIsAudioPlaying(true)} // Set flag when audio starts
+          />
         </>
       )}
     </div>
