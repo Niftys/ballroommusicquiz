@@ -23,17 +23,17 @@ export default function Home() {
       }}
     >
       <h1 style={{ ...styles.header, color: COLORS.headerText }}>
-        🎵 Ballroom Music Quiz 🎵
+        Ballroom Music Quiz
       </h1>
       <p style={styles.instructions}>
-        Welcome to the Ballroom Music Quiz! Here's how to play:
+        Welcome to the Ballroom Music Quiz! Here&apos;s how to play:
       </p>
       <ul style={styles.list}>
-        <li>You'll hear a 10-second or 5-second clip of a ballroom dance song.</li>
+        <li>You&apos;ll hear a clip of a song from any ballroom style.</li>
         <li>Guess the correct dance style associated with the song.</li>
         <li>Score points for every correct answer within the time limit.</li>
       </ul>
-      <p style={styles.instructions}>Choose the clip duration before starting the game:</p>
+      <p style={styles.instructions}>Choose a difficulty:</p>
       <div style={styles.toggleContainer}>
         <button
           style={{
@@ -42,7 +42,7 @@ export default function Home() {
           }}
           onClick={() => setClipDuration(5)}
         >
-          5 Seconds
+          Hard
         </button>
         <button
           style={{
@@ -51,7 +51,7 @@ export default function Home() {
           }}
           onClick={() => setClipDuration(10)}
         >
-          10 Seconds
+          Normal
         </button>
       </div>
       <Link href={`/game?duration=${clipDuration}`}>
