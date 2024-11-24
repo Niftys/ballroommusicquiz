@@ -15,7 +15,7 @@ const COLORS = {
   incorrectText: "#dc3545", // Red for incorrect answers
 };
 
-export default function Game() {
+function GameContent() {
   const searchParams = useSearchParams();
   const clipDuration = parseInt(searchParams.get('duration'), 10) || 10; // Default to 10 seconds
 
@@ -148,6 +148,14 @@ export default function Game() {
     </div>
   );
 }
+
+export default function Game() {
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <GameContent />
+      </Suspense>
+    );
+  }
 
 const styles = {
   container: {
