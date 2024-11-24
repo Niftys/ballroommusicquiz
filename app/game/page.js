@@ -77,32 +77,34 @@ function GameContent() {
           clearInterval(timerInterval);
           audioRef.current.pause();
   
-          // Update lives and determine game state
-          setLives((prevLives) => {
-            const updatedLives = prevLives - 1;
+          // Avoid multiple decrements by using the updated state
+          if (lives > 0) {
+            setLives((prevLives) => {
+              const updatedLives = prevLives - 1;
   
-            if (updatedLives <= 0) {
-              setFeedback("Game Over! You've run out of lives.");
-              setTimeout(() => {
-                setIsPlaying(false);
-                setScore(0);
-                setLives(initialLives); // Reset lives
-              }, 3000);
-            } else {
-              const primaryStyle = currentSong.style.split(",")[0].trim();
-              setFeedback(`Time's up! The correct answer was "${primaryStyle}".`);
-              setFeedbackColor(COLORS.incorrectText);
-              setTimeout(fetchRandomSong, 2500);
-            }
+              if (updatedLives <= 0) {
+                setFeedback("Game Over! You've run out of lives.");
+                setTimeout(() => {
+                  setIsPlaying(false);
+                  setScore(0);
+                  setLives(initialLives); // Reset lives
+                }, 3000);
+              } else {
+                const primaryStyle = currentSong.style.split(",")[0].trim();
+                setFeedback(`Time's up! The correct answer was "${primaryStyle}".`);
+                setFeedbackColor(COLORS.incorrectText);
+                setTimeout(fetchRandomSong, 2500);
+              }
   
-            return updatedLives; // Return the decremented lives
-          });
+              return updatedLives; // Ensure the state is updated only once
+            });
+          }
         }
       }, 100);
   
       return () => clearInterval(timerInterval);
     }
-  }, [isAudioPlaying, currentSong, clipDuration, initialLives]);  
+  }, [isAudioPlaying, currentSong, clipDuration, lives, initialLives]);  
 
   const handleGuess = () => {
     if (!guess.trim()) return;
