@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { Suspense, useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 const COLORS = {
@@ -29,32 +29,31 @@ export default function Game() {
 
   const audioRef = useRef(null);
 
-  const fetchRandomSong = async () => {
+  const fetchRandomSong = useCallback(async () => {
     try {
       const response = await fetch('/api/get-random-song');
       if (!response.ok) throw new Error('Failed to fetch song.');
       const song = await response.json();
-
       const startTime = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
       setCurrentSong({ ...song, startTime });
-
+  
       setTimer(clipDuration);
       setProgress(100);
-      setFeedback("");
+      setFeedback('');
       setFeedbackColor(COLORS.textPrimary);
-      setGuess("");
-
+      setGuess('');
+  
       if (audioRef.current) {
         audioRef.current.src = song.url;
         audioRef.current.currentTime = startTime;
         await audioRef.current.play().catch((error) =>
-          console.error("Audio playback error:", error)
+          console.error('Audio playback error:', error)
         );
       }
     } catch (error) {
-      console.error("Error fetching song:", error);
+      console.error('Error fetching song:', error);
     }
-  };
+  }, [clipDuration]);
 
   const startGame = () => {
     setIsPlaying(true);
