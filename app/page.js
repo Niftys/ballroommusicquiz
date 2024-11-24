@@ -1,5 +1,4 @@
 'use client';
-import Link from "next/link";
 import React, { useState } from "react";
 
 const COLORS = {
@@ -24,24 +23,22 @@ export default function Home() {
       }}
     >
       <h1 style={{ ...styles.header, color: COLORS.headerText }}>
-        Ballroom Music Quiz
+        🎵 Ballroom Music Quiz 🎵
       </h1>
       <p style={styles.instructions}>
-        Welcome to the Ballroom Music Quiz! Here&#39;s how to play:
+        Welcome to the Ballroom Music Quiz! Here's how to play:
       </p>
       <ul style={styles.list}>
-        <li>You&#39;ll hear a 10-second or 5-second clip of a ballroom dance song.</li>
+        <li>You'll hear a 10-second or 5-second clip of a ballroom dance song.</li>
         <li>Guess the correct dance style associated with the song.</li>
         <li>Score points for every correct answer within the time limit.</li>
       </ul>
-      <p style={styles.instructions}>
-        Choose the clip duration before starting the game:
-      </p>
+      <p style={styles.instructions}>Choose the clip duration before starting the game:</p>
       <div style={styles.toggleContainer}>
         <button
           style={{
             ...styles.toggleButton,
-            backgroundColor: clipDuration === 5 ? COLORS.buttonBackground : "#555",
+            backgroundColor: clipDuration === 5 ? COLORS.buttonBackground : "#ccc",
           }}
           onClick={() => setClipDuration(5)}
         >
@@ -50,7 +47,7 @@ export default function Home() {
         <button
           style={{
             ...styles.toggleButton,
-            backgroundColor: clipDuration === 10 ? COLORS.buttonBackground : "#555",
+            backgroundColor: clipDuration === 10 ? COLORS.buttonBackground : "#ccc",
           }}
           onClick={() => setClipDuration(10)}
         >
@@ -87,7 +84,7 @@ const styles = {
     fontSize: "3.5rem",
     fontWeight: "bold",
     marginBottom: "20px",
-    textShadow: "2px 2px 4px rgba(255, 255, 255, 0.2)",
+    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
   },
   instructions: {
     fontSize: "1.2rem",
@@ -112,7 +109,7 @@ const styles = {
   toggleButton: {
     padding: "10px 20px",
     fontSize: "1rem",
-    color: COLORS.buttonText,
+    color: COLORS.textPrimary,
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
