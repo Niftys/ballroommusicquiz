@@ -1,19 +1,21 @@
 'use client';
-import React, { useState, useEffect, useRef, Suspense } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 const COLORS = {
-  backgroundGradientStart: "#6a11cb",
-  backgroundGradientEnd: "#2575fc",
-  textPrimary: "#ffffff",
-  buttonBackground: "#28a745",
-  buttonHover: "#218838",
-  progressBar: "#28a745",
-  correct: "#ffc107",
-  incorrect: "#dc3545",
+  backgroundGradientStart: "#3e1c5e",
+  backgroundGradientEnd: "#1a0c3e",
+  headerText: "#9b59b6", // Primary color (purple)
+  textPrimary: "#e0e0e0", // Light text
+  listText: "#e0e0e0", // Same as text color
+  buttonBackground: "#333", // Dark button background
+  buttonHover: "#444", // Hover effect for buttons
+  buttonText: "#f5f5f5", // Light text for buttons
+  correctText: "#ffc107", // Gold for correct answers
+  incorrectText: "#dc3545", // Red for incorrect answers
 };
 
-function GameComponent() {
+export default function Game() {
   const searchParams = useSearchParams();
   const clipDuration = parseInt(searchParams.get('duration'), 10) || 10; // Default to 10 seconds
 
@@ -21,6 +23,7 @@ function GameComponent() {
   const [timer, setTimer] = useState(clipDuration);
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState("");
+  const [feedbackColor, setFeedbackColor] = useState(COLORS.textPrimary);
   const [progress, setProgress] = useState(100);
   const [guess, setGuess] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
@@ -39,6 +42,7 @@ function GameComponent() {
       setTimer(clipDuration);
       setProgress(100);
       setFeedback("");
+      setFeedbackColor(COLORS.textPrimary);
       setGuess("");
 
       if (audioRef.current) {
@@ -68,8 +72,9 @@ function GameComponent() {
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
           audioRef.current.pause();
-          setFeedback(`Time's up! The correct answer was: ${currentSong.style}`);
-          fetchRandomSong();
+          setFeedback(`Time's up! The correct answer was "${currentSong.style}".`);
+          setFeedbackColor(COLORS.incorrectText);
+          setTimeout(fetchRandomSong, 3000);
         }
       }, 100);
 
@@ -82,10 +87,12 @@ function GameComponent() {
 
     if (guess.toLowerCase() === currentSong.style.toLowerCase()) {
       setFeedback("Correct!");
+      setFeedbackColor(COLORS.correctText);
       setScore((prev) => prev + 1);
-      fetchRandomSong();
+      setTimeout(fetchRandomSong, 750);
     } else {
-      setFeedback("Wrong! Try again.");
+      setFeedback(`Wrong! Try again.`);
+      setFeedbackColor(COLORS.incorrectText);
     }
 
     setGuess("");
@@ -98,32 +105,27 @@ function GameComponent() {
   };
 
   return (
-    <div
-      style={{
-        ...styles.container,
-        background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)`,
-      }}
-    >
+    <div style={{ ...styles.container, background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)` }}>
       {!isPlaying ? (
         <>
-          <h1 style={styles.header}>🎵 Ballroom Music Quiz 🎵</h1>
+          <h1 style={styles.header}>Are you ready?</h1>
           <button style={styles.startButton} onClick={startGame}>
             Begin
           </button>
         </>
       ) : (
         <>
-          <h1 style={styles.header}>🎵 Ballroom Music Quiz 🎵</h1>
+          <h1 style={styles.header}>Ballroom Music Quiz</h1>
           <p style={styles.score}>Score: {score}</p>
 
           <div style={styles.progressBarContainer}>
             <div style={{ ...styles.progressBar, width: `${progress}%`, transition: "width 0.1s linear" }} />
           </div>
 
-          <p style={styles.timer}>{`Time Remaining: ${timer}s`}</p>
+          <p style={{ ...styles.timer, color: COLORS.textPrimary }}>{`Time Remaining: ${timer}s`}</p>
 
           {feedback && (
-            <p style={styles.feedback}>
+            <p style={{ ...styles.feedback, color: feedbackColor, transition: "color 0.5s ease" }}>
               {feedback}
             </p>
           )}
@@ -147,40 +149,31 @@ function GameComponent() {
   );
 }
 
-export default function Game() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <GameComponent />
-    </Suspense>
-  );
-}
-
 const styles = {
   container: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
     minHeight: "100vh",
-    padding: "20px",
     textAlign: "center",
+    padding: "20px",
   },
   header: {
-    fontSize: "3.5rem",
-    fontWeight: "bold",
+    fontSize: "3rem",
+    color: COLORS.headerText,
     marginBottom: "20px",
     textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-    color: COLORS.textPrimary,
   },
   score: {
     fontSize: "1.5rem",
     color: COLORS.textPrimary,
-    marginBottom: "20px",
+    marginBottom: "10px",
   },
   progressBarContainer: {
     width: "80%",
     height: "20px",
-    backgroundColor: "#ddd",
+    backgroundColor: COLORS.buttonBackground,
     borderRadius: "10px",
     overflow: "hidden",
     margin: "20px 0",
@@ -188,7 +181,7 @@ const styles = {
   },
   progressBar: {
     height: "100%",
-    backgroundColor: COLORS.progressBar,
+    backgroundColor: COLORS.headerText,
   },
   timer: {
     fontSize: "1.5rem",
@@ -198,39 +191,39 @@ const styles = {
   feedback: {
     fontSize: "1.2rem",
     fontWeight: "bold",
-    color: COLORS.textPrimary,
     marginBottom: "20px",
+    color: COLORS.textPrimary,
   },
   input: {
     fontSize: "1.2rem",
     padding: "10px",
     margin: "10px 0",
-    border: "2px solid #ccc",
+    border: `2px solid ${COLORS.buttonBackground}`,
     borderRadius: "5px",
     width: "80%",
     textAlign: "center",
-    backgroundColor: "#fff",
-    color: "#000",
+    backgroundColor: COLORS.buttonHover,
+    color: COLORS.textPrimary,
   },
   button: {
-    fontSize: "1.5rem",
-    padding: "15px 30px",
-    border: "none",
-    borderRadius: "50px",
-    cursor: "pointer",
-    marginTop: "30px",
+    padding: "10px 20px",
+    fontSize: "1.2rem",
     backgroundColor: COLORS.buttonBackground,
-    color: COLORS.textPrimary,
+    color: COLORS.buttonText,
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginTop: "10px",
     transition: "background-color 0.3s ease",
   },
   startButton: {
-    fontSize: "1.5rem",
     padding: "15px 30px",
+    fontSize: "1.5rem",
+    backgroundColor: COLORS.buttonBackground,
+    color: COLORS.buttonText,
     border: "none",
     borderRadius: "50px",
     cursor: "pointer",
-    backgroundColor: COLORS.buttonBackground,
-    color: COLORS.textPrimary,
     transition: "background-color 0.3s ease",
   },
 };
