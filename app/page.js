@@ -9,7 +9,7 @@ const COLORS = {
   textPrimary: "#e0e0e0", // Light text
   listText: "#e0e0e0", // Same as text color
   buttonBackground: "#333", // Dark button background
-  buttonHover: "#444", // Hover effect for buttons
+  buttonHover: "#222", // Hover effect for buttons
   buttonText: "#f5f5f5", // Light text for buttons
 };
 
@@ -29,30 +29,39 @@ export default function Home() {
       <p style={styles.instructions}>
         Welcome to the Ballroom Music Quiz! Here&apos;s how to play:
       </p>
-      <ul style={styles.list}>
-        <li>You&apos;ll hear a clip of a song from any ballroom style.</li>
-        <li>Guess the correct dance style associated with the song.</li>
-        <li>Score points for every correct answer within the time limit.</li>
+      <ul style={styles.instructions}>
+        <li>~ You&apos;ll hear a clip of a song from any ballroom style ~</li>
+        <li>~ Guess the correct dance style associated with the song ~</li>
+        <li>~ Score points for every correct answer within the time limit ~</li>
       </ul>
       <p style={styles.instructions}>Choose a difficulty:</p>
       <div style={styles.toggleContainer}>
-        <button
+      <button
           style={{
             ...styles.toggleButton,
-            backgroundColor: clipDuration === 5 ? COLORS.buttonBackground : "#ccc",
+            backgroundColor: clipDuration === 20 ? COLORS.buttonBackground : "#222",
           }}
-          onClick={() => setClipDuration(5)}
+          onClick={() => setClipDuration(20)}
         >
-          Hard
+          Easy
         </button>
         <button
           style={{
             ...styles.toggleButton,
-            backgroundColor: clipDuration === 10 ? COLORS.buttonBackground : "#ccc",
+            backgroundColor: clipDuration === 10 ? COLORS.buttonBackground : "#222",
           }}
           onClick={() => setClipDuration(10)}
         >
           Normal
+        </button>
+        <button
+          style={{
+            ...styles.toggleButton,
+            backgroundColor: clipDuration === 5 ? COLORS.buttonBackground : "#222",
+          }}
+          onClick={() => setClipDuration(5)}
+        >
+          Hard
         </button>
       </div>
       <Link href={`/game?duration=${clipDuration}`}>
@@ -94,7 +103,7 @@ const styles = {
     color: COLORS.textPrimary,
   },
   list: {
-    textAlign: "left",
+    textAlign: "center",
     listStyleType: "disc",
     margin: "10px 0",
     padding: "0 30px",
