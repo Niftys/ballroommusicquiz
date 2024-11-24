@@ -78,21 +78,25 @@ function GameContent() {
           audioRef.current.pause();
         
           if (lives > 0) {
-            setLives((prevLives) => prevLives - 1);
-        
-            if (lives - 1 <= 0) {
-              setFeedback("Game Over! You've run out of lives.");
-              setTimeout(() => {
-                setIsPlaying(false);
-                setScore(0);
-                setLives(initialLives); // Reset lives
-              }, 3000);
-            } else {
-              const primaryStyle = currentSong.style.split(",")[0].trim();
-              setFeedback(`Time's up! The correct answer was "${primaryStyle}".`);
-              setFeedbackColor(COLORS.incorrectText);
-              setTimeout(fetchRandomSong, 2500);
-            }
+            setLives((prevLives) => {
+              const updatedLives = prevLives - 1;
+          
+              if (updatedLives <= 0) {
+                setFeedback("Game Over! You've run out of lives.");
+                setTimeout(() => {
+                  setIsPlaying(false);
+                  setScore(0);
+                  setLives(initialLives); // Reset lives
+                }, 3000);
+              } else {
+                const primaryStyle = currentSong.style.split(",")[0].trim();
+                setFeedback(`Time's up! The correct answer was "${primaryStyle}".`);
+                setFeedbackColor(COLORS.incorrectText);
+                setTimeout(fetchRandomSong, 2500);
+              }
+          
+              return updatedLives; // Return the decremented lives
+            });
           }
         }
       })
