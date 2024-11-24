@@ -18,7 +18,6 @@ const COLORS = {
 export default function Game() {
   const searchParams = useSearchParams();
   const clipDuration = parseInt(searchParams.get('duration'), 10) || 10; // Default to 10 seconds
-
   const [currentSong, setCurrentSong] = useState(null);
   const [timer, setTimer] = useState(clipDuration);
   const [score, setScore] = useState(0);
@@ -105,6 +104,7 @@ export default function Game() {
   };
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div style={{ ...styles.container, background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)` }}>
       {!isPlaying ? (
         <>
@@ -146,6 +146,7 @@ export default function Game() {
         </>
       )}
     </div>
+    </Suspense>
   );
 }
 
