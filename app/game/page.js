@@ -1,16 +1,18 @@
 'use client';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 const COLORS = {
   backgroundGradientStart: "#3e1c5e",
   backgroundGradientEnd: "#1a0c3e",
-  textPrimary: "#e0e0e0",
-  progressBar: "#28a745",
-  correct: "#ffc107",
-  incorrect: "#dc3545",
-  buttonBackground: "#333",
-  buttonHover: "#444",
+  headerText: "#9b59b6", // Primary color (purple)
+  textPrimary: "#e0e0e0", // Light text
+  listText: "#e0e0e0", // Same as text color
+  buttonBackground: "#333", // Dark button background
+  buttonHover: "#444", // Hover effect for buttons
+  buttonText: "#f5f5f5", // Light text for buttons
+  correctText: "#ffc107", // Gold for correct answers
+  incorrectText: "#dc3545", // Red for incorrect answers
 };
 
 export default function Game() {
@@ -20,15 +22,15 @@ export default function Game() {
   const [currentSong, setCurrentSong] = useState(null);
   const [timer, setTimer] = useState(clipDuration);
   const [score, setScore] = useState(0);
-  const [feedback, setFeedback] = useState('');
-  const [progress, setProgress] = useState(100);
-  const [guess, setGuess] = useState('');
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [feedback, setFeedback] = useState("");
   const [feedbackColor, setFeedbackColor] = useState(COLORS.textPrimary);
+  const [progress, setProgress] = useState(100);
+  const [guess, setGuess] = useState("");
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const audioRef = useRef(null);
 
-  const fetchRandomSong = useCallback(async () => {
+  const fetchRandomSong = async () => {
     try {
       const response = await fetch('/api/get-random-song');
       if (!response.ok) throw new Error('Failed to fetch song.');
@@ -39,21 +41,21 @@ export default function Game() {
 
       setTimer(clipDuration);
       setProgress(100);
-      setFeedback('');
+      setFeedback("");
       setFeedbackColor(COLORS.textPrimary);
-      setGuess('');
+      setGuess("");
 
       if (audioRef.current) {
         audioRef.current.src = song.url;
         audioRef.current.currentTime = startTime;
         await audioRef.current.play().catch((error) =>
-          console.error('Audio playback error:', error)
+          console.error("Audio playback error:", error)
         );
       }
     } catch (error) {
-      console.error('Error fetching song:', error);
+      console.error("Error fetching song:", error);
     }
-  }, [clipDuration]);
+  };
 
   const startGame = () => {
     setIsPlaying(true);
@@ -70,102 +72,60 @@ export default function Game() {
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
           audioRef.current.pause();
-          setFeedback('Time\'s up!');
-          setFeedbackColor(COLORS.incorrect);
+          setFeedback(`Time's up! The correct answer was "${currentSong.style}".`);
+          setFeedbackColor(COLORS.incorrectText);
           fetchRandomSong();
         }
       }, 100);
 
       return () => clearInterval(timerInterval);
     }
-  }, [currentSong, clipDuration, fetchRandomSong]);
+  }, [currentSong, clipDuration]);
 
   const handleGuess = () => {
     if (!guess.trim()) return;
 
     if (guess.toLowerCase() === currentSong.style.toLowerCase()) {
-      setFeedback('Correct!');
-      setFeedbackColor(COLORS.correct);
+      setFeedback("Correct!");
+      setFeedbackColor(COLORS.correctText);
       setScore((prev) => prev + 1);
       fetchRandomSong();
     } else {
-      setFeedback('Wrong! Try again.');
-      setFeedbackColor(COLORS.incorrect);
+      setFeedback(`Wrong! The correct answer was "${currentSong.style}".`);
+      setFeedbackColor(COLORS.incorrectText);
     }
 
-    setGuess('');
+    setGuess("");
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleGuess();
     }
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        textAlign: 'center',
-        padding: '20px',
-        background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)`,
-      }}
-    >
+    <div style={{ ...styles.container, background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)` }}>
       {!isPlaying ? (
         <>
-          <h1 style={{ fontSize: '3rem', color: COLORS.textPrimary }}>Are you ready?</h1>
-          <button
-            style={{
-              padding: '15px 30px',
-              fontSize: '1.5rem',
-              backgroundColor: COLORS.buttonBackground,
-              color: COLORS.textPrimary,
-              border: 'none',
-              borderRadius: '50px',
-              cursor: 'pointer',
-              transition: 'background-color 0.3s ease',
-            }}
-            onClick={startGame}
-          >
+          <h1 style={styles.header}>Are you ready?</h1>
+          <button style={styles.startButton} onClick={startGame}>
             Begin
           </button>
         </>
       ) : (
         <>
-          <h1 style={{ fontSize: '3rem', color: COLORS.textPrimary }}>Ballroom Music Quiz</h1>
-          <p style={{ fontSize: '1.5rem', color: COLORS.textPrimary }}>Score: {score}</p>
+          <h1 style={styles.header}>Ballroom Music Quiz</h1>
+          <p style={styles.score}>Score: {score}</p>
 
-          <div style={{
-            width: '80%',
-            height: '20px',
-            backgroundColor: '#ddd',
-            borderRadius: '10px',
-            overflow: 'hidden',
-            margin: '20px 0',
-          }}>
-            <div
-              style={{
-                height: '100%',
-                backgroundColor: COLORS.progressBar,
-                width: `${progress}%`,
-                transition: 'width 0.1s linear',
-              }}
-            />
+          <div style={styles.progressBarContainer}>
+            <div style={{ ...styles.progressBar, width: `${progress}%`, transition: "width 0.1s linear" }} />
           </div>
 
-          <p style={{ fontSize: '1.5rem', color: feedbackColor }}>{`Time Remaining: ${timer}s`}</p>
+          <p style={{ ...styles.timer, color: COLORS.textPrimary }}>{`Time Remaining: ${timer}s`}</p>
 
           {feedback && (
-            <p style={{
-              fontSize: '1.2rem',
-              fontWeight: 'bold',
-              color: feedbackColor,
-              transition: 'color 0.5s ease',
-            }}>
+            <p style={{ ...styles.feedback, color: feedbackColor, transition: "color 0.5s ease" }}>
               {feedback}
             </p>
           )}
@@ -176,32 +136,9 @@ export default function Game() {
             value={guess}
             onChange={(e) => setGuess(e.target.value)}
             onKeyPress={handleKeyPress}
-            style={{
-              fontSize: '1.2rem',
-              padding: '10px',
-              margin: '10px 0',
-              border: '2px solid #ccc',
-              borderRadius: '5px',
-              width: '80%',
-              textAlign: 'center',
-              backgroundColor: '#fff',
-              color: '#000',
-            }}
+            style={styles.input}
           />
-          <button
-            onClick={handleGuess}
-            style={{
-              padding: '10px 20px',
-              fontSize: '1.2rem',
-              backgroundColor: COLORS.buttonBackground,
-              color: COLORS.textPrimary,
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-              marginTop: '10px',
-              transition: 'background-color 0.3s ease',
-            }}
-          >
+          <button onClick={handleGuess} style={styles.button}>
             Submit Guess
           </button>
 
@@ -211,3 +148,82 @@ export default function Game() {
     </div>
   );
 }
+
+const styles = {
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh",
+    textAlign: "center",
+    padding: "20px",
+  },
+  header: {
+    fontSize: "3rem",
+    color: COLORS.headerText,
+    marginBottom: "20px",
+    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+  },
+  score: {
+    fontSize: "1.5rem",
+    color: COLORS.textPrimary,
+    marginBottom: "10px",
+  },
+  progressBarContainer: {
+    width: "80%",
+    height: "20px",
+    backgroundColor: COLORS.buttonBackground,
+    borderRadius: "10px",
+    overflow: "hidden",
+    margin: "20px 0",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  },
+  progressBar: {
+    height: "100%",
+    backgroundColor: COLORS.headerText,
+  },
+  timer: {
+    fontSize: "1.5rem",
+    marginBottom: "20px",
+    color: COLORS.textPrimary,
+  },
+  feedback: {
+    fontSize: "1.2rem",
+    fontWeight: "bold",
+    marginBottom: "20px",
+    color: COLORS.textPrimary,
+  },
+  input: {
+    fontSize: "1.2rem",
+    padding: "10px",
+    margin: "10px 0",
+    border: `2px solid ${COLORS.buttonBackground}`,
+    borderRadius: "5px",
+    width: "80%",
+    textAlign: "center",
+    backgroundColor: COLORS.buttonHover,
+    color: COLORS.textPrimary,
+  },
+  button: {
+    padding: "10px 20px",
+    fontSize: "1.2rem",
+    backgroundColor: COLORS.buttonBackground,
+    color: COLORS.buttonText,
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginTop: "10px",
+    transition: "background-color 0.3s ease",
+  },
+  startButton: {
+    padding: "15px 30px",
+    fontSize: "1.5rem",
+    backgroundColor: COLORS.buttonBackground,
+    color: COLORS.buttonText,
+    border: "none",
+    borderRadius: "50px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+  },
+};
