@@ -15,6 +15,7 @@ const COLORS = {
 
 export default function Home() {
   const [clipDuration, setClipDuration] = useState(10); // Default to 10 seconds
+  const [lives, setLives] = useState(-1); // Default to Unlimited Lives
 
   return (
     <div
@@ -64,7 +65,39 @@ export default function Home() {
           Hard
         </button>
       </div>
-      <Link href={`/game?duration=${clipDuration}`}>
+
+      <p style={styles.instructions}>Choose lives:</p>
+      <div style={styles.toggleContainer}>
+        <button
+          style={{
+            ...styles.toggleButton,
+            backgroundColor: lives === -1 ? COLORS.buttonBackground : "#222",
+          }}
+          onClick={() => setLives(-1)}
+        >
+          Unlimited Lives
+        </button>
+        <button
+          style={{
+            ...styles.toggleButton,
+            backgroundColor: lives === 3 ? COLORS.buttonBackground : "#222",
+          }}
+          onClick={() => setLives(3)}
+        >
+          3 Lives
+        </button>
+        <button
+          style={{
+            ...styles.toggleButton,
+            backgroundColor: lives === 1 ? COLORS.buttonBackground : "#222",
+          }}
+          onClick={() => setLives(1)}
+        >
+          1 Life
+        </button>
+      </div>
+
+      <Link href={`/game?duration=${clipDuration}&lives=${lives}`}>
         <button
           style={{
             ...styles.button,

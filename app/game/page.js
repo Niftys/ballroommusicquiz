@@ -28,6 +28,7 @@ function GameContent() {
   const [guess, setGuess] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false); // Track when audio is playing
+  const [lives, setLives] = useState(initialLives);
 
   const audioRef = useRef(null);
 
@@ -74,16 +75,33 @@ function GameContent() {
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
           audioRef.current.pause();
+
+          // Reduce lives when time runs out
+          if (lives !== -1) {
+            setLives((prevLives) => prevLives - 1);
+          }
+
           const primaryStyle = currentSong.style.split(",")[0].trim();
           setFeedback(`Time's up! The correct answer was "${primaryStyle}".`);
           setFeedbackColor(COLORS.incorrectText);
-          setTimeout(fetchRandomSong, 2500);
+
+          // Check if the player has lives remaining
+          if (lives === 1) {
+            setFeedback("Game Over! You've run out of lives.");
+            setTimeout(() => {
+              setIsPlaying(false);
+              setScore(0);
+              setLives(initialLives);
+            }, 3000);
+          } else {
+            setTimeout(fetchRandomSong, 2500);
+          }
         }
       }, 100);
 
       return () => clearInterval(timerInterval);
     }
-  }, [isAudioPlaying, currentSong, clipDuration]);
+  }, [isAudioPlaying, currentSong, clipDuration, lives]);
 
   const handleGuess = () => {
     if (!guess.trim()) return;
@@ -185,6 +203,11 @@ const styles = {
     textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
   },
   score: {
+    fontSize: "1.5rem",
+    color: COLORS.textPrimary,
+    marginBottom: "10px",
+  },
+  lives: {
     fontSize: "1.5rem",
     color: COLORS.textPrimary,
     marginBottom: "10px",
