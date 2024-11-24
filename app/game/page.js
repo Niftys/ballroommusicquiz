@@ -74,7 +74,8 @@ function GameContent() {
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
           audioRef.current.pause();
-          setFeedback(`Time's up! The correct answer was "${currentSong.style}".`);
+          const primaryStyle = currentSong.style.split(",")[0].trim();
+          setFeedback(`Time's up! The correct answer was "${primaryStyle}".`);
           setFeedbackColor(COLORS.incorrectText);
           setTimeout(fetchRandomSong, 2500);
         }
@@ -86,8 +87,12 @@ function GameContent() {
 
   const handleGuess = () => {
     if (!guess.trim()) return;
-
-    if (guess.toLowerCase() === currentSong.style.toLowerCase()) {
+  
+    // Get the acceptable styles for the current song and split into an array
+    const acceptableStyles = currentSong.style.split(",").map((style) => style.trim().toLowerCase());
+  
+    // Check if the user's guess matches any of the acceptable styles
+    if (acceptableStyles.includes(guess.trim().toLowerCase())) {
       setFeedback("Correct!");
       setFeedbackColor(COLORS.correctText);
       setScore((prev) => prev + 1);
@@ -96,9 +101,9 @@ function GameContent() {
       setFeedback(`Wrong! Try again.`);
       setFeedbackColor(COLORS.incorrectText);
     }
-
+  
     setGuess("");
-  };
+  };  
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
