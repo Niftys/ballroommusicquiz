@@ -18,6 +18,7 @@ const COLORS = {
 function GameContent() {
   const searchParams = useSearchParams();
   const clipDuration = parseInt(searchParams.get('duration'), 10) || 10; // Default to 10 seconds
+  const initialLives = parseInt(searchParams.get('lives'), 10) || -1;
 
   const [currentSong, setCurrentSong] = useState(null);
   const [timer, setTimer] = useState(clipDuration);

@@ -34,6 +34,7 @@ export default function Home() {
         <li>~ You&apos;ll hear a clip of a song from any ballroom style ~</li>
         <li>~ Guess the correct dance style associated with the song ~</li>
         <li>~ Score points for every correct answer within the time limit ~</li>
+        <li>~ Lose lives when you don&apos;t guess the style in time ~</li>
       </ul>
       <p style={styles.instructions}>Choose a difficulty:</p>
       <div style={styles.toggleContainer}>
