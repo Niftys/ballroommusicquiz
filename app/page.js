@@ -36,7 +36,7 @@ export default function Home() {
         <li>~ Score points for every correct answer within the time limit ~</li>
         <li>~ Lose lives when you don&apos;t guess the style in time ~</li>
       </ul>
-      <p style={styles.instructions}>Choose a difficulty:</p>
+      <p style={styles.instructions}>Choose settings:</p>
       <div style={styles.toggleContainer}>
       <button
           style={{
@@ -66,8 +66,6 @@ export default function Home() {
           Hard
         </button>
       </div>
-
-      <p style={styles.instructions}>Choose lives:</p>
       <div style={styles.toggleContainer}>
         <button
           style={{
@@ -76,7 +74,7 @@ export default function Home() {
           }}
           onClick={() => setLives(-1)}
         >
-          Unlimited Lives
+          Endless
         </button>
         <button
           style={{

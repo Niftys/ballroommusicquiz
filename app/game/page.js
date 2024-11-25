@@ -92,7 +92,7 @@ function GameContent() {
   }, [isAudioPlaying, currentSong, clipDuration]);
   
   const handleLifeLoss = () => {
-    if (lives > 0) {
+    if (lives !== -1) { // Check if lives are NOT unlimited
       setLives((prevLives) => {
         const updatedLives = prevLives - 1;
   
@@ -106,17 +106,23 @@ function GameContent() {
             setLives(initialLives); // Reset lives
           }, 3000);
         } else {
-          // Show the correct answer and fetch the next song
-          const primaryStyle = currentSong.style.split(",")[0].trim();
-          setFeedback(`Time's up! The correct answer was "${primaryStyle}".`);
-          setFeedbackColor(COLORS.incorrectText);
-  
-          setTimeout(fetchRandomSong, 2500);
+          showCorrectAnswerAndNextSong();
         }
   
         return updatedLives; // Ensure lives are decremented once
       });
+    } else {
+      // Unlimited lives mode: just show the correct answer and move to the next song
+      showCorrectAnswerAndNextSong();
     }
+  };
+  
+  const showCorrectAnswerAndNextSong = () => {
+    const primaryStyle = currentSong.style.split(",")[0].trim();
+    setFeedback(`Time's up! The correct answer was "${primaryStyle}".`);
+    setFeedbackColor(COLORS.incorrectText);
+  
+    setTimeout(fetchRandomSong, 2500); // Fetch the next song after 2.5 seconds
   };  
 
   const handleGuess = () => {
