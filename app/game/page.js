@@ -136,6 +136,12 @@ function GameContent() {
       setFeedback("Correct!");
       setFeedbackColor(COLORS.correctText);
       setScore((prev) => prev + 1);
+
+      // Pause audio when correct answer given
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+
       setTimeout(fetchRandomSong, 750);
     } else {
       setFeedback(`Wrong! Try again.`);
@@ -156,7 +162,10 @@ function GameContent() {
       {!isPlaying ? (
         <>
           <h1 style={styles.header}>Are you ready?</h1>
-          <button style={styles.startButton} onClick={startGame}>
+          <button style={{
+            ...styles.startButton,
+            boxShadow: `0 0 20px ${COLORS.buttonBackground}`,
+          }} onClick={startGame}>
             Begin
           </button>
         </>
