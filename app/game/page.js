@@ -178,7 +178,7 @@ function GameContent() {
       if (response.ok) {
         setShowNameInput(false);
         alert("Your score has been saved!");
-        router.push("/app/page.js"); // Redirect to the main page
+        router.push("/"); // Redirect to the main page
       } else {
         console.error("Failed to save score.");
       }
@@ -210,7 +210,7 @@ function GameContent() {
           <p style={styles.score}>Score: {score}</p>
           {lives !== -1 && <p style={styles.lives}>Lives: {lives}</p>}
           <div style={styles.progressBarContainer}>
-            <div style={{ ...styles.progressBar, width: `${progress}%` }} />
+            <div style={{ ...styles.progressBar, width: `${progress}%`, transition:"width 0.1s linear" }} />
           </div>
           <p style={styles.timer}>Time: {timer}s</p>
           {feedback && <p style={styles.feedback}>{feedback}</p>}
