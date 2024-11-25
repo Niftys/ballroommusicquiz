@@ -1,6 +1,7 @@
 'use client';
 import React, { Suspense, useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const COLORS = {
   backgroundGradientStart: "#3e1c5e",
@@ -33,6 +34,7 @@ function GameContent() {
   const [lives, setLives] = useState(initialLives);
 
   const audioRef = useRef(null);
+  const router = useRouter();
 
   const resetAudio = () => {
     if (audioRef.current) {
@@ -176,6 +178,7 @@ function GameContent() {
       if (response.ok) {
         setShowNameInput(false);
         alert("Your score has been saved!");
+        router.push("/app/page.js"); // Redirect to the main page
       } else {
         console.error("Failed to save score.");
       }
