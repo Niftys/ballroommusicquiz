@@ -1,0 +1,172 @@
+import React, { useState, useEffect } from "react";
+
+const COLORS = {
+  headerText: "#9b59b6", // Primary color (purple)
+  textPrimary: "#e0e0e0", // Light text
+  buttonBackground: "#333", // Dark button background
+  tableBackground: "#444", // Table row background
+};
+
+export default function Leaderboard() {
+  const [scores, setScores] = useState([]);
+  const [filteredScores, setFilteredScores] = useState([]);
+  const [selectedLives, setSelectedLives] = useState("all"); // Default filter for lives
+  const [selectedDuration, setSelectedDuration] = useState("all"); // Default filter for duration
+
+  useEffect(() => {
+    // Fetch leaderboard data from the backend
+    const fetchLeaderboard = async () => {
+      try {
+        const response = await fetch("/api/get-leaderboard");
+        const data = await response.json();
+        setScores(data);
+        setFilteredScores(data); // Initially show all scores
+      } catch (error) {
+        console.error("Error fetching leaderboard data:", error);
+      }
+    };
+
+    fetchLeaderboard();
+  }, []);
+
+  useEffect(() => {
+    // Filter scores based on selected lives and duration
+    let filtered = scores;
+
+    if (selectedLives !== "all") {
+      filtered = filtered.filter(
+        (score) =>
+          (selectedLives === "unlimited" && score.lives === -1) ||
+          (selectedLives !== "unlimited" && score.lives === parseInt(selectedLives, 10))
+      );
+    }
+
+    if (selectedDuration !== "all") {
+      filtered = filtered.filter(
+        (score) => score.duration === parseInt(selectedDuration, 10)
+      );
+    }
+
+    setFilteredScores(filtered);
+  }, [selectedLives, selectedDuration, scores]);
+
+  return (
+    <div style={{ ...styles.container, background: `linear-gradient(135deg, ${COLORS.headerText} 0%, ${COLORS.textPrimary} 100%)` }}>
+      <h1 style={styles.header}>Leaderboard</h1>
+      
+      <div style={styles.filters}>
+        <div>
+          <label style={styles.label}>Filter by Lives: </label>
+          <select
+            style={styles.select}
+            value={selectedLives}
+            onChange={(e) => setSelectedLives(e.target.value)}
+          >
+            <option value="all">All</option>
+            <option value="unlimited">Unlimited</option>
+            <option value="3">3 Lives</option>
+            <option value="1">1 Life</option>
+          </select>
+        </div>
+
+        <div>
+          <label style={styles.label}>Filter by Difficulty: </label>
+          <select
+            style={styles.select}
+            value={selectedDuration}
+            onChange={(e) => setSelectedDuration(e.target.value)}
+          >
+            <option value="all">All</option>
+            <option value="10">Normal</option>
+            <option value="5">Hard</option>
+          </select>
+        </div>
+      </div>
+
+      <table style={styles.table}>
+        <thead>
+          <tr>
+            <th style={styles.th}>Rank</th>
+            <th style={styles.th}>Name</th>
+            <th style={styles.th}>Score</th>
+            <th style={styles.th}>Lives</th>
+            <th style={styles.th}>Difficulty</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredScores.length > 0 ? (
+            filteredScores.map((score, index) => (
+              <tr key={index}>
+                <td style={styles.td}>{index + 1}</td>
+                <td style={styles.td}>{score.name}</td>
+                <td style={styles.td}>{score.score}</td>
+                <td style={styles.td}>{score.lives === -1 ? "Unlimited" : score.lives}</td>
+                <td style={styles.td}>{score.duration}s</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" style={styles.noData}>
+                No scores match your filters.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+const styles = {
+  container: {
+    padding: "20px",
+    textAlign: "center",
+    minHeight: "100vh",
+    color: COLORS.textPrimary,
+  },
+  header: {
+    fontSize: "3rem",
+    color: COLORS.headerText,
+    marginBottom: "20px",
+  },
+  filters: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
+    marginBottom: "20px",
+  },
+  label: {
+    marginRight: "10px",
+    fontSize: "1rem",
+    color: COLORS.textPrimary,
+  },
+  select: {
+    padding: "5px",
+    fontSize: "1rem",
+    backgroundColor: COLORS.buttonBackground,
+    color: COLORS.textPrimary,
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+  },
+  table: {
+    margin: "auto",
+    borderCollapse: "collapse",
+    width: "80%",
+    backgroundColor: COLORS.tableBackground,
+  },
+  th: {
+    backgroundColor: COLORS.buttonBackground,
+    color: COLORS.textPrimary,
+    padding: "10px",
+  },
+  td: {
+    padding: "10px",
+    border: "1px solid #ccc",
+    textAlign: "center",
+  },
+  noData: {
+    padding: "10px",
+    textAlign: "center",
+    color: COLORS.textPrimary,
+  },
+};

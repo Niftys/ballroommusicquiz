@@ -30,6 +30,10 @@ function GameContent() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false); // Track when audio is playing
   const [lives, setLives] = useState(initialLives);
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [playerName, setPlayerName] = useState("");
+  const [showNameInput, setShowNameInput] = useState(false);
+
 
   const audioRef = useRef(null);
 
@@ -92,11 +96,10 @@ function GameContent() {
   }, [isAudioPlaying, currentSong, clipDuration]);
 
   const handleGameOver = () => {
-    setFeedback("Game Over! Enter your name to save your score.");
-    saveScore(); // Save the score to the database
-    setTimeout(() => {
-      setIsPlaying(false); // Reset the game state
-    }, 3000);
+    setFeedback("Game Over! Your score is saved.");
+    setFeedbackColor(COLORS.incorrectText);
+    setIsPlaying(false);
+    setShowNameInput(true); // Show the input box
   };
   
   const handleLifeLoss = () => {
@@ -181,6 +184,51 @@ function GameContent() {
     } catch (error) {
       console.error("Error saving score:", error);
     }
+  };
+
+  const submitScore = async (name) => {
+    try {
+      await fetch("/api/leaderboard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          score,
+          lives: initialLives,
+          duration: clipDuration,
+        }),
+      });
+      setShowNameInput(false); // Hide the input box
+      alert("Your score has been saved!");
+    } catch (error) {
+      console.error("Error submitting score:", error);
+    }
+  };  
+
+  const NameInputPopup = ({ onSubmit }) => {
+    const [inputName, setInputName] = useState("");
+  
+    const handleSubmit = () => {
+      if (inputName.trim()) {
+        onSubmit(inputName.trim());
+      }
+    };
+  
+    return (
+      <div style={styles.popup}>
+        <h2 style={styles.popupHeader}>Enter Your Name</h2>
+        <input
+          type="text"
+          placeholder="Your name"
+          value={inputName}
+          onChange={(e) => setInputName(e.target.value)}
+          style={styles.input}
+        />
+        <button onClick={handleSubmit} style={styles.button}>
+          Submit
+        </button>
+      </div>
+    );
   };  
 
   return (
@@ -240,6 +288,8 @@ function GameContent() {
           />
         </>
       )}
+
+      {showNameInput && <NameInputPopup onSubmit={submitScore} />}
     </div>
   );
 }
@@ -338,5 +388,31 @@ const styles = {
     borderRadius: "50px",
     cursor: "pointer",
     transition: "background-color 0.3s ease",
+  },
+  popup: {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: COLORS.buttonBackground,
+    padding: "20px",
+    borderRadius: "10px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    textAlign: "center",
+  },
+  popupHeader: {
+    color: COLORS.headerText,
+    marginBottom: "10px",
+  },
+  input: {
+    fontSize: "1rem",
+    padding: "10px",
+    margin: "10px 0",
+    border: `2px solid ${COLORS.buttonHover}`,
+    borderRadius: "5px",
+    width: "80%",
+    textAlign: "center",
+    backgroundColor: COLORS.buttonHover,
+    color: COLORS.textPrimary,
   },
 };
