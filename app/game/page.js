@@ -30,6 +30,7 @@ function GameContent() {
   const [isGameOver, setIsGameOver] = useState(false);
   const [playerName, setPlayerName] = useState("");
   const [showNameInput, setShowNameInput] = useState(false);
+  const [lives, setLives] = useState(initialLives);
 
   const audioRef = useRef(null);
 
