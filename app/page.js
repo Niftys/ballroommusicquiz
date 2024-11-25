@@ -108,6 +108,20 @@ export default function Home() {
           Start Game
         </button>
       </Link>
+      <div style={{ textAlign: "center", padding: "20px" }}>
+      <h1>Welcome to the Ballroom Music Quiz!</h1>
+      <Link href="/leaderboard">
+        <button style={{
+            ...styles.button,
+            backgroundColor: COLORS.buttonBackground,
+            color: COLORS.buttonText,
+            boxShadow: `0 0 20px ${COLORS.buttonBackground}`,
+        }}
+        >
+          View Leaderboard
+        </button>
+      </Link>
+      </div>
     </div>
   );
 }

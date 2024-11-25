@@ -90,6 +90,14 @@ function GameContent() {
       return () => clearInterval(timerInterval);
     }
   }, [isAudioPlaying, currentSong, clipDuration]);
+
+  const handleGameOver = () => {
+    setFeedback("Game Over! Enter your name to save your score.");
+    saveScore(); // Save the score to the database
+    setTimeout(() => {
+      setIsPlaying(false); // Reset the game state
+    }, 3000);
+  };
   
   const handleLifeLoss = () => {
     if (lives !== -1) { // Check if lives are NOT unlimited
@@ -97,14 +105,7 @@ function GameContent() {
         const updatedLives = prevLives - 1;
   
         if (updatedLives <= 0) {
-          setFeedback("Game Over! You've run out of lives.");
-          setFeedbackColor(COLORS.incorrectText);
-  
-          setTimeout(() => {
-            setIsPlaying(false);
-            setScore(0);
-            setLives(initialLives); // Reset lives
-          }, 3000);
+          handleGameOver(); // Trigger game over when lives run out
         } else {
           showCorrectAnswerAndNextSong();
         }
@@ -156,6 +157,31 @@ function GameContent() {
       handleGuess();
     }
   };
+
+  const saveScore = async () => {
+    if (!playerName.trim()) return;
+  
+    try {
+      const response = await fetch("/api/add-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: playerName.trim(),
+          score: score,
+          lives: initialLives,
+          duration: clipDuration,
+        }),
+      });
+  
+      if (response.ok) {
+        console.log("Score saved successfully!");
+      } else {
+        console.error("Failed to save score.");
+      }
+    } catch (error) {
+      console.error("Error saving score:", error);
+    }
+  };  
 
   return (
     <div style={{ ...styles.container, background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)` }}>
