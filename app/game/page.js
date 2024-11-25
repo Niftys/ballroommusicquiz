@@ -41,6 +41,12 @@ function GameContent() {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleGuess(); // Call the existing function to handle the guess
+    }
+  };  
+
   const updateFeedback = (message, color) => {
     setFeedback(message);
     setFeedbackColor(color);
@@ -178,6 +184,12 @@ function GameContent() {
     }
   };
 
+  const handlePopupKeyPress = (e) => {
+    if (e.key === "Enter" && playerName.trim()) {
+      submitScore(); // Submit the score when Enter is pressed
+    }
+  };  
+
   const quitGame = () => {
     handleGameOver(); // Trigger game-over logic
   };  
@@ -199,7 +211,7 @@ function GameContent() {
           </div>
           <p style={styles.timer}>Time: {timer}s</p>
           {feedback && <p style={styles.feedback}>{feedback}</p>}
-          <input type="text" value={guess} onChange={(e) => setGuess(e.target.value)} placeholder="Enter style..." style={styles.input} />
+          <input type="text" value={guess} onChange={(e) => setGuess(e.target.value)} onKeyPress={handleKeyPress} placeholder="Enter style..." style={styles.input}/>
           <button onClick={handleGuess} style={styles.button}>Submit</button>
           <button onClick={quitGame} style={styles.quitButton}>Quit Game</button>
         </>
@@ -211,6 +223,7 @@ function GameContent() {
             type="text"
             value={playerName}
             onChange={(e) => setPlayerName(e.target.value)}
+            onKeyPress={handlePopupKeyPress} // Attach the key press handler
             placeholder="Your Name"
             style={styles.input}
           />

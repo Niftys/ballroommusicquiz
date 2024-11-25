@@ -86,7 +86,7 @@ export default function Leaderboard() {
             onChange={(e) => setSelectedLives(e.target.value)}
           >
             <option value="all">All</option>
-            <option value="unlimited">Unlimited</option>
+            <option value="unlimited">Endless</option>
             <option value="3">3 Lives</option>
             <option value="1">1 Life</option>
           </select>
