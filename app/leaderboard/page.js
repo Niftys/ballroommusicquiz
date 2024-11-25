@@ -151,6 +151,7 @@ const styles = {
         fontWeight: "bold",
         marginBottom: "20px",
         textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+        color: COLORS.headerText,
       },
       button: {
         fontSize: "1.5rem",
@@ -193,7 +194,6 @@ const styles = {
     },
     td: {
         padding: "10px",
-        border: "1px solid #ccc",
         textAlign: "center",
     },
     noData: {
