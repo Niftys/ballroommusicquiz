@@ -2,11 +2,15 @@
 import React, { useState, useEffect } from "react";
 
 const COLORS = {
-  headerText: "#9b59b6", // Primary color (purple)
-  textPrimary: "#e0e0e0", // Light text
-  buttonBackground: "#333", // Dark button background
-  tableBackground: "#444", // Table row background
-};
+    backgroundGradientStart: "#3e1c5e",
+    backgroundGradientEnd: "#1a0c3e",
+    headerText: "#9b59b6", // Primary color (purple)
+    textPrimary: "#e0e0e0", // Light text
+    listText: "#e0e0e0", // Same as text color
+    buttonBackground: "#333", // Dark button background
+    buttonHover: "#222", // Hover effect for buttons
+    buttonText: "#f5f5f5", // Light text for buttons
+  };
 
 export default function Leaderboard() {
   const [scores, setScores] = useState([]);
@@ -119,55 +123,68 @@ export default function Leaderboard() {
 }
 
 const styles = {
-  container: {
-    padding: "20px",
-    textAlign: "center",
-    minHeight: "100vh",
-    color: COLORS.textPrimary,
-  },
-  header: {
-    fontSize: "3rem",
-    color: COLORS.headerText,
-    marginBottom: "20px",
-  },
-  filters: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "20px",
-    marginBottom: "20px",
-  },
-  label: {
-    marginRight: "10px",
-    fontSize: "1rem",
-    color: COLORS.textPrimary,
-  },
-  select: {
-    padding: "5px",
-    fontSize: "1rem",
-    backgroundColor: COLORS.buttonBackground,
-    color: COLORS.textPrimary,
-    border: "1px solid #ccc",
-    borderRadius: "5px",
-  },
-  table: {
-    margin: "auto",
-    borderCollapse: "collapse",
-    width: "80%",
-    backgroundColor: COLORS.tableBackground,
-  },
-  th: {
-    backgroundColor: COLORS.buttonBackground,
-    color: COLORS.textPrimary,
-    padding: "10px",
-  },
-  td: {
-    padding: "10px",
-    border: "1px solid #ccc",
-    textAlign: "center",
-  },
-  noData: {
-    padding: "10px",
-    textAlign: "center",
-    color: COLORS.textPrimary,
-  },
+    container: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        padding: "20px",
+        textAlign: "center",
+      },
+      header: {
+        fontSize: "3.5rem",
+        fontWeight: "bold",
+        marginBottom: "20px",
+        textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+      },
+      button: {
+        fontSize: "1.5rem",
+        padding: "15px 30px",
+        border: "none",
+        borderRadius: "50px",
+        cursor: "pointer",
+        marginTop: "30px",
+        transition: "all 0.3s ease",
+      },
+    filters: {
+        display: "flex",
+        justifyContent: "center",
+        gap: "20px",
+        marginBottom: "20px",
+    },
+    label: {
+        marginRight: "10px",
+        fontSize: "1rem",
+        color: COLORS.textPrimary,
+    },
+    select: {
+        padding: "5px",
+        fontSize: "1rem",
+        backgroundColor: COLORS.buttonBackground,
+        color: COLORS.textPrimary,
+        border: "1px solid #ccc",
+        borderRadius: "5px",
+    },
+    table: {
+        margin: "auto",
+        borderCollapse: "collapse",
+        width: "80%",
+        backgroundColor: COLORS.tableBackground,
+    },
+    th: {
+        backgroundColor: COLORS.buttonBackground,
+        color: COLORS.textPrimary,
+        padding: "10px",
+    },
+    td: {
+        padding: "10px",
+        border: "1px solid #ccc",
+        textAlign: "center",
+    },
+    noData: {
+        padding: "10px",
+        textAlign: "center",
+        color: COLORS.textPrimary,
+    },
 };
