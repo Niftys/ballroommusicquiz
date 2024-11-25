@@ -69,12 +69,14 @@ export default function Leaderboard() {
   }, [selectedLives, selectedDuration, scores]);
 
   return (
-    <div style={{
+    <div
+      style={{
         ...styles.container,
         background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)`,
-      }}>
+      }}
+    >
       <h1 style={styles.header}>Leaderboard</h1>
-      
+
       <div style={styles.filters}>
         <div>
           <label style={styles.label}>Filter by Lives: </label>
@@ -98,107 +100,109 @@ export default function Leaderboard() {
             onChange={(e) => setSelectedDuration(e.target.value)}
           >
             <option value="all">All</option>
+            <option value="20">Easy</option>
             <option value="10">Normal</option>
             <option value="5">Hard</option>
           </select>
         </div>
       </div>
 
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th style={styles.th}>Rank</th>
-            <th style={styles.th}>Name</th>
-            <th style={styles.th}>Score</th>
-            <th style={styles.th}>Lives</th>
-            <th style={styles.th}>Difficulty</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredScores.length > 0 ? (
-            filteredScores.map((score, index) => (
-              <tr key={index}>
-                <td style={styles.td}>{index + 1}</td>
-                <td style={styles.td}>{score.name}</td>
-                <td style={styles.td}>{score.score}</td>
-                <td style={styles.td}>{score.lives === -1 ? "Unlimited" : score.lives}</td>
-                <td style={styles.td}>{getDifficultyLevel(score.duration)}</td>
-              </tr>
-            ))
-          ) : (
+      <div style={styles.tableContainer}>
+        <table style={styles.table}>
+          <thead>
             <tr>
-              <td colSpan="5" style={styles.noData}>
-                No scores match your filters.
-              </td>
+              <th style={styles.th}>Rank</th>
+              <th style={styles.th}>Name</th>
+              <th style={styles.th}>Score</th>
+              <th style={styles.th}>Lives</th>
+              <th style={styles.th}>Difficulty</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredScores.length > 0 ? (
+              filteredScores.map((score, index) => (
+                <tr key={index}>
+                  <td style={styles.td}>{index + 1}</td>
+                  <td style={styles.td}>{score.name}</td>
+                  <td style={styles.td}>{score.score}</td>
+                  <td style={styles.td}>{score.lives === -1 ? "Unlimited" : score.lives}</td>
+                  <td style={styles.td}>{getDifficultyLevel(score.duration)}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" style={styles.noData}>
+                  No scores match your filters.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
 
 const styles = {
     container: {
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        padding: "20px",
-        textAlign: "center",
-      },
-      header: {
-        fontSize: "3.5rem",
-        fontWeight: "bold",
-        marginBottom: "20px",
-        textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-        color: COLORS.headerText,
-      },
-      button: {
-        fontSize: "1.5rem",
-        padding: "15px 30px",
-        border: "none",
-        borderRadius: "50px",
-        cursor: "pointer",
-        marginTop: "30px",
-        transition: "all 0.3s ease",
-      },
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center", // Center-align content
+      width: "100%", // Make container full-width
+      minHeight: "100vh",
+      padding: "20px",
+      textAlign: "center",
+    },
+    header: {
+      fontSize: "3.5rem",
+      fontWeight: "bold",
+      marginBottom: "20px",
+      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+      color: COLORS.headerText,
+    },
     filters: {
-        display: "flex",
-        justifyContent: "center",
-        gap: "20px",
-        marginBottom: "20px",
+      display: "flex",
+      justifyContent: "center",
+      gap: "20px",
+      marginBottom: "20px",
     },
     label: {
-        marginRight: "10px",
-        fontSize: "1rem",
-        color: COLORS.textPrimary,
+      marginRight: "10px",
+      fontSize: "1rem",
+      color: COLORS.textPrimary,
     },
     select: {
-        padding: "5px",
-        fontSize: "1rem",
-        backgroundColor: COLORS.buttonBackground,
-        color: COLORS.textPrimary,
-        border: "1px solid #ccc",
-        borderRadius: "5px",
+      padding: "5px",
+      fontSize: "1rem",
+      backgroundColor: COLORS.buttonBackground,
+      color: COLORS.textPrimary,
+      border: "1px solid #ccc",
+      borderRadius: "5px",
+    },
+    tableContainer: {
+      marginTop: "20px",
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
     },
     table: {
-        margin: "auto",
-        borderCollapse: "collapse",
-        width: "80%",
-        backgroundColor: COLORS.tableBackground,
+      margin: "auto",
+      borderCollapse: "collapse",
+      width: "80%",
+      backgroundColor: COLORS.tableBackground,
     },
     th: {
-        backgroundColor: COLORS.buttonBackground,
-        color: COLORS.textPrimary,
-        padding: "10px",
+      backgroundColor: COLORS.buttonBackground,
+      color: COLORS.textPrimary,
+      padding: "10px",
     },
     td: {
-        padding: "10px",
-        textAlign: "center",
+      padding: "10px",
+      textAlign: "center",
     },
     noData: {
-        padding: "10px",
-        textAlign: "center",
-        color: COLORS.textPrimary,
+      padding: "10px",
+      textAlign: "center",
+      color: COLORS.textPrimary,
     },
-};
+  };
