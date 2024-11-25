@@ -178,6 +178,10 @@ function GameContent() {
     }
   };
 
+  const quitGame = () => {
+    handleGameOver(); // Trigger game-over logic
+  };  
+
   return (
     <div style={{ ...styles.container, background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)` }}>
       {!isPlaying ? (
