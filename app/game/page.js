@@ -197,6 +197,7 @@ function GameContent() {
           {feedback && <p style={styles.feedback}>{feedback}</p>}
           <input type="text" value={guess} onChange={(e) => setGuess(e.target.value)} placeholder="Enter style..." style={styles.input} />
           <button onClick={handleGuess} style={styles.button}>Submit</button>
+          <button onClick={quitGame} style={styles.quitButton}>Quit Game</button>
         </>
       )}
       {showNameInput && (
@@ -337,5 +338,15 @@ const styles = {
     textAlign: "center",
     backgroundColor: COLORS.buttonHover,
     color: COLORS.textPrimary,
+  },
+  quitButton: {
+    padding: "10px 20px",
+    fontSize: "1.2rem",
+    backgroundColor: COLORS.incorrectText,
+    color: COLORS.textPrimary,
+    border: "none",
+    borderRadius: "5px",
+    marginTop: "10px",
+    cursor: "pointer",
   },
 };

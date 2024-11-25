@@ -125,7 +125,7 @@ export default function Leaderboard() {
                   <td style={styles.td}>{index + 1}</td>
                   <td style={styles.td}>{score.name}</td>
                   <td style={styles.td}>{score.score}</td>
-                  <td style={styles.td}>{score.lives === -1 ? "Unlimited" : score.lives}</td>
+                  <td style={styles.td}>{score.lives === -1 ? "Endless" : score.lives}</td>
                   <td style={styles.td}>{getDifficultyLevel(score.duration)}</td>
                 </tr>
               ))
