@@ -109,7 +109,6 @@ export default function Home() {
         </button>
       </Link>
       <div style={{ textAlign: "center", padding: "20px" }}>
-      <h1>Welcome to the Ballroom Music Quiz!</h1>
       <Link href="/leaderboard">
         <button style={{
             ...styles.button,
