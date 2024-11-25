@@ -7,7 +7,6 @@ const COLORS = {
   backgroundGradientEnd: "#1a0c3e",
   headerText: "#9b59b6", // Primary color (purple)
   textPrimary: "#e0e0e0", // Light text
-  listText: "#e0e0e0", // Same as text color
   buttonBackground: "#333", // Dark button background
   buttonHover: "#444", // Hover effect for buttons
   buttonText: "#f5f5f5", // Light text for buttons
@@ -28,41 +27,48 @@ function GameContent() {
   const [progress, setProgress] = useState(100);
   const [guess, setGuess] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false); // Track when audio is playing
-  const [lives, setLives] = useState(initialLives);
   const [isGameOver, setIsGameOver] = useState(false);
   const [playerName, setPlayerName] = useState("");
   const [showNameInput, setShowNameInput] = useState(false);
 
-
   const audioRef = useRef(null);
 
+  const resetAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  };
+
+  const updateFeedback = (message, color) => {
+    setFeedback(message);
+    setFeedbackColor(color);
+  };
+
   const fetchRandomSong = async () => {
+    if (isGameOver) return; // Prevent fetching a song after game over
+
     try {
       const response = await fetch('/api/get-random-song');
       if (!response.ok) throw new Error('Failed to fetch song.');
+
       const song = await response.json();
-
       const startTime = Math.floor(Math.random() * (60 - 20 + 1)) + 20;
-      setCurrentSong({ ...song, startTime });
 
+      resetAudio(); // Reset audio before loading a new song
+      setCurrentSong({ ...song, startTime });
       setTimer(clipDuration);
       setProgress(100);
       setFeedback("");
-      setFeedbackColor(COLORS.textPrimary);
       setGuess("");
-      setIsAudioPlaying(false); // Reset audio playing flag
 
       if (audioRef.current) {
         audioRef.current.src = song.url;
         audioRef.current.currentTime = startTime;
-
-        // Error handling
         await audioRef.current.play().catch((error) => {
           console.error("Audio playback error:", error);
-          setFeedback("Error playing song. Skipping to the next song.");
-          setFeedbackColor(COLORS.incorrectText);
-          setTimeout(fetchRandomSong, 2500); // Skip to the next song
+          updateFeedback("Error playing song. Skipping to the next song.", COLORS.incorrectText);
+          setTimeout(fetchRandomSong, 2500);
         });
       }
     } catch (error) {
@@ -72,112 +78,97 @@ function GameContent() {
 
   const startGame = () => {
     setIsPlaying(true);
+    setIsGameOver(false);
+    setScore(0);
+    setLives(initialLives);
     fetchRandomSong();
   };
 
   useEffect(() => {
-    if (isAudioPlaying && currentSong && audioRef.current) {
+    if (currentSong && !isGameOver) {
       const timerInterval = setInterval(() => {
-        const timeLeft = Math.max(0, clipDuration - (audioRef.current.currentTime - currentSong.startTime));
+        const timeLeft = Math.max(0, clipDuration - (audioRef.current?.currentTime - currentSong.startTime || 0));
         setTimer(Math.ceil(timeLeft));
         setProgress((timeLeft / clipDuration) * 100);
-  
+
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
-          audioRef.current.pause();
-  
-          // Decrement lives and handle game state
           handleLifeLoss();
         }
       }, 100);
-  
+
       return () => clearInterval(timerInterval);
     }
-  }, [isAudioPlaying, currentSong, clipDuration]);
+  }, [currentSong, isGameOver, clipDuration]);
 
-  const handleGameOver = () => {
-    setFeedback("Game Over! Your score is saved.");
-    setFeedbackColor(COLORS.incorrectText);
-    setIsPlaying(false);
-    setShowNameInput(true); // Show the input box
-  };
-  
   const handleLifeLoss = () => {
-    if (lives !== -1) { // Check if lives are NOT unlimited
+    resetAudio();
+
+    if (lives !== -1) {
       setLives((prevLives) => {
         const updatedLives = prevLives - 1;
-  
+
         if (updatedLives <= 0) {
-          handleGameOver(); // Trigger game over when lives run out
+          handleGameOver();
         } else {
           showCorrectAnswerAndNextSong();
         }
-  
-        return updatedLives; // Ensure lives are decremented once
+
+        return updatedLives;
       });
     } else {
-      // Unlimited lives mode: just show the correct answer and move to the next song
-      showCorrectAnswerAndNextSong();
+      showCorrectAnswerAndNextSong(); // Unlimited lives mode
     }
   };
-  
+
+  const handleGameOver = () => {
+    setIsGameOver(true);
+    updateFeedback("Game Over! Your score is saved.", COLORS.incorrectText);
+    setShowNameInput(true);
+    resetAudio();
+  };
+
   const showCorrectAnswerAndNextSong = () => {
     const primaryStyle = currentSong.style.split(",")[0].trim();
-    setFeedback(`Time's up! The correct answer was "${primaryStyle}".`);
-    setFeedbackColor(COLORS.incorrectText);
-  
-    setTimeout(fetchRandomSong, 2500); // Fetch the next song after 2.5 seconds
-  };  
-
-  const handleGuess = () => {
-    if (!guess.trim()) return;
-  
-    // Get the acceptable styles for the current song and split into an array
-    const acceptableStyles = currentSong.style.split(",").map((style) => style.trim().toLowerCase());
-  
-    // Check if the user's guess matches any of the acceptable styles
-    if (acceptableStyles.includes(guess.trim().toLowerCase())) {
-      setFeedback("Correct!");
-      setFeedbackColor(COLORS.correctText);
-      setScore((prev) => prev + 1);
-
-      // Pause audio when correct answer given
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-
-      setTimeout(fetchRandomSong, 750);
-    } else {
-      setFeedback(`Wrong! Try again.`);
-      setFeedbackColor(COLORS.incorrectText);
-    }
-  
-    setGuess("");
-  };  
-
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleGuess();
-    }
+    updateFeedback(`Time's up! The correct answer was "${primaryStyle}".`, COLORS.incorrectText);
+    setTimeout(fetchRandomSong, 2500);
   };
 
-  const saveScore = async () => {
+  const handleGuess = () => {
+    if (!guess.trim() || isGameOver) return;
+
+    const acceptableStyles = currentSong.style.split(",").map((style) => style.trim().toLowerCase());
+
+    if (acceptableStyles.includes(guess.trim().toLowerCase())) {
+      updateFeedback("Correct!", COLORS.correctText);
+      setScore((prev) => prev + 1);
+      resetAudio(); // Stop audio playback
+      setTimeout(fetchRandomSong, 750);
+    } else {
+      updateFeedback("Wrong! Try again.", COLORS.incorrectText);
+    }
+
+    setGuess("");
+  };
+
+  const submitScore = async () => {
     if (!playerName.trim()) return;
-  
+
     try {
       const response = await fetch("/api/add-score", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: playerName.trim(),
-          score: score,
+          score,
           lives: initialLives,
           duration: clipDuration,
         }),
       });
-  
+
       if (response.ok) {
-        console.log("Score saved successfully!");
+        setShowNameInput(false);
+        alert("Your score has been saved!");
       } else {
         console.error("Failed to save score.");
       }
@@ -186,121 +177,52 @@ function GameContent() {
     }
   };
 
-  const submitScore = async (name) => {
-    try {
-      await fetch("/api/leaderboard", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          score,
-          lives: initialLives,
-          duration: clipDuration,
-        }),
-      });
-      setShowNameInput(false); // Hide the input box
-      alert("Your score has been saved!");
-    } catch (error) {
-      console.error("Error submitting score:", error);
-    }
-  };  
-
-  const NameInputPopup = ({ onSubmit }) => {
-    const [inputName, setInputName] = useState("");
-  
-    const handleSubmit = () => {
-      if (inputName.trim()) {
-        onSubmit(inputName.trim());
-      }
-    };
-  
-    return (
-      <div style={styles.popup}>
-        <h2 style={styles.popupHeader}>Enter Your Name</h2>
-        <input
-          type="text"
-          placeholder="Your name"
-          value={inputName}
-          onChange={(e) => setInputName(e.target.value)}
-          style={styles.input}
-        />
-        <button onClick={handleSubmit} style={styles.button}>
-          Submit
-        </button>
-      </div>
-    );
-  };  
-
   return (
     <div style={{ ...styles.container, background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)` }}>
       {!isPlaying ? (
         <>
           <h1 style={styles.header}>Are you ready?</h1>
-          <button style={{
-            ...styles.startButton,
-            boxShadow: `0 0 20px ${COLORS.buttonBackground}`,
-          }} onClick={startGame}>
-            Begin
-          </button>
+          <button style={styles.startButton} onClick={startGame}>Begin</button>
         </>
       ) : (
         <>
           <h1 style={styles.header}>Ballroom Music Quiz</h1>
           <p style={styles.score}>Score: {score}</p>
-
-          {lives !== -1 && (
-        <p style={styles.lives}>
-          Lives Remaining:{" "}
-          <span style={styles.livesHighlight}>
-            {lives}
-          </span>
-        </p>
-      )}
-
+          {lives !== -1 && <p style={styles.lives}>Lives: {lives}</p>}
           <div style={styles.progressBarContainer}>
-            <div style={{ ...styles.progressBar, width: `${progress}%`, transition: "width 0.1s linear" }} />
+            <div style={{ ...styles.progressBar, width: `${progress}%` }} />
           </div>
-
-          <p style={{ ...styles.timer, color: COLORS.textPrimary }}>{`Time Remaining: ${timer}s`}</p>
-
-          {feedback && (
-            <p style={{ ...styles.feedback, color: feedbackColor, transition: "color 0.5s ease" }}>
-              {feedback}
-            </p>
-          )}
-
-          <input
-            type="text"
-            placeholder="Enter dance style..."
-            value={guess}
-            onChange={(e) => setGuess(e.target.value)}
-            onKeyPress={handleKeyPress}
-            style={styles.input}
-          />
-          <button onClick={handleGuess} style={styles.button}>
-            Submit Guess
-          </button>
-
-          <audio
-            ref={audioRef}
-            style={{ display: 'none' }}
-            onPlay={() => setIsAudioPlaying(true)} // Set flag when audio starts
-          />
+          <p style={styles.timer}>Time: {timer}s</p>
+          {feedback && <p style={styles.feedback}>{feedback}</p>}
+          <input type="text" value={guess} onChange={(e) => setGuess(e.target.value)} placeholder="Enter style..." style={styles.input} />
+          <button onClick={handleGuess} style={styles.button}>Submit</button>
         </>
       )}
-
-      {showNameInput && <NameInputPopup onSubmit={submitScore} />}
+      {showNameInput && (
+        <div style={styles.popup}>
+          <h2 style={styles.popupHeader}>Enter Your Name</h2>
+          <input
+            type="text"
+            value={playerName}
+            onChange={(e) => setPlayerName(e.target.value)}
+            placeholder="Your Name"
+            style={styles.input}
+          />
+          <button onClick={submitScore} style={styles.button}>Submit</button>
+        </div>
+      )}
+      <audio ref={audioRef} style={{ display: "none" }} />
     </div>
   );
 }
 
 export default function Game() {
-    return (
-      <Suspense fallback={<div>Loading...</div>}>
-        <GameContent />
-      </Suspense>
-    );
-  }
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <GameContent />
+    </Suspense>
+  );
+}
 
 const styles = {
   container: {

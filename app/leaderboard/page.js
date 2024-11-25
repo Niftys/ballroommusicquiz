@@ -56,7 +56,10 @@ export default function Leaderboard() {
   }, [selectedLives, selectedDuration, scores]);
 
   return (
-    <div style={{ ...styles.container, background: `linear-gradient(135deg, ${COLORS.headerText} 0%, ${COLORS.textPrimary} 100%)` }}>
+    <div style={{
+        ...styles.container,
+        background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)`,
+      }}>
       <h1 style={styles.header}>Leaderboard</h1>
       
       <div style={styles.filters}>
