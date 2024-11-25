@@ -12,6 +12,19 @@ const COLORS = {
     buttonText: "#f5f5f5", // Light text for buttons
   };
 
+  const getDifficultyLevel = (duration) => {
+    switch (duration) {
+      case 20:
+        return "Easy";
+      case 10:
+        return "Normal";
+      case 5:
+        return "Hard";
+      default:
+        return "Unknown";
+    }
+  };
+
 export default function Leaderboard() {
   const [scores, setScores] = useState([]);
   const [filteredScores, setFilteredScores] = useState([]);
@@ -109,7 +122,7 @@ export default function Leaderboard() {
                 <td style={styles.td}>{score.name}</td>
                 <td style={styles.td}>{score.score}</td>
                 <td style={styles.td}>{score.lives === -1 ? "Unlimited" : score.lives}</td>
-                <td style={styles.td}>{score.duration}s</td>
+                <td style={styles.td}>{getDifficultyLevel(score.duration)}</td>
               </tr>
             ))
           ) : (
@@ -127,30 +140,65 @@ export default function Leaderboard() {
 
 const styles = {
     container: {
-      padding: "20px",
-      textAlign: "center",
-      minHeight: "100vh",
-      color: COLORS.textPrimary,
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        padding: "20px",
+        textAlign: "center",
+      },
+      header: {
+        fontSize: "3.5rem",
+        fontWeight: "bold",
+        marginBottom: "20px",
+        textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+      },
+      button: {
+        fontSize: "1.5rem",
+        padding: "15px 30px",
+        border: "none",
+        borderRadius: "50px",
+        cursor: "pointer",
+        marginTop: "30px",
+        transition: "all 0.3s ease",
+      },
+    filters: {
+        display: "flex",
+        justifyContent: "center",
+        gap: "20px",
+        marginBottom: "20px",
     },
-    header: {
-      fontSize: "3rem",
-      color: COLORS.headerText,
-      marginBottom: "20px",
+    label: {
+        marginRight: "10px",
+        fontSize: "1rem",
+        color: COLORS.textPrimary,
+    },
+    select: {
+        padding: "5px",
+        fontSize: "1rem",
+        backgroundColor: COLORS.buttonBackground,
+        color: COLORS.textPrimary,
+        border: "1px solid #ccc",
+        borderRadius: "5px",
     },
     table: {
-      margin: "auto",
-      borderCollapse: "collapse",
-      width: "80%",
-      backgroundColor: COLORS.tableBackground,
+        margin: "auto",
+        borderCollapse: "collapse",
+        width: "80%",
+        backgroundColor: COLORS.tableBackground,
     },
     th: {
-      backgroundColor: COLORS.buttonBackground,
-      color: COLORS.textPrimary,
-      padding: "10px",
+        backgroundColor: COLORS.buttonBackground,
+        color: COLORS.textPrimary,
+        padding: "10px",
     },
     td: {
-      padding: "10px",
-      border: "1px solid #ccc",
-      textAlign: "center",
+        padding: "10px",
+        border: "1px solid #ccc",
+        textAlign: "center",
     },
-  };
+    noData: {
+        padding: "10px",
+        textAlign: "center",
+        color: COLORS.textPrimary,
+    },
+};
