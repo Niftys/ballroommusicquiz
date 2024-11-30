@@ -1,7 +1,7 @@
 'use client';
 import React, { Suspense, useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { AnimatePresence, motion } from "framer-motion";
 
 const COLORS = {
   backgroundGradientStart: "#3e1c5e",
@@ -198,44 +198,100 @@ function GameContent() {
   };  
 
   return (
-    <div style={{ ...styles.container, background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)` }}>
-      {!isPlaying ? (
-        <>
-          <h1 style={styles.header}>Are you ready?</h1>
-          <button style={styles.startButton} onClick={startGame}>Begin</button>
-        </>
-      ) : (
-        <>
-          <h1 style={styles.header}>Ballroom Music Quiz</h1>
-          <p style={styles.score}>Score: {score}</p>
-          {lives !== -1 && <p style={styles.lives}>Lives: {lives}</p>}
-          <div style={styles.progressBarContainer}>
-            <div style={{ ...styles.progressBar, width: `${progress}%`, transition:"width 0.1s linear" }} />
-          </div>
-          <p style={styles.timer}>Time: {timer}s</p>
-          {feedback && <p style={styles.feedback}>{feedback}</p>}
-          <input type="text" value={guess} onChange={(e) => setGuess(e.target.value)} onKeyPress={handleKeyPress} placeholder="Enter style..." style={styles.input}/>
-          <button onClick={handleGuess} style={styles.button}>Submit</button>
-          <button onClick={quitGame} style={styles.quitButton}>Quit Game</button>
-        </>
-      )}
-      {showNameInput && (
-        <div style={styles.popup}>
-          <h2 style={styles.popupHeader}>Enter Your Name</h2>
-          <input
-            type="text"
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
-            onKeyPress={handlePopupKeyPress} // Attach the key press handler
-            placeholder="Your Name"
-            style={styles.input}
-          />
-          <button onClick={submitScore} style={styles.button}>Submit</button>
-        </div>
-      )}
+    <div
+      style={{
+        ...styles.container,
+        background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)`,
+      }}
+    >
+      {/* Transition for the "Are you ready" and game */}
+      <AnimatePresence mode="popLayout">
+        {!isPlaying && !showNameInput && (
+          <motion.div
+            key="ready"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.2 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h1 style={{ ...styles.header, color: COLORS.correctText }}>
+              Are you ready?
+            </h1>
+            <button style={styles.startButton} onClick={startGame}>
+              Begin
+            </button>
+          </motion.div>
+        )}
+  
+        {isPlaying && !showNameInput && (
+          <motion.div
+            key="game"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.5 }}
+          >
+            <button onClick={quitGame} style={styles.quitButton}>
+              Quit Game
+            </button>
+            <h1 style={styles.header}>Ballroom Music Quiz</h1>
+            <p style={styles.score}>Score: {score}</p>
+            {lives !== -1 && <p style={styles.lives}>Lives: {lives}</p>}
+            <div style={styles.progressBarContainer}>
+              <div
+                style={{
+                  ...styles.progressBar,
+                  width: `${progress}%`,
+                  transition: "width 0.1s linear",
+                }}
+              />
+            </div>
+            <p style={styles.timer}>Time: {timer}s</p>
+            {feedback && <p style={styles.feedback}>{feedback}</p>}
+            <input
+              type="text"
+              value={guess}
+              onChange={(e) => setGuess(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Enter style..."
+              style={styles.input}
+            />
+            <button onClick={handleGuess} style={styles.button}>
+              Submit
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+  
+      {/* Separate transition for name input */}
+      <AnimatePresence mode="wait">
+        {showNameInput && (
+          <motion.div
+            key="name"
+            initial={{ opacity: 0, y: -100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            style={styles.popup}
+          >
+            <h2 style={styles.popupHeader}>Enter Your Name</h2>
+            <input
+              type="text"
+              value={playerName}
+              onChange={(e) => setPlayerName(e.target.value)}
+              onKeyPress={handlePopupKeyPress}
+              placeholder="Your Name"
+              style={styles.input}
+            />
+            <button onClick={submitScore} style={styles.button}>
+              Submit
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+  
       <audio ref={audioRef} style={{ display: "none" }} />
     </div>
-  );
+  );  
 }
 
 export default function Game() {
@@ -248,6 +304,7 @@ export default function Game() {
 
 const styles = {
   container: {
+    fontFamily: "Lato, sans-serif",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -255,17 +312,21 @@ const styles = {
     minHeight: "100vh",
     textAlign: "center",
     padding: "20px",
+    background: "linear-gradient(135deg, #3e1c5e, #1a0c3e)",
+    boxSizing: "border-box",
   },
   header: {
     fontSize: "3rem",
     color: COLORS.headerText,
     marginBottom: "20px",
-    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+    fontWeight: "bold",
+    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)", // Adds depth
   },
   score: {
     fontSize: "1.5rem",
     color: COLORS.textPrimary,
     marginBottom: "10px",
+    fontWeight: "bold",
   },
   lives: {
     fontSize: "1.5rem",
@@ -276,9 +337,9 @@ const styles = {
   livesHighlight: {
     fontWeight: "bold",
     color: COLORS.correctText,
-  },  
+  },
   progressBarContainer: {
-    width: "80%",
+    width: "100%",
     height: "20px",
     backgroundColor: COLORS.buttonBackground,
     borderRadius: "10px",
@@ -289,17 +350,21 @@ const styles = {
   progressBar: {
     height: "100%",
     backgroundColor: COLORS.headerText,
+    transition: "width 0.1s linear", // Smooth transition
   },
   timer: {
     fontSize: "1.5rem",
     marginBottom: "20px",
     color: COLORS.textPrimary,
+    fontWeight: "bold",
   },
   feedback: {
     fontSize: "1.2rem",
     fontWeight: "bold",
     marginBottom: "20px",
     color: COLORS.textPrimary,
+    textAlign: "center",
+    transition: "color 0.3s ease", // Smooth color change
   },
   input: {
     fontSize: "1.2rem",
@@ -308,9 +373,11 @@ const styles = {
     border: `2px solid ${COLORS.buttonBackground}`,
     borderRadius: "5px",
     width: "80%",
+    maxWidth: "400px", // Prevents overly wide inputs
     textAlign: "center",
     backgroundColor: COLORS.buttonHover,
     color: COLORS.textPrimary,
+    outline: "none", // Removes default outline on focus
   },
   button: {
     padding: "10px 20px",
@@ -322,6 +389,7 @@ const styles = {
     cursor: "pointer",
     marginTop: "10px",
     transition: "background-color 0.3s ease",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)", // Subtle button shadow
   },
   startButton: {
     padding: "15px 30px",
@@ -332,41 +400,33 @@ const styles = {
     borderRadius: "50px",
     cursor: "pointer",
     transition: "background-color 0.3s ease",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)", // Larger shadow for emphasis
   },
   popup: {
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
     backgroundColor: COLORS.buttonBackground,
     padding: "20px",
     borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)", // Stronger shadow for modal effect
     textAlign: "center",
+    width: "100%",
+    maxWidth: "400px",
+    zIndex: 10, // Ensures popup is above all other elements
   },
   popupHeader: {
     color: COLORS.headerText,
     marginBottom: "10px",
-  },
-  input: {
-    fontSize: "1rem",
-    padding: "10px",
-    margin: "10px 0",
-    border: `2px solid ${COLORS.buttonHover}`,
-    borderRadius: "5px",
-    width: "80%",
-    textAlign: "center",
-    backgroundColor: COLORS.buttonHover,
-    color: COLORS.textPrimary,
+    fontWeight: "bold",
   },
   quitButton: {
     padding: "10px 20px",
     fontSize: "1.2rem",
     backgroundColor: COLORS.incorrectText,
-    color: COLORS.textPrimary,
+    color: COLORS.buttonText,
     border: "none",
     borderRadius: "5px",
-    marginTop: "10px",
     cursor: "pointer",
+    marginTop: "10px",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+    transition: "background-color 0.3s ease",
   },
 };

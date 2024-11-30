@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from "react";
 import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 
 const COLORS = {
   backgroundGradientStart: "#3e1c5e",
@@ -24,6 +25,14 @@ export default function Home() {
         background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)`,
       }}
     >
+      <AnimatePresence mode="wait">
+          <motion.div
+            key="ready"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.2 }}
+            transition={{ duration: 0.5 }}
+          >
       <h1 style={{ ...styles.header, color: COLORS.headerText }}>
         Ballroom Music Quiz
       </h1>
@@ -96,19 +105,7 @@ export default function Home() {
         </button>
       </div>
 
-      <Link href={`/game?duration=${clipDuration}&lives=${lives}`}>
-        <button
-          style={{
-            ...styles.button,
-            backgroundColor: COLORS.buttonBackground,
-            color: COLORS.buttonText,
-            boxShadow: `0 0 20px ${COLORS.buttonBackground}`,
-          }}
-        >
-          Start Game
-        </button>
-      </Link>
-      <div style={{ textAlign: "center", padding: "20px" }}>
+      <div style={{ textAlign: "center", padding: "10px",}}>
       <Link href="/leaderboard">
         <button style={{
             ...styles.button,
@@ -121,12 +118,28 @@ export default function Home() {
         </button>
       </Link>
       </div>
+
+      <Link href={`/game?duration=${clipDuration}&lives=${lives}`}>
+        <button
+          style={{
+            ...styles.button,
+            backgroundColor: COLORS.headerText,
+            color: COLORS.buttonText,
+            boxShadow: `0 0 20px ${COLORS.buttonBackground}`,
+          }}
+        >
+          Start Game
+        </button>
+      </Link>
+      </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
 
 const styles = {
   container: {
+    fontFamily: "Lato, sans-serif",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -139,7 +152,7 @@ const styles = {
     fontSize: "3.5rem",
     fontWeight: "bold",
     marginBottom: "20px",
-    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)"
   },
   instructions: {
     fontSize: "1.2rem",
@@ -176,7 +189,7 @@ const styles = {
     border: "none",
     borderRadius: "50px",
     cursor: "pointer",
-    marginTop: "30px",
+    marginTop: "15px",
     transition: "all 0.3s ease",
   },
 };

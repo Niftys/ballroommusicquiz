@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 const COLORS = {
     backgroundGradientStart: "#3e1c5e",
@@ -108,36 +109,36 @@ export default function Leaderboard() {
       </div>
 
       <div style={styles.tableContainer}>
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              <th style={styles.th}>Rank</th>
-              <th style={styles.th}>Name</th>
-              <th style={styles.th}>Score</th>
-              <th style={styles.th}>Lives</th>
-              <th style={styles.th}>Difficulty</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredScores.length > 0 ? (
-              filteredScores.map((score, index) => (
-                <tr key={index}>
-                  <td style={styles.td}>{index + 1}</td>
-                  <td style={styles.td}>{score.name}</td>
-                  <td style={styles.td}>{score.score}</td>
-                  <td style={styles.td}>{score.lives === -1 ? "Endless" : score.lives}</td>
-                  <td style={styles.td}>{getDifficultyLevel(score.duration)}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" style={styles.noData}>
-                  No scores match your filters.
-                </td>
+      <table style={styles.table}>
+        <thead>
+          <tr>
+            <th style={styles.th}>Rank</th>
+            <th style={styles.th}>Name</th>
+            <th style={styles.th}>Score</th>
+            <th style={styles.th}>Lives</th>
+            <th style={styles.th}>Difficulty</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredScores.length > 0 ? (
+            filteredScores.map((score, index) => (
+              <tr key={index} style={index % 2 === 0 ? styles.rowOdd : styles.rowEven}>
+                <td style={styles.td}>{index + 1}</td>
+                <td style={styles.td}>{score.name}</td>
+                <td style={styles.td}>{score.score}</td>
+                <td style={styles.td}>{score.lives === -1 ? "Endless" : score.lives}</td>
+                <td style={styles.td}>{getDifficultyLevel(score.duration)}</td>
               </tr>
-            )}
-          </tbody>
-        </table>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" style={styles.noData}>
+                No scores match your filters.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
       </div>
     </div>
   );
@@ -145,6 +146,7 @@ export default function Leaderboard() {
 
 const styles = {
     container: {
+      fontFamily: "Lato, sans-serif",
       display: "flex",
       flexDirection: "column",
       alignItems: "center", // Center-align content
@@ -157,7 +159,6 @@ const styles = {
       fontSize: "3.5rem",
       fontWeight: "bold",
       marginBottom: "20px",
-      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
       color: COLORS.headerText,
     },
     filters: {
@@ -189,16 +190,29 @@ const styles = {
       margin: "auto",
       borderCollapse: "collapse",
       width: "80%",
-      backgroundColor: COLORS.tableBackground,
+      backgroundColor: COLORS.buttonBackground,
+      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+      borderRadius: "10px",
+      overflow: "hidden",
     },
     th: {
-      backgroundColor: COLORS.buttonBackground,
+      backgroundColor: COLORS.headerText,
       color: COLORS.textPrimary,
       padding: "10px",
+      fontWeight: "bold",
+      textTransform: "uppercase",
     },
     td: {
       padding: "10px",
       textAlign: "center",
+    },
+    rowOdd: {
+      backgroundColor: COLORS.backgroundGradientEnd,
+      color: COLORS.textPrimary,
+    },
+    rowEven: {
+      backgroundColor: COLORS.backgroundGradientStart,
+      color: COLORS.textPrimary,
     },
     noData: {
       padding: "10px",
