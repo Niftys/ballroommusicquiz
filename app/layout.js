@@ -1,6 +1,12 @@
-import { Lato } from "next/font/google";
+import { Lato, Megrim } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+
+const megrim = Megrim({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-megrim',
+});
 
 const lato = Lato({
   subsets: ["latin"],

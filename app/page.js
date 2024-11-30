@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 const COLORS = {
   backgroundGradientStart: "#3e1c5e",
   backgroundGradientEnd: "#1a0c3e",
+  correctText: "#ffc107",
   headerText: "#9b59b6", // Primary color (purple)
   textPrimary: "#e0e0e0", // Light text
   listText: "#e0e0e0", // Same as text color
@@ -33,7 +34,7 @@ export default function Home() {
             exit={{ opacity: 0, scale: 1.2 }}
             transition={{ duration: 0.5 }}
           >
-      <h1 style={{ ...styles.header, color: COLORS.headerText }}>
+      <h1 style={{ ...styles.header, color: COLORS.correctText}}>
         Ballroom Music Quiz
       </h1>
       <p style={styles.instructions}>
@@ -149,6 +150,7 @@ const styles = {
     textAlign: "center",
   },
   header: {
+    fontFamily: "Megrim",
     fontSize: "3.5rem",
     fontWeight: "bold",
     marginBottom: "20px",

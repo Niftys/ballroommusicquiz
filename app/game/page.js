@@ -12,7 +12,7 @@ const COLORS = {
   buttonHover: "#444", // Hover effect for buttons
   buttonText: "#f5f5f5", // Light text for buttons
   correctText: "#ffc107", // Gold for correct answers
-  incorrectText: "#dc3545", // Red for incorrect answers
+  incorrectText: "#8b0000", // Red for incorrect answers
 };
 
 function GameContent() {
@@ -24,7 +24,6 @@ function GameContent() {
   const [timer, setTimer] = useState(clipDuration);
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState("");
-  const [feedbackColor, setFeedbackColor] = useState(COLORS.textPrimary);
   const [progress, setProgress] = useState(100);
   const [guess, setGuess] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
@@ -49,9 +48,8 @@ function GameContent() {
     }
   };  
 
-  const updateFeedback = (message, color) => {
+  const updateFeedback = (message) => {
     setFeedback(message);
-    setFeedbackColor(color);
   };
 
   const fetchRandomSong = async () => {
@@ -212,7 +210,7 @@ function GameContent() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.2 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.3 }}
           >
             <h1 style={{ ...styles.header, color: COLORS.correctText }}>
               Are you ready?
@@ -225,16 +223,17 @@ function GameContent() {
   
         {isPlaying && !showNameInput && (
           <motion.div
+            style={{...styles.container}}
             key="game"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.5 }}
+            exit={{ opacity: 0, y: 500 }}
+            transition={{ duration: 0.5, type: "spring" }}
           >
+            <h1 style={{...styles.header, color: COLORS.correctText}}>Ballroom Music Quiz</h1>
             <button onClick={quitGame} style={styles.quitButton}>
               Quit Game
             </button>
-            <h1 style={styles.header}>Ballroom Music Quiz</h1>
             <p style={styles.score}>Score: {score}</p>
             {lives !== -1 && <p style={styles.lives}>Lives: {lives}</p>}
             <div style={styles.progressBarContainer}>
@@ -264,13 +263,13 @@ function GameContent() {
       </AnimatePresence>
   
       {/* Separate transition for name input */}
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="popLayout">
         {showNameInput && (
           <motion.div
             key="name"
-            initial={{ opacity: 0, y: -100 }}
+            initial={{ opacity: 0, y: -500 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, type: "spring"}}
             style={styles.popup}
           >
             <h2 style={styles.popupHeader}>Enter Your Name</h2>
@@ -282,7 +281,7 @@ function GameContent() {
               placeholder="Your Name"
               style={styles.input}
             />
-            <button onClick={submitScore} style={styles.button}>
+            <button onClick={submitScore} style={{...styles.button, backgroundColor: COLORS.correctText, color: COLORS.buttonBackground}}>
               Submit
             </button>
           </motion.div>
@@ -312,13 +311,13 @@ const styles = {
     minHeight: "100vh",
     textAlign: "center",
     padding: "20px",
-    background: "linear-gradient(135deg, #3e1c5e, #1a0c3e)",
     boxSizing: "border-box",
   },
   header: {
+    fontFamily: "Megrim",
+    marginBottom: "10px",
     fontSize: "3rem",
     color: COLORS.headerText,
-    marginBottom: "20px",
     fontWeight: "bold",
     textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)", // Adds depth
   },
@@ -416,6 +415,8 @@ const styles = {
     color: COLORS.headerText,
     marginBottom: "10px",
     fontWeight: "bold",
+    fontSize: "1.5em",
+    textShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
   },
   quitButton: {
     padding: "10px 20px",
@@ -426,6 +427,7 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer",
     marginTop: "10px",
+    marginBottom: "10px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
     transition: "background-color 0.3s ease",
   },

@@ -1,10 +1,11 @@
 'use client';
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 const COLORS = {
     backgroundGradientStart: "#3e1c5e",
     backgroundGradientEnd: "#1a0c3e",
+    correctText: "#ffc107",
     headerText: "#9b59b6", // Primary color (purple)
     textPrimary: "#e0e0e0", // Light text
     listText: "#e0e0e0", // Same as text color
@@ -76,11 +77,20 @@ export default function Leaderboard() {
         background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)`,
       }}
     >
+    <AnimatePresence mode="wait">
+    <motion.div
+    style={{...styles.container}}
+    key="ready"
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    exit={{ opacity: 0, scale: 1.2 }}
+    transition={{ duration: 0.5 }}
+  >
       <h1 style={styles.header}>Leaderboard</h1>
 
       <div style={styles.filters}>
         <div>
-          <label style={styles.label}>Filter by Lives: </label>
+          <label style={styles.label}>Lives: </label>
           <select
             style={styles.select}
             value={selectedLives}
@@ -94,7 +104,7 @@ export default function Leaderboard() {
         </div>
 
         <div>
-          <label style={styles.label}>Filter by Difficulty: </label>
+          <label style={styles.label}>Difficulty: </label>
           <select
             style={styles.select}
             value={selectedDuration}
@@ -140,6 +150,8 @@ export default function Leaderboard() {
         </tbody>
       </table>
       </div>
+    </motion.div>
+    </AnimatePresence>
     </div>
   );
 }
@@ -156,10 +168,12 @@ const styles = {
       textAlign: "center",
     },
     header: {
+      fontFamily: "Megrim",
       fontSize: "3.5rem",
       fontWeight: "bold",
       marginBottom: "20px",
-      color: COLORS.headerText,
+      color: COLORS.correctText,
+      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)"
     },
     filters: {
       display: "flex",
@@ -177,7 +191,7 @@ const styles = {
       fontSize: "1rem",
       backgroundColor: COLORS.buttonBackground,
       color: COLORS.textPrimary,
-      border: "1px solid #ccc",
+      border: "1px solid #aaa",
       borderRadius: "5px",
     },
     tableContainer: {
