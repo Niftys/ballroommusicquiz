@@ -3,9 +3,10 @@
 @tailwind utilities;
 
 :root {
-  font-family: var(--font-lato), sans-serif;
+  --font-lato: 'Lato', sans-serif;
   --background: #ffffff;
   --foreground: #171717;
+  --font-megrim: 'Megrim', cursive;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,15 +16,18 @@
   }
 }
 
+/* Set fonts globally */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-body, html {
+  font-family: var(--font-lato);
+  color: #e0e0e0; /* Primary text color */
+  background: linear-gradient(135deg, #3e1c5e, #1a0c3e);
   margin: 0;
   padding: 0;
   overflow: hidden; /* Prevent scrolling */
-  height: 100%; /* Ensure full height for proper positioning */
+  min-height: 100vh;
+}
+
+/* Headers use Megrim */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-megrim);
 }

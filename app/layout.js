@@ -32,7 +32,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${lato.variable}`}>
+    <html
+      lang="en"
+      className={`${megrim.variable} ${lato.variable} ${geistSans.variable} ${geistMono.variable}`}
+    >
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${lato.variable} antialiased`}
       >
