@@ -8,7 +8,7 @@ export default function Home() {
   const [lives, setLives] = useState(-1);
 
   return (
-    <div className="min-h-screen w-screen flex flex-col justify-start items-center bg-gradient-to-br from-[#3e1c5e] to-[#1a0c3e] px-5 py-10 overflow-y-auto">
+    <div className="min-h-screen w-screen flex flex-col bg-gradient-to-br from-[#3e1c5e] to-[#1a0c3e] px-5 py-10 overflow-y-auto">
       <AnimatePresence mode="wait">
         <motion.div
           key="ready"
@@ -16,7 +16,7 @@ export default function Home() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.2 }}
           transition={{ ease: "easeOut", duration: 0.4 }}
-          className="grid grid-cols-1 gap-5 w-full max-w-[1200px] p-5 md:grid-cols-2 md:gap-[100px]"
+          className="grid grid-cols-1 gap-5 w-full max-w-[1200px] mx-auto md:grid-cols-2 md:gap-[100px]"
         >
           {/* Header */}
           <header className="text-center md:col-span-2">
