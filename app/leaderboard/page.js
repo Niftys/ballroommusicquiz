@@ -2,33 +2,32 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-  const getDifficultyLevel = (duration) => {
-    switch (duration) {
-      case 20:
-        return "Easy";
-      case 10:
-        return "Normal";
-      case 5:
-        return "Hard";
-      default:
-        return "Unknown";
-    }
-  };
+const getDifficultyLevel = (duration) => {
+  switch (duration) {
+    case 20:
+      return "Easy";
+    case 10:
+      return "Normal";
+    case 5:
+      return "Hard";
+    default:
+      return "Unknown";
+  }
+};
 
 export default function Leaderboard() {
   const [scores, setScores] = useState([]);
   const [filteredScores, setFilteredScores] = useState([]);
-  const [selectedLives, setSelectedLives] = useState("all"); // Default filter for lives
-  const [selectedDuration, setSelectedDuration] = useState("all"); // Default filter for duration
+  const [selectedLives, setSelectedLives] = useState("all");
+  const [selectedDuration, setSelectedDuration] = useState("all");
 
   useEffect(() => {
-    // Fetch leaderboard data from the backend
     const fetchLeaderboard = async () => {
       try {
         const response = await fetch("/api/get-leaderboard");
         const data = await response.json();
         setScores(data);
-        setFilteredScores(data); // Initially show all scores
+        setFilteredScores(data);
       } catch (error) {
         console.error("Error fetching leaderboard data:", error);
       }
@@ -38,14 +37,14 @@ export default function Leaderboard() {
   }, []);
 
   useEffect(() => {
-    // Filter scores based on selected lives and duration
     let filtered = scores;
 
     if (selectedLives !== "all") {
       filtered = filtered.filter(
         (score) =>
           (selectedLives === "unlimited" && score.lives === -1) ||
-          (selectedLives !== "unlimited" && score.lives === parseInt(selectedLives, 10))
+          (selectedLives !== "unlimited" &&
+            score.lives === parseInt(selectedLives, 10))
       );
     }
 
@@ -59,203 +58,102 @@ export default function Leaderboard() {
   }, [selectedLives, selectedDuration, scores]);
 
   return (
-    <div
-      style={{
-        ...styles.container,
-        background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)`,
-      }}
-    >
-    <AnimatePresence mode="wait">
-    <motion.div
-    style={{...styles.container}}
-    key="ready"
-    initial={{ opacity: 0, y: 50 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: 50 }}
-    transition={{ ease: 'easeOut', duration: 0.4 }}
-  >
-      <h1 style={styles.header}>Leaderboard</h1>
+    <div className="flex flex-col items-center min-h-screen w-screen bg-gradient-to-br from-[#3e1c5e] to-[#1a0c3e] p-5">
+      <AnimatePresence mode="wait">
+        <motion.div
+          className="flex flex-col items-center w-full text-center"
+          key="ready"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 50 }}
+          transition={{ ease: "easeOut", duration: 0.4 }}
+        >
+          <h1 className="font-megrim text-[3.5rem] font-bold text-[#ffc107] mb-5 drop-shadow-lg">
+            Leaderboard
+          </h1>
 
-      <div style={styles.filters}>
-        <div>
-          <label style={styles.label}>Lives: </label>
-          <select
-            style={styles.select}
-            value={selectedLives}
-            onChange={(e) => setSelectedLives(e.target.value)}
-          >
-            <option value="all">All</option>
-            <option value="unlimited">Endless</option>
-            <option value="3">3 Lives</option>
-            <option value="1">1 Life</option>
-          </select>
-        </div>
+          {/* Filters */}
+          <div className="flex gap-5 mb-7 flex-wrap justify-center">
+            <div>
+              <label className="mr-2 text-[#e0e0e0]">Lives:</label>
+              <select
+                className="p-2 bg-[#333] text-[#e0e0e0] border border-gray-500 rounded"
+                value={selectedLives}
+                onChange={(e) => setSelectedLives(e.target.value)}
+              >
+                <option value="all">All</option>
+                <option value="unlimited">Endless</option>
+                <option value="3">3 Lives</option>
+                <option value="1">1 Life</option>
+              </select>
+            </div>
 
-        <div>
-          <label style={styles.label}>Difficulty: </label>
-          <select
-            style={styles.select}
-            value={selectedDuration}
-            onChange={(e) => setSelectedDuration(e.target.value)}
-          >
-            <option value="all">All</option>
-            <option value="20">Easy</option>
-            <option value="10">Normal</option>
-            <option value="5">Hard</option>
-          </select>
-        </div>
-      </div>
+            <div>
+              <label className="mr-2 text-[#e0e0e0]">Difficulty:</label>
+              <select
+                className="p-2 bg-[#333] text-[#e0e0e0] border border-gray-500 rounded"
+                value={selectedDuration}
+                onChange={(e) => setSelectedDuration(e.target.value)}
+              >
+                <option value="all">All</option>
+                <option value="20">Easy</option>
+                <option value="10">Normal</option>
+                <option value="5">Hard</option>
+              </select>
+            </div>
+          </div>
 
-      <div style={styles.tableContainer}>
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th style={styles.th}>Rank</th>
-            <th style={styles.th}>Name</th>
-            <th style={styles.th}>Score</th>
-            <th style={styles.th}>Lives</th>
-            <th style={styles.th}>Difficulty</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredScores.length > 0 ? (
-            filteredScores.map((score, index) => (
-              <tr key={index} style={index % 2 === 0 ? styles.rowOdd : styles.rowEven}>
-                <td style={styles.td}>{index + 1}</td>
-                <td style={styles.td}>{score.name}</td>
-                <td style={styles.td}>{score.score}</td>
-                <td style={styles.td}>{score.lives === -1 ? "Endless" : score.lives}</td>
-                <td style={styles.td}>{getDifficultyLevel(score.duration)}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="5" style={styles.noData}>
-                No scores match your filters.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-      </div>
-    </motion.div>
-    </AnimatePresence>
+          {/* Table */}
+          <div className="w-full flex justify-center">
+            <table className="w-4/5 max-w-[1000px] text-[#e0e0e0] bg-[#333] border-collapse shadow-md rounded-lg overflow-hidden">
+              <thead>
+                <tr className="bg-[#9b59b6]">
+                  <th className="p-3 font-bold text-left uppercase">Rank</th>
+                  <th className="p-3 font-bold text-left uppercase">Name</th>
+                  <th className="p-3 font-bold text-left uppercase">Score</th>
+                  <th className="p-3 font-bold text-left uppercase">Lives</th>
+                  <th className="p-3 font-bold text-left uppercase">
+                    Difficulty
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredScores.length > 0 ? (
+                  filteredScores.map((score, index) => (
+                    <tr
+                      key={index}
+                      className={`${
+                        index % 2 === 0
+                          ? "bg-[#1a0c3e]"
+                          : "bg-[#3e1c5e]"
+                      }`}
+                    >
+                      <td className="p-3">{index + 1}</td>
+                      <td className="p-3">{score.name}</td>
+                      <td className="p-3">{score.score}</td>
+                      <td className="p-3">
+                        {score.lives === -1 ? "Endless" : score.lives}
+                      </td>
+                      <td className="p-3">
+                        {getDifficultyLevel(score.duration)}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="5"
+                      className="p-5 text-center text-[#e0e0e0]"
+                    >
+                      No scores match your filters.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
-
-const COLORS = {
-  backgroundGradientStart: "#3e1c5e",
-  backgroundGradientEnd: "#1a0c3e",
-  correctText: "#ffc107",
-  headerText: "#9b59b6", // Primary color (purple)
-  textPrimary: "#e0e0e0", // Light text
-  listText: "#e0e0e0", // Same as text color
-  buttonBackground: "#333", // Dark button background
-  buttonHover: "#222", // Hover effect for buttons
-  buttonText: "#f5f5f5", // Light text for buttons
-};
-
-const styles = {
-    container: {
-      fontFamily: "Lato, sans-serif",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center", // Center-align content
-      width: "100%", // Make container full-width
-      minHeight: "100vh",
-      padding: "20px",
-      textAlign: "center",
-    },
-    header: {
-      fontFamily: "Megrim",
-      fontSize: "3.5rem",
-      fontWeight: "bold",
-      marginBottom: "20px",
-      color: COLORS.correctText,
-      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-      "@media (maxWidth: 768px)": {
-        fontSize: "2.5rem", // Reduce font size on mobile
-      },
-    },
-    filters: {
-      display: "flex",
-      justifyContent: "center",
-      gap: "20px",
-      marginBottom: "20px",
-      "@media (maxWidth: 768px)": {
-        flexDirection: "column", // Stack filters vertically
-        gap: "10px",
-      },
-    },
-    label: {
-      marginRight: "10px",
-      fontSize: "1rem",
-      color: COLORS.textPrimary,
-    },
-    select: {
-      padding: "5px",
-      fontSize: "1rem",
-      backgroundColor: COLORS.buttonBackground,
-      color: COLORS.textPrimary,
-      border: "1px solid #aaa",
-      borderRadius: "5px",
-      "@media (maxWidth: 768px)": {
-        fontSize: "0.9rem", // Slightly smaller select box
-        width: "100%", // Expand select box to full width
-      },
-    },
-    tableContainer: {
-      marginTop: "20px",
-      width: "100%",
-      display: "flex",
-      justifyContent: "center",
-      "@media (maxWidth: 768px)": {
-        marginTop: "10px", // Reduce margin for mobile
-      },
-    },
-    table: {
-      margin: "auto",
-      borderCollapse: "collapse",
-      width: "80%",
-      backgroundColor: COLORS.buttonBackground,
-      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-      borderRadius: "10px",
-      overflow: "hidden",
-      "@media (maxWidth: 768px)": {
-        width: "100%", // Make table full-width on mobile
-        fontSize: "0.9rem", // Reduce font size in the table
-      },
-    },
-    th: {
-      backgroundColor: COLORS.headerText,
-      color: COLORS.textPrimary,
-      padding: "10px",
-      fontWeight: "bold",
-      textTransform: "uppercase",
-      "@media (maxWidth: 768px)": {
-        padding: "5px", // Reduce padding for mobile
-      },
-    },
-    td: {
-      padding: "10px",
-      textAlign: "center",
-      "@media (maxWidth: 768px)": {
-        padding: "5px", // Reduce padding for mobile
-        fontSize: "0.9rem", // Smaller font size for mobile
-      },
-    },
-    rowOdd: {
-      backgroundColor: COLORS.backgroundGradientEnd,
-      color: COLORS.textPrimary,
-    },
-    rowEven: {
-      backgroundColor: COLORS.backgroundGradientStart,
-      color: COLORS.textPrimary,
-    },
-    noData: {
-      padding: "10px",
-      textAlign: "center",
-      color: COLORS.textPrimary,
-    },
-  };

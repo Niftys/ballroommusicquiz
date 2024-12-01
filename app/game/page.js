@@ -32,16 +32,16 @@ function GameContent() {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      handleGuess(); // Call the existing function to handle the guess
+      handleGuess();
     }
-  };  
+  };
 
   const updateFeedback = (message) => {
     setFeedback(message);
   };
 
   const fetchRandomSong = async () => {
-    if (isGameOver) return; // Prevent fetching a song after game over
+    if (isGameOver) return;
 
     try {
       const response = await fetch('/api/get-random-song');
@@ -50,7 +50,7 @@ function GameContent() {
       const song = await response.json();
       const startTime = Math.floor(Math.random() * (60 - 20 + 1)) + 20;
 
-      resetAudio(); // Reset audio before loading a new song
+      resetAudio();
       setCurrentSong({ ...song, startTime });
       setTimer(clipDuration);
       setProgress(100);
@@ -62,7 +62,7 @@ function GameContent() {
         audioRef.current.currentTime = startTime;
         await audioRef.current.play().catch((error) => {
           console.error("Audio playback error:", error);
-          updateFeedback("Error playing song. Skipping to the next song.", COLORS.incorrectText);
+          updateFeedback("Error playing song. Skipping to the next song.");
           setTimeout(fetchRandomSong, 2500);
         });
       }
@@ -112,20 +112,20 @@ function GameContent() {
         return updatedLives;
       });
     } else {
-      showCorrectAnswerAndNextSong(); // Unlimited lives mode
+      showCorrectAnswerAndNextSong();
     }
   };
 
   const handleGameOver = () => {
     setIsGameOver(true);
-    updateFeedback("Game Over! Your score is saved.", COLORS.incorrectText);
+    updateFeedback("Game Over! Your score is saved.");
     setShowNameInput(true);
     resetAudio();
   };
 
   const showCorrectAnswerAndNextSong = () => {
     const primaryStyle = currentSong.style.split(",")[0].trim();
-    updateFeedback(`Time's up! The correct answer was "${primaryStyle}".`, COLORS.incorrectText);
+    updateFeedback(`Time's up! The correct answer was "${primaryStyle}".`);
     setTimeout(fetchRandomSong, 2500);
   };
 
@@ -135,12 +135,12 @@ function GameContent() {
     const acceptableStyles = currentSong.style.split(",").map((style) => style.trim().toLowerCase());
 
     if (acceptableStyles.includes(guess.trim().toLowerCase())) {
-      updateFeedback("Correct!", COLORS.correctText);
+      updateFeedback("Correct!");
       setScore((prev) => prev + 1);
-      resetAudio(); // Stop audio playback
+      resetAudio();
       setTimeout(fetchRandomSong, 750);
     } else {
-      updateFeedback("Wrong! Try again.", COLORS.incorrectText);
+      updateFeedback("Wrong! Try again.");
     }
 
     setGuess("");
@@ -164,7 +164,7 @@ function GameContent() {
       if (response.ok) {
         setShowNameInput(false);
         alert("Your score has been saved!");
-        router.push("/"); // Redirect to the main page
+        router.push("/"); 
       } else {
         console.error("Failed to save score.");
       }
@@ -175,111 +175,104 @@ function GameContent() {
 
   const handlePopupKeyPress = (e) => {
     if (e.key === "Enter" && playerName.trim()) {
-      submitScore(); // Submit the score when Enter is pressed
+      submitScore();
     }
-  };  
+  };
 
   const quitGame = () => {
-    handleGameOver(); // Trigger game-over logic
-  };  
+    handleGameOver();
+  };
 
   return (
-    <div
-      style={{
-        ...styles.container,
-        background: `linear-gradient(135deg, ${COLORS.backgroundGradientStart} 0%, ${COLORS.backgroundGradientEnd} 100%)`,
-      }}
-    >
-      {/* Transition for the "Are you ready" and game */}
+    <div className="w-screen h-screen flex flex-col justify-center items-center text-center bg-gradient-to-br from-[#3e1c5e] to-[#1a0c3e] p-5 overflow-hidden">
       <AnimatePresence mode="popLayout">
         {!isPlaying && !showNameInput && (
           <motion.div
             key="ready"
-            style={{...styles.container}}
+            className="flex flex-col justify-center items-center"
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, x: 500}}
+            exit={{ opacity: 0, x: 500 }}
             transition={{ ease: 'easeOut', duration: 0.3, type: "spring", stiffness: "50" }}
           >
-            <h1 style={{ ...styles.header, color: COLORS.correctText }}>
+            <h1 className="font-bold w-screen font-megrim text-[5rem] text-[#ffc107] drop-shadow-lg mb-5">
               Are you ready?
             </h1>
-            <button style={styles.startButton} onClick={startGame}>
+            <button className="px-10 py-4 rounded-full text-xl font-bold bg-[#333] text-[#f5f5f5] hover:bg-[#222] shadow-lg" onClick={startGame}>
               Begin
             </button>
           </motion.div>
         )}
-  
+
         {isPlaying && !showNameInput && (
           <motion.div
             key="game"
-            style={{...styles.container}}
+            className="flex w-screen flex-col justify-center items-center text-[#e0e0e0]"
             initial={{ opacity: 0, x: -500 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 500 }}
             transition={{ ease: 'easeOut', duration: 0.3, type: "spring", stiffness: "50" }}
           >
-            <h1 style={{...styles.header, color: COLORS.correctText}}>Ballroom Music Quiz</h1>
-            <button onClick={quitGame} style={styles.quitButton}>
+            <h1 className="font-bold font-megrim text-[5rem] text-[#ffc107] drop-shadow-lg mb-5">Ballroom Music Quiz</h1>
+            <button className="px-10 py-4 rounded-lg bg-[#8b0000] text-[#f5f5f5] shadow-lg mb-5" onClick={quitGame}>
               Quit Game
             </button>
-            <p style={styles.score}>Score: {score}</p>
-            {lives !== -1 && <p style={styles.lives}>Lives: {lives}</p>}
-            <div style={styles.progressBarContainer}>
+            <p className="text-2xl font-bold">Score: {score}</p>
+            {lives !== -1 && <p className="text-2xl font-bold mb-5">Lives: {lives}</p>}
+            <div className="w-3/4 h-5 bg-[#333] rounded-md shadow-md overflow-hidden my-5">
               <div
-                style={{
-                  ...styles.progressBar,
-                  width: `${progress}%`,
-                  transition: "width 0.1s linear",
-                }}
+                className="h-full bg-[#9b59b6] transition-all"
+                style={{ width: `${progress}%` }}
               />
             </div>
-            <p style={styles.timer}>Time: {timer}s</p>
-            {feedback && <p style={styles.feedback}>{feedback}</p>}
+            <p className="text-xl font-bold mb-5">Time: {timer}s</p>
+            {feedback && <p className="text-lg font-bold mb-5 text-[#ffc107]" >{feedback}</p>}
             <input
               type="text"
               value={guess}
               onChange={(e) => setGuess(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Enter style..."
-              style={styles.input}
+              className="text-lg border-2 border-[#333] rounded-md p-2 w-80 max-w-[400px] text-center bg-[#222] text-[#f5f5f5] outline-none"
             />
-            <button onClick={handleGuess} style={styles.button}>
+            <button className="mt-5 px-10 py-4 rounded-lg bg-[#333] text-[#f5f5f5] hover:bg-[#222] shadow-lg" onClick={handleGuess}>
               Submit
             </button>
           </motion.div>
         )}
       </AnimatePresence>
-  
-      {/* Separate transition for name input */}
+
       <AnimatePresence mode="popLayout">
         {showNameInput && (
           <motion.div
             key="name"
+            className="flex flex-col justify-center items-center bg-[#333] text-[#f5f5f5] p-10 rounded-lg shadow-lg"
             initial={{ opacity: 0, x: -500 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ ease: 'easeOut', duration: 0.3, type: "spring", stiffness: "50"}}
-            style={styles.popup}
+            transition={{ ease: 'easeOut', duration: 0.3, type: "spring", stiffness: "50" }}
           >
-            <h2 style={styles.popupHeader}>Enter Your Name</h2>
+            <h2 className="text-2xl font-bold mb-5">Enter Your Name</h2>
             <input
               type="text"
               value={playerName}
               onChange={(e) => setPlayerName(e.target.value)}
               onKeyPress={handlePopupKeyPress}
               placeholder="Your Name"
-              style={styles.input}
+              className="text-lg border-2 border-[#333] rounded-md p-2 w-80 max-w-[400px] text-center bg-[#222] text-[#f5f5f5] outline-none"
             />
-            <button onClick={submitScore} style={{...styles.button, backgroundColor: COLORS.correctText, color: COLORS.buttonBackground}}>
+            <button
+              onClick={submitScore}
+              className="mt-5 px-10 py-4 rounded-lg bg-[#ffc107] text-[#333] hover:bg-[#e0b307] shadow-lg"
+            >
               Submit
             </button>
           </motion.div>
         )}
       </AnimatePresence>
-  
-      <audio ref={audioRef} style={{ display: "none" }} />
+
+      <audio ref={audioRef} className="hidden" />
     </div>
-  );  
+  );
 }
 
 export default function Game() {
@@ -289,180 +282,3 @@ export default function Game() {
     </Suspense>
   );
 }
-
-const COLORS = {
-  backgroundGradientStart: "#3e1c5e",
-  backgroundGradientEnd: "#1a0c3e",
-  headerText: "#9b59b6", // Primary color (purple)
-  textPrimary: "#e0e0e0", // Light text
-  buttonBackground: "#333", // Dark button background
-  buttonHover: "#444", // Hover effect for buttons
-  buttonText: "#f5f5f5", // Light text for buttons
-  correctText: "#ffc107", // Gold for correct answers
-  incorrectText: "#8b0000", // Red for incorrect answers
-};
-
-const styles = {
-  container: {
-    minWidth: "100vw",
-    minHeight: "100vh",
-    fontFamily: "Lato, sans-serif",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-    padding: "20px",
-    boxSizing: "border-box",
-    overflow: "hidden",
-  },
-  header: {
-    fontFamily: "Megrim",
-    marginBottom: "10px",
-    fontSize: "5rem",
-    color: COLORS.headerText,
-    fontWeight: "bold",
-    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-    "@media (maxWidth: 768px)": {
-      fontSize: "3rem",
-    },
-  },
-  score: {
-    fontSize: "2rem",
-    color: COLORS.textPrimary,
-    marginBottom: "10px",
-    fontWeight: "bold",
-    "@media (maxWidth: 768px)": {
-      fontSize: "1.5rem",
-    },
-  },
-  lives: {
-    fontSize: "2rem",
-    marginBottom: "10px",
-    color: COLORS.textPrimary,
-    textAlign: "center",
-    "@media (maxWidth: 768px)": {
-      fontSize: "1.5rem",
-    },
-  },
-  progressBarContainer: {
-    width: "100%",
-    height: "20px",
-    backgroundColor: COLORS.buttonBackground,
-    borderRadius: "10px",
-    overflow: "hidden",
-    margin: "20px 0",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    "@media (maxWidth: 768px)": {
-      height: "15px", // Adjust height for mobile
-      margin: "10px 0",
-    },
-  },
-  progressBar: {
-    height: "100%",
-    backgroundColor: COLORS.headerText,
-    transition: "width 0.1s linear", // Smooth transition
-  },
-  timer: {
-    fontSize: "1.5rem",
-    marginBottom: "20px",
-    color: COLORS.textPrimary,
-    fontWeight: "bold",
-    "@media (maxWidth: 768px)": {
-      fontSize: "1.2rem",
-    },
-  },
-  feedback: {
-    fontSize: "1.2rem",
-    fontWeight: "bold",
-    marginBottom: "20px",
-    color: COLORS.textPrimary,
-    textAlign: "center",
-    transition: "color 0.3s ease", // Smooth color change
-    "@media (maxWidth: 768px)": {
-      fontSize: "1rem",
-    },
-  },
-  input: {
-    fontSize: "1.2rem",
-    padding: "10px",
-    margin: "10px 0",
-    border: `2px solid ${COLORS.buttonBackground}`,
-    borderRadius: "5px",
-    width: "80%",
-    maxWidth: "400px",
-    textAlign: "center",
-    backgroundColor: COLORS.buttonHover,
-    color: COLORS.textPrimary,
-    outline: "none",
-    "@media (maxWidth: 768px)": {
-      fontSize: "1rem",
-      width: "100%", // Full width on mobile
-    },
-  },
-  button: {
-    padding: "10px 20px",
-    fontSize: "1.2rem",
-    backgroundColor: COLORS.buttonBackground,
-    color: COLORS.buttonText,
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    marginTop: "10px",
-    transition: "background-color 0.3s ease",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-    "@media (maxWidth: 768px)": {
-      fontSize: "1rem",
-      padding: "8px 15px", // Adjust padding for mobile
-    },
-  },
-  startButton: {
-    padding: "15px 30px",
-    fontSize: "1.5rem",
-    backgroundColor: COLORS.buttonBackground,
-    color: COLORS.buttonText,
-    border: "none",
-    borderRadius: "50px",
-    cursor: "pointer",
-    transition: "background-color 0.3s ease",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-    "@media (maxWidth: 768px)": {
-      fontSize: "1.2rem",
-      padding: "10px 20px", // Adjust padding for mobile
-    },
-  },
-  popup: {
-    backgroundColor: COLORS.buttonBackground,
-    padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-    textAlign: "center",
-    width: "100%",
-    maxWidth: "400px",
-    zIndex: 10,
-    "@media (maxWidth: 768px)": {
-      padding: "15px",
-      fontSize: "0.9rem",
-    },
-  },
-  popupHeader: {
-    color: COLORS.headerText,
-    marginBottom: "10px",
-    fontWeight: "bold",
-    fontSize: "1.5em",
-    textShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-  },
-  quitButton: {
-    padding: "10px 20px",
-    fontSize: "1.2rem",
-    backgroundColor: COLORS.incorrectText,
-    color: COLORS.buttonText,
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    marginTop: "10px",
-    marginBottom: "10px",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-    transition: "background-color 0.3s ease",
-  },
-};
