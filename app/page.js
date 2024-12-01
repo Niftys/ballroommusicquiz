@@ -149,31 +149,26 @@ const COLORS = {
 const styles = {
   container: {
     fontFamily: "Lato, sans-serif",
-    minHeight: "100vh", // Ensure it fills the entire viewport height
-    width: "100vw", // Ensure it fills the entire viewport width
+    minHeight: "100vh",
+    width: "100vw",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     padding: "20px",
     boxSizing: "border-box",
-    position: "relative", // Allow absolute positioning for child elements
-  },  
+    position: "relative",
+  },
   gridContainer: {
     justifyContent: "center",
     alignItems: "center",
     display: "grid",
     gridTemplateRows: "auto 1fr 1fr auto",
     gridTemplateColumns: "1fr 1fr",
-    gap: "100px", // Increased spacing between grid items for even spacing
+    gap: "100px",
     width: "100%",
     maxWidth: "1200px",
-    padding: "20px", // Added padding around the entire grid
+    padding: "20px",
     boxSizing: "border-box",
-
-    "@media (maxWidth: 768px)": {
-      gridTemplateColumns: "1fr", // Single column layout on mobile
-      gap: "20px", // Reduce gap for smaller screens
-    },
   },
   header: {
     gridColumn: "1 / -1",
@@ -186,9 +181,6 @@ const styles = {
     fontFamily: "Megrim",
     fontSize: "5rem",
     textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-    "@media (maxWidth: 768px)": {
-      fontSize: "2.5rem", // Smaller for mobile
-    },
   },
   instructions: {
     gridColumn: "1 / 2",
@@ -200,17 +192,13 @@ const styles = {
     borderRadius: "8px",
     backgroundColor: "rgba(0, 0, 0, 0.1)",
     textAlign: "center",
-    display: "flex", // Use Flexbox for alignment
-    flexDirection: "column", // Stack content vertically
-    justifyContent: "center", // Vertically center content
-    alignItems: "center", // Horizontally center content
-    gap: "20px", // Space between elements
-    height: "100%", // Ensure it takes the full height of the grid area
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "20px",
+    height: "100%",
     boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-    "@media (maxWidth: 768px)": {
-      fontSize: "0.9rem", // Smaller font for mobile
-      padding: "10px", // Reduced padding
-    },
   },
   settings: {
     gridColumn: "2 / 3",
@@ -218,12 +206,12 @@ const styles = {
     border: "1px solid #ffc107",
     borderRadius: "8px",
     backgroundColor: "rgba(0, 0, 0, 0.1)",
-    display: "flex", // Use Flexbox for alignment
-    flexDirection: "column", // Stack content vertically
-    justifyContent: "center", // Vertically center content
-    alignItems: "center", // Horizontally center content
-    gap: "15px", // Space between elements
-    height: "100%", // Ensure it takes the full height of the grid area
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "15px",
+    height: "100%",
     boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
   },
   buttonContainer: {

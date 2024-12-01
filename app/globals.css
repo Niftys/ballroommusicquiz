@@ -15,7 +15,8 @@ html, body {
   height: 100%;
   width: 100%;
   background: var(--background-gradient);
-  overflow: hidden; /* Prevents scrolling */
+  overflow: hidden; /* Prevent scrolling */
+  font-family: var(--font-lato);
 }
 
 /* Headers use Megrim */
@@ -23,24 +24,80 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-megrim);
 }
 
-.container {
+/* Grid container styles for desktop */
+.grid-container {
+  display: grid;
+  grid-template-rows: auto 1fr 1fr auto;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  box-sizing: border-box;
+  margin: auto;
+}
+
+/* Header styles */
+header {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: -30px;
+}
+
+/* Title styles */
+h1 {
+  font-weight: bold;
+  font-size: 5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  color: #ffc107;
+}
+
+/* Instructions and Settings styles */
+.instructions,
+.settings {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #e0e0e0;
+  padding: 20px;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+  text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  padding: 20px;
-  margin: auto;
+  gap: 20px;
+  height: 100%;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
 }
 
-/* Responsive grid behavior */
+/* Responsive stacking behavior for mobile */
 @media (max-width: 768px) {
-  .container {
-    max-width: 100%; /* Full width on smaller devices */
+  .grid-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Smaller gap between stacked sections */
     padding: 10px; /* Reduce padding */
   }
 
+  header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: 2.5rem; /* Reduce font size for mobile */
+  }
+
+  .instructions,
+  .settings {
+    grid-column: unset; /* Remove grid behavior */
+    height: auto; /* Allow sections to fit content */
+  }
+
   body {
-    font-size: 0.9rem; /* Slightly smaller font for mobile */
+    font-size: 0.9rem; /* Smaller font size for mobile readability */
   }
 }

@@ -304,13 +304,13 @@ const COLORS = {
 
 const styles = {
   container: {
-    width: "100vw",
+    minWidth: "100vw",
+    minHeight: "100vh",
     fontFamily: "Lato, sans-serif",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    minHeight: "100vh",
     textAlign: "center",
     padding: "20px",
     boxSizing: "border-box",
@@ -319,12 +319,12 @@ const styles = {
   header: {
     fontFamily: "Megrim",
     marginBottom: "10px",
-    fontSize: "5rem", // Desktop font size
+    fontSize: "5rem",
     color: COLORS.headerText,
     fontWeight: "bold",
     textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
     "@media (maxWidth: 768px)": {
-      fontSize: "3rem", // Reduce font size for mobile
+      fontSize: "3rem",
     },
   },
   score: {
