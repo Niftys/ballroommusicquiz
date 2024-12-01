@@ -169,6 +169,11 @@ const styles = {
     maxWidth: "1200px",
     padding: "20px", // Added padding around the entire grid
     boxSizing: "border-box",
+
+    "@media (max-width: 768px)": {
+      gridTemplateColumns: "1fr", // Single column layout on mobile
+      gap: "20px", // Reduce gap for smaller screens
+    },
   },
   header: {
     gridColumn: "1 / -1",
@@ -181,6 +186,9 @@ const styles = {
     fontFamily: "Megrim",
     fontSize: "5rem",
     textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+    "@media (max-width: 768px)": {
+      fontSize: "2.5rem", // Smaller for mobile
+    },
   },
   instructions: {
     gridColumn: "1 / 2",
@@ -198,7 +206,11 @@ const styles = {
     alignItems: "center", // Horizontally center content
     gap: "20px", // Space between elements
     height: "100%", // Ensure it takes the full height of the grid area
-    boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)"
+    boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+    "@media (max-width: 768px)": {
+      fontSize: "0.9rem", // Smaller font for mobile
+      padding: "10px", // Reduced padding
+    },
   },
   settings: {
     gridColumn: "2 / 3",
@@ -212,7 +224,7 @@ const styles = {
     alignItems: "center", // Horizontally center content
     gap: "15px", // Space between elements
     height: "100%", // Ensure it takes the full height of the grid area
-    boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)"
+    boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
   },
   buttonContainer: {
     display: "flex",
@@ -252,6 +264,10 @@ const styles = {
     border: "none",
     cursor: "pointer",
     transition: "transform 0.2s ease", // Subtle hover effect
-    boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)"
+    boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+    "@media (max-width: 768px)": {
+      padding: "10px 15px", // Mobile
+      fontSize: "1rem",
+    },
   },
 };

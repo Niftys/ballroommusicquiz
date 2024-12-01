@@ -9,10 +9,26 @@
   --font-megrim: 'Megrim', cursive;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (max-width: 768px) {
+  /* Adjust header for mobile */
+  h1 {
+    font-size: 2.5rem; /* Smaller font size for mobile */
+  }
+
+  .grid-container {
+    grid-template-columns: 1fr; /* Single column layout on mobile */
+    gap: 20px; /* Smaller gap between sections */
+  }
+
+  .instructions,
+  .settings {
+    font-size: 0.9rem; /* Smaller text for mobile */
+    padding: 10px; /* Reduced padding */
+  }
+
+  button {
+    font-size: 0.9rem; /* Smaller buttons */
+    padding: 10px 15px;
   }
 }
 

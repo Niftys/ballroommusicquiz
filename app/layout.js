@@ -1,6 +1,7 @@
 import { Lato, Megrim } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import Head from "next/head";
 
 const megrim = Megrim({
   subsets: ['latin'],
@@ -36,6 +37,9 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${megrim.variable} ${lato.variable} ${geistSans.variable} ${geistMono.variable}`}
     >
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${lato.variable} antialiased`}
       >
