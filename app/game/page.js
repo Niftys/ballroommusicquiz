@@ -304,7 +304,7 @@ const COLORS = {
 
 const styles = {
   container: {
-    width: "100%",
+    width: "100vw",
     fontFamily: "Lato, sans-serif",
     display: "flex",
     flexDirection: "column",

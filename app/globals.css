@@ -4,21 +4,18 @@
 
 :root {
   --font-lato: 'Lato', sans-serif;
-  --background: #ffffff;
-  --foreground: #171717;
+  --background-gradient: linear-gradient(135deg, #3e1c5e, #1a0c3e);
   --font-megrim: 'Megrim', cursive;
 }
 
 /* Set fonts globally */
-body {
-  font-family: var(--font-lato);
-  color: #e0e0e0; /* Primary text color */
-  background: linear-gradient(135deg, #3e1c5e, #1a0c3e);
+html, body {
   margin: 0;
   padding: 0;
-  min-height: 100vh;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-  overflow-y: auto; /* Allow vertical scrolling on mobile */
+  height: 100%;
+  width: 100%;
+  background: var(--background-gradient);
+  overflow: hidden; /* Prevents scrolling */
 }
 
 /* Headers use Megrim */
@@ -32,7 +29,6 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
   padding: 20px;
   margin: auto;
 }
