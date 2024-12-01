@@ -2,18 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const COLORS = {
-    backgroundGradientStart: "#3e1c5e",
-    backgroundGradientEnd: "#1a0c3e",
-    correctText: "#ffc107",
-    headerText: "#9b59b6", // Primary color (purple)
-    textPrimary: "#e0e0e0", // Light text
-    listText: "#e0e0e0", // Same as text color
-    buttonBackground: "#333", // Dark button background
-    buttonHover: "#222", // Hover effect for buttons
-    buttonText: "#f5f5f5", // Light text for buttons
-  };
-
   const getDifficultyLevel = (duration) => {
     switch (duration) {
       case 20:
@@ -156,6 +144,18 @@ export default function Leaderboard() {
   );
 }
 
+const COLORS = {
+  backgroundGradientStart: "#3e1c5e",
+  backgroundGradientEnd: "#1a0c3e",
+  correctText: "#ffc107",
+  headerText: "#9b59b6", // Primary color (purple)
+  textPrimary: "#e0e0e0", // Light text
+  listText: "#e0e0e0", // Same as text color
+  buttonBackground: "#333", // Dark button background
+  buttonHover: "#222", // Hover effect for buttons
+  buttonText: "#f5f5f5", // Light text for buttons
+};
+
 const styles = {
     container: {
       fontFamily: "Lato, sans-serif",
@@ -174,7 +174,7 @@ const styles = {
       marginBottom: "20px",
       color: COLORS.correctText,
       textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-      "@media (max-width: 768px)": {
+      "@media (maxWidth: 768px)": {
         fontSize: "2.5rem", // Reduce font size on mobile
       },
     },
@@ -183,7 +183,7 @@ const styles = {
       justifyContent: "center",
       gap: "20px",
       marginBottom: "20px",
-      "@media (max-width: 768px)": {
+      "@media (maxWidth: 768px)": {
         flexDirection: "column", // Stack filters vertically
         gap: "10px",
       },
@@ -200,7 +200,7 @@ const styles = {
       color: COLORS.textPrimary,
       border: "1px solid #aaa",
       borderRadius: "5px",
-      "@media (max-width: 768px)": {
+      "@media (maxWidth: 768px)": {
         fontSize: "0.9rem", // Slightly smaller select box
         width: "100%", // Expand select box to full width
       },
@@ -210,7 +210,7 @@ const styles = {
       width: "100%",
       display: "flex",
       justifyContent: "center",
-      "@media (max-width: 768px)": {
+      "@media (maxWidth: 768px)": {
         marginTop: "10px", // Reduce margin for mobile
       },
     },
@@ -222,7 +222,7 @@ const styles = {
       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
       borderRadius: "10px",
       overflow: "hidden",
-      "@media (max-width: 768px)": {
+      "@media (maxWidth: 768px)": {
         width: "100%", // Make table full-width on mobile
         fontSize: "0.9rem", // Reduce font size in the table
       },
@@ -233,14 +233,14 @@ const styles = {
       padding: "10px",
       fontWeight: "bold",
       textTransform: "uppercase",
-      "@media (max-width: 768px)": {
+      "@media (maxWidth: 768px)": {
         padding: "5px", // Reduce padding for mobile
       },
     },
     td: {
       padding: "10px",
       textAlign: "center",
-      "@media (max-width: 768px)": {
+      "@media (maxWidth: 768px)": {
         padding: "5px", // Reduce padding for mobile
         fontSize: "0.9rem", // Smaller font size for mobile
       },

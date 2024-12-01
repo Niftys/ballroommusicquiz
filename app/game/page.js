@@ -3,18 +3,6 @@ import React, { Suspense, useState, useEffect, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from "framer-motion";
 
-const COLORS = {
-  backgroundGradientStart: "#3e1c5e",
-  backgroundGradientEnd: "#1a0c3e",
-  headerText: "#9b59b6", // Primary color (purple)
-  textPrimary: "#e0e0e0", // Light text
-  buttonBackground: "#333", // Dark button background
-  buttonHover: "#444", // Hover effect for buttons
-  buttonText: "#f5f5f5", // Light text for buttons
-  correctText: "#ffc107", // Gold for correct answers
-  incorrectText: "#8b0000", // Red for incorrect answers
-};
-
 function GameContent() {
   const searchParams = useSearchParams();
   const clipDuration = parseInt(searchParams.get('duration'), 10) || 10; // Default to 10 seconds
@@ -302,6 +290,18 @@ export default function Game() {
   );
 }
 
+const COLORS = {
+  backgroundGradientStart: "#3e1c5e",
+  backgroundGradientEnd: "#1a0c3e",
+  headerText: "#9b59b6", // Primary color (purple)
+  textPrimary: "#e0e0e0", // Light text
+  buttonBackground: "#333", // Dark button background
+  buttonHover: "#444", // Hover effect for buttons
+  buttonText: "#f5f5f5", // Light text for buttons
+  correctText: "#ffc107", // Gold for correct answers
+  incorrectText: "#8b0000", // Red for incorrect answers
+};
+
 const styles = {
   container: {
     width: "100%",
@@ -323,7 +323,7 @@ const styles = {
     color: COLORS.headerText,
     fontWeight: "bold",
     textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-    "@media (max-width: 768px)": {
+    "@media (maxWidth: 768px)": {
       fontSize: "3rem", // Reduce font size for mobile
     },
   },
@@ -332,7 +332,7 @@ const styles = {
     color: COLORS.textPrimary,
     marginBottom: "10px",
     fontWeight: "bold",
-    "@media (max-width: 768px)": {
+    "@media (maxWidth: 768px)": {
       fontSize: "1.5rem",
     },
   },
@@ -341,7 +341,7 @@ const styles = {
     marginBottom: "10px",
     color: COLORS.textPrimary,
     textAlign: "center",
-    "@media (max-width: 768px)": {
+    "@media (maxWidth: 768px)": {
       fontSize: "1.5rem",
     },
   },
@@ -353,7 +353,7 @@ const styles = {
     overflow: "hidden",
     margin: "20px 0",
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    "@media (max-width: 768px)": {
+    "@media (maxWidth: 768px)": {
       height: "15px", // Adjust height for mobile
       margin: "10px 0",
     },
@@ -368,7 +368,7 @@ const styles = {
     marginBottom: "20px",
     color: COLORS.textPrimary,
     fontWeight: "bold",
-    "@media (max-width: 768px)": {
+    "@media (maxWidth: 768px)": {
       fontSize: "1.2rem",
     },
   },
@@ -379,7 +379,7 @@ const styles = {
     color: COLORS.textPrimary,
     textAlign: "center",
     transition: "color 0.3s ease", // Smooth color change
-    "@media (max-width: 768px)": {
+    "@media (maxWidth: 768px)": {
       fontSize: "1rem",
     },
   },
@@ -395,7 +395,7 @@ const styles = {
     backgroundColor: COLORS.buttonHover,
     color: COLORS.textPrimary,
     outline: "none",
-    "@media (max-width: 768px)": {
+    "@media (maxWidth: 768px)": {
       fontSize: "1rem",
       width: "100%", // Full width on mobile
     },
@@ -411,7 +411,7 @@ const styles = {
     marginTop: "10px",
     transition: "background-color 0.3s ease",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-    "@media (max-width: 768px)": {
+    "@media (maxWidth: 768px)": {
       fontSize: "1rem",
       padding: "8px 15px", // Adjust padding for mobile
     },
@@ -426,7 +426,7 @@ const styles = {
     cursor: "pointer",
     transition: "background-color 0.3s ease",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-    "@media (max-width: 768px)": {
+    "@media (maxWidth: 768px)": {
       fontSize: "1.2rem",
       padding: "10px 20px", // Adjust padding for mobile
     },
@@ -440,7 +440,7 @@ const styles = {
     width: "100%",
     maxWidth: "400px",
     zIndex: 10,
-    "@media (max-width: 768px)": {
+    "@media (maxWidth: 768px)": {
       padding: "15px",
       fontSize: "0.9rem",
     },

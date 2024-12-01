@@ -3,17 +3,6 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 
-const COLORS = {
-  backgroundGradientStart: "#3e1c5e",
-  backgroundGradientEnd: "#1a0c3e",
-  correctText: "#ffc107",
-  headerText: "#9b59b6",
-  textPrimary: "#e0e0e0",
-  buttonBackground: "#333",
-  buttonHover: "#222",
-  buttonText: "#f5f5f5",
-};
-
 export default function Home() {
   const [clipDuration, setClipDuration] = useState(10);
   const [lives, setLives] = useState(-1);
@@ -31,7 +20,7 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.2 }}
-          transition={{ ease: 'easeOut', duration: 0.4 }}
+          transition={{ ease: "easeOut", duration: 0.4 }}
           style={styles.gridContainer}
         >
           {/* Header */}
@@ -67,84 +56,95 @@ export default function Home() {
 
           {/* Settings */}
           <section style={styles.settings}>
-          <p style={styles.settingsTitle}>Choose Settings:</p>
-          <div style={styles.toggleContainer}>
-            <button
-              style={{
-                ...styles.toggleButton,
-                backgroundColor: clipDuration === 20 ? COLORS.buttonBackground : "#222",
-              }}
-              onClick={() => setClipDuration(20)}
-            >
-              Easy
-            </button>
-            <button
-              style={{
-                ...styles.toggleButton,
-                backgroundColor: clipDuration === 10 ? COLORS.buttonBackground : "#222",
-              }}
-              onClick={() => setClipDuration(10)}
-            >
-              Normal
-            </button>
-            <button
-              style={{
-                ...styles.toggleButton,
-                backgroundColor: clipDuration === 5 ? COLORS.buttonBackground : "#222",
-              }}
-              onClick={() => setClipDuration(5)}
-            >
-              Hard
-            </button>
-          </div>
-          <div style={styles.toggleContainer}>
-            <button
-              style={{
-                ...styles.toggleButton,
-                backgroundColor: lives === -1 ? COLORS.buttonBackground : "#222",
-              }}
-              onClick={() => setLives(-1)}
-            >
-              Endless
-            </button>
-            <button
-              style={{
-                ...styles.toggleButton,
-                backgroundColor: lives === 3 ? COLORS.buttonBackground : "#222",
-              }}
-              onClick={() => setLives(3)}
-            >
-              3 Lives
-            </button>
-            <button
-              style={{
-                ...styles.toggleButton,
-                backgroundColor: lives === 1 ? COLORS.buttonBackground : "#222",
-              }}
-              onClick={() => setLives(1)}
-            >
-              1 Life
-            </button>
-          </div>
-          <div style={styles.buttonContainer}>
-            <Link href={`/game?duration=${clipDuration}&lives=${lives}`}>
+            <p style={styles.settingsTitle}>Choose Settings:</p>
+            <div style={styles.toggleContainer}>
               <button
                 style={{
-                  ...styles.button,
-                  backgroundColor: COLORS.headerText,
-                  color: COLORS.buttonText,
+                  ...styles.toggleButton,
+                  backgroundColor: clipDuration === 20 ? COLORS.buttonBackground : "#222",
                 }}
+                onClick={() => setClipDuration(20)}
               >
-                Start Game
+                Easy
               </button>
-            </Link>
-          </div>
-        </section>
+              <button
+                style={{
+                  ...styles.toggleButton,
+                  backgroundColor: clipDuration === 10 ? COLORS.buttonBackground : "#222",
+                }}
+                onClick={() => setClipDuration(10)}
+              >
+                Normal
+              </button>
+              <button
+                style={{
+                  ...styles.toggleButton,
+                  backgroundColor: clipDuration === 5 ? COLORS.buttonBackground : "#222",
+                }}
+                onClick={() => setClipDuration(5)}
+              >
+                Hard
+              </button>
+            </div>
+            <div style={styles.toggleContainer}>
+              <button
+                style={{
+                  ...styles.toggleButton,
+                  backgroundColor: lives === -1 ? COLORS.buttonBackground : "#222",
+                }}
+                onClick={() => setLives(-1)}
+              >
+                Endless
+              </button>
+              <button
+                style={{
+                  ...styles.toggleButton,
+                  backgroundColor: lives === 3 ? COLORS.buttonBackground : "#222",
+                }}
+                onClick={() => setLives(3)}
+              >
+                3 Lives
+              </button>
+              <button
+                style={{
+                  ...styles.toggleButton,
+                  backgroundColor: lives === 1 ? COLORS.buttonBackground : "#222",
+                }}
+                onClick={() => setLives(1)}
+              >
+                1 Life
+              </button>
+            </div>
+            <div style={styles.buttonContainer}>
+              <Link href={`/game?duration=${clipDuration}&lives=${lives}`}>
+                <button
+                  style={{
+                    ...styles.button,
+                    backgroundColor: COLORS.headerText,
+                    color: COLORS.buttonText,
+                  }}
+                >
+                  Start Game
+                </button>
+              </Link>
+            </div>
+          </section>
         </motion.div>
       </AnimatePresence>
     </div>
   );
 }
+
+const COLORS = {
+  backgroundGradientStart: "#3e1c5e",
+  backgroundGradientEnd: "#1a0c3e",
+  correctText: "#ffc107",
+  headerText: "#9b59b6",
+  textPrimary: "#e0e0e0",
+  buttonBackground: "#333",
+  buttonHover: "#222",
+  buttonText: "#f5f5f5",
+};
 
 const styles = {
   container: {
@@ -169,12 +169,10 @@ const styles = {
     maxWidth: "1200px",
     padding: "20px", // Added padding around the entire grid
     boxSizing: "border-box",
-    "@media (max-width: 768px)": {
-      gridTemplateColumns: "1fr", // Single-column layout for mobile
-      gridTemplateRows: "auto auto auto auto", // Stack all rows
-      gap: "15px", // Smaller gap for mobile
-      height: "100vh", // Fit the entire screen on mobile
-      overflow: "hidden", // Prevent unnecessary scrolling
+
+    "@media (maxWidth: 768px)": {
+      gridTemplateColumns: "1fr", // Single column layout on mobile
+      gap: "20px", // Reduce gap for smaller screens
     },
   },
   header: {
@@ -188,9 +186,8 @@ const styles = {
     fontFamily: "Megrim",
     fontSize: "5rem",
     textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-    "@media (max-width: 768px)": {
-      fontSize: "2.5rem", // Scale down for mobile
-      marginBottom: "20px", // Ensure spacing
+    "@media (maxWidth: 768px)": {
+      fontSize: "2.5rem", // Smaller for mobile
     },
   },
   instructions: {
@@ -210,11 +207,9 @@ const styles = {
     gap: "20px", // Space between elements
     height: "100%", // Ensure it takes the full height of the grid area
     boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-    "@media (max-width: 768px)": {
-      gridColumn: "1 / -1", // Full width on mobile
-      padding: "15px", // Reduced padding for mobile
-      fontSize: "0.9rem", // Smaller font size for mobile
-      gap: "10px", // Adjust spacing for mobile
+    "@media (maxWidth: 768px)": {
+      fontSize: "0.9rem", // Smaller font for mobile
+      padding: "10px", // Reduced padding
     },
   },
   settings: {
@@ -230,20 +225,11 @@ const styles = {
     gap: "15px", // Space between elements
     height: "100%", // Ensure it takes the full height of the grid area
     boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-    "@media (max-width: 768px)": {
-      gridColumn: "1 / -1", // Full width on mobile
-      padding: "15px", // Adjust padding
-      gap: "10px", // Adjust spacing for mobile
-    },
   },
   buttonContainer: {
     display: "flex",
     justifyContent: "center",
     marginTop: "10px",
-    "@media (max-width: 768px)": {
-      flexDirection: "column", // Stack buttons vertically on mobile
-      gap: "10px", // Add spacing between buttons
-    },
   },
   settingsTitle: {
     fontSize: "1.5rem",
@@ -258,10 +244,6 @@ const styles = {
     alignItems: "center",
     gap: "10px", // Ensures even spacing between toggle buttons
     marginBottom: "10px",
-    "@media (max-width: 768px)": {
-      flexWrap: "wrap", // Allow wrapping on smaller screens
-      gap: "5px", // Adjust gap for mobile
-    },
   },
   toggleButton: {
     flex: "0 0 auto", // Prevents the button from stretching or shrinking
@@ -274,10 +256,6 @@ const styles = {
     cursor: "pointer",
     transition: "background-color 0.3s ease",
     textAlign: "center", // Centers text within the button
-    "@media (max-width: 768px)": {
-      padding: "8px 10px", // Smaller buttons for mobile
-      fontSize: "0.9rem", // Adjust font size
-    },
   },  
   button: {
     padding: "15px 30px",
@@ -287,9 +265,9 @@ const styles = {
     cursor: "pointer",
     transition: "transform 0.2s ease", // Subtle hover effect
     boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-    "@media (max-width: 768px)": {
-      padding: "10px 15px", // Adjust padding for mobile
-      fontSize: "1rem", // Smaller font size
+    "@media (maxWidth: 768px)": {
+      padding: "10px 15px", // Mobile
+      fontSize: "1rem",
     },
   },
 };
