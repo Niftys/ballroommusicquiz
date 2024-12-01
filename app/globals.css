@@ -15,7 +15,7 @@ html, body {
   height: 100%;
   width: 100%;
   background: var(--background-gradient);
-  overflow: hidden; /* Prevent scrolling */
+  overflow: auto;
   font-family: var(--font-lato);
 }
 
