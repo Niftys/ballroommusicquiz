@@ -16,11 +16,35 @@ body {
   background: linear-gradient(135deg, #3e1c5e, #1a0c3e);
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Prevent scrolling */
   min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-y: auto; /* Allow vertical scrolling on mobile */
 }
 
 /* Headers use Megrim */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-megrim);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  margin: auto;
+}
+
+/* Responsive grid behavior */
+@media (max-width: 768px) {
+  .container {
+    max-width: 100%; /* Full width on smaller devices */
+    padding: 10px; /* Reduce padding */
+  }
+
+  body {
+    font-size: 0.9rem; /* Slightly smaller font for mobile */
+  }
 }

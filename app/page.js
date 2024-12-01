@@ -173,7 +173,8 @@ const styles = {
       gridTemplateColumns: "1fr", // Single-column layout for mobile
       gridTemplateRows: "auto auto auto auto", // Stack all rows
       gap: "15px", // Smaller gap for mobile
-      padding: "10px", // Reduced padding
+      height: "100vh", // Fit the entire screen on mobile
+      overflow: "hidden", // Prevent unnecessary scrolling
     },
   },
   header: {
@@ -211,8 +212,8 @@ const styles = {
     boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
     "@media (max-width: 768px)": {
       gridColumn: "1 / -1", // Full width on mobile
-      padding: "15px", // Smaller padding
-      fontSize: "0.9rem", // Adjust text size for mobile
+      padding: "15px", // Reduced padding for mobile
+      fontSize: "0.9rem", // Smaller font size for mobile
       gap: "10px", // Adjust spacing for mobile
     },
   },
