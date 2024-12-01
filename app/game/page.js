@@ -319,26 +319,31 @@ const styles = {
   header: {
     fontFamily: "Megrim",
     marginBottom: "10px",
-    fontSize: "5rem",
+    fontSize: "5rem", // Desktop font size
     color: COLORS.headerText,
     fontWeight: "bold",
-    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)", // Adds depth
+    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+    "@media (max-width: 768px)": {
+      fontSize: "3rem", // Reduce font size for mobile
+    },
   },
   score: {
     fontSize: "2rem",
     color: COLORS.textPrimary,
     marginBottom: "10px",
     fontWeight: "bold",
+    "@media (max-width: 768px)": {
+      fontSize: "1.5rem",
+    },
   },
   lives: {
     fontSize: "2rem",
     marginBottom: "10px",
     color: COLORS.textPrimary,
     textAlign: "center",
-  },
-  livesHighlight: {
-    fontWeight: "bold",
-    color: COLORS.correctText,
+    "@media (max-width: 768px)": {
+      fontSize: "1.5rem",
+    },
   },
   progressBarContainer: {
     width: "100%",
@@ -348,6 +353,10 @@ const styles = {
     overflow: "hidden",
     margin: "20px 0",
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+    "@media (max-width: 768px)": {
+      height: "15px", // Adjust height for mobile
+      margin: "10px 0",
+    },
   },
   progressBar: {
     height: "100%",
@@ -359,6 +368,9 @@ const styles = {
     marginBottom: "20px",
     color: COLORS.textPrimary,
     fontWeight: "bold",
+    "@media (max-width: 768px)": {
+      fontSize: "1.2rem",
+    },
   },
   feedback: {
     fontSize: "1.2rem",
@@ -367,6 +379,9 @@ const styles = {
     color: COLORS.textPrimary,
     textAlign: "center",
     transition: "color 0.3s ease", // Smooth color change
+    "@media (max-width: 768px)": {
+      fontSize: "1rem",
+    },
   },
   input: {
     fontSize: "1.2rem",
@@ -375,11 +390,15 @@ const styles = {
     border: `2px solid ${COLORS.buttonBackground}`,
     borderRadius: "5px",
     width: "80%",
-    maxWidth: "400px", // Prevents overly wide inputs
+    maxWidth: "400px",
     textAlign: "center",
     backgroundColor: COLORS.buttonHover,
     color: COLORS.textPrimary,
-    outline: "none", // Removes default outline on focus
+    outline: "none",
+    "@media (max-width: 768px)": {
+      fontSize: "1rem",
+      width: "100%", // Full width on mobile
+    },
   },
   button: {
     padding: "10px 20px",
@@ -391,7 +410,11 @@ const styles = {
     cursor: "pointer",
     marginTop: "10px",
     transition: "background-color 0.3s ease",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)", // Subtle button shadow
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+    "@media (max-width: 768px)": {
+      fontSize: "1rem",
+      padding: "8px 15px", // Adjust padding for mobile
+    },
   },
   startButton: {
     padding: "15px 30px",
@@ -402,17 +425,25 @@ const styles = {
     borderRadius: "50px",
     cursor: "pointer",
     transition: "background-color 0.3s ease",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)", // Larger shadow for emphasis
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+    "@media (max-width: 768px)": {
+      fontSize: "1.2rem",
+      padding: "10px 20px", // Adjust padding for mobile
+    },
   },
   popup: {
     backgroundColor: COLORS.buttonBackground,
     padding: "20px",
     borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)", // Stronger shadow for modal effect
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
     textAlign: "center",
     width: "100%",
     maxWidth: "400px",
-    zIndex: 10, // Ensures popup is above all other elements
+    zIndex: 10,
+    "@media (max-width: 768px)": {
+      padding: "15px",
+      fontSize: "0.9rem",
+    },
   },
   popupHeader: {
     color: COLORS.headerText,

@@ -173,13 +173,20 @@ const styles = {
       fontWeight: "bold",
       marginBottom: "20px",
       color: COLORS.correctText,
-      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)"
+      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+      "@media (max-width: 768px)": {
+        fontSize: "2.5rem", // Reduce font size on mobile
+      },
     },
     filters: {
       display: "flex",
       justifyContent: "center",
       gap: "20px",
       marginBottom: "20px",
+      "@media (max-width: 768px)": {
+        flexDirection: "column", // Stack filters vertically
+        gap: "10px",
+      },
     },
     label: {
       marginRight: "10px",
@@ -193,12 +200,19 @@ const styles = {
       color: COLORS.textPrimary,
       border: "1px solid #aaa",
       borderRadius: "5px",
+      "@media (max-width: 768px)": {
+        fontSize: "0.9rem", // Slightly smaller select box
+        width: "100%", // Expand select box to full width
+      },
     },
     tableContainer: {
       marginTop: "20px",
       width: "100%",
       display: "flex",
       justifyContent: "center",
+      "@media (max-width: 768px)": {
+        marginTop: "10px", // Reduce margin for mobile
+      },
     },
     table: {
       margin: "auto",
@@ -208,6 +222,10 @@ const styles = {
       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
       borderRadius: "10px",
       overflow: "hidden",
+      "@media (max-width: 768px)": {
+        width: "100%", // Make table full-width on mobile
+        fontSize: "0.9rem", // Reduce font size in the table
+      },
     },
     th: {
       backgroundColor: COLORS.headerText,
@@ -215,10 +233,17 @@ const styles = {
       padding: "10px",
       fontWeight: "bold",
       textTransform: "uppercase",
+      "@media (max-width: 768px)": {
+        padding: "5px", // Reduce padding for mobile
+      },
     },
     td: {
       padding: "10px",
       textAlign: "center",
+      "@media (max-width: 768px)": {
+        padding: "5px", // Reduce padding for mobile
+        fontSize: "0.9rem", // Smaller font size for mobile
+      },
     },
     rowOdd: {
       backgroundColor: COLORS.backgroundGradientEnd,
