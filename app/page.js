@@ -8,7 +8,7 @@ export default function Home() {
   const [lives, setLives] = useState(-1);
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center bg-gradient-to-br from-[#3e1c5e] to-[#1a0c3e] p-10">
+    <div className="w-screen h-screen lg:grid-cols-2 sm:grid-cols-1 flex justify-center items-center bg-gradient-to-br from-[#3e1c5e] to-[#1a0c3e] p-10">
       <AnimatePresence mode="wait">
         <motion.div
           key="ready"
