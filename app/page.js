@@ -169,10 +169,11 @@ const styles = {
     maxWidth: "1200px",
     padding: "20px", // Added padding around the entire grid
     boxSizing: "border-box",
-
     "@media (max-width: 768px)": {
-      gridTemplateColumns: "1fr", // Single column layout on mobile
-      gap: "20px", // Reduce gap for smaller screens
+      gridTemplateColumns: "1fr", // Single-column layout for mobile
+      gridTemplateRows: "auto auto auto auto", // Stack all rows
+      gap: "15px", // Smaller gap for mobile
+      padding: "10px", // Reduced padding
     },
   },
   header: {
@@ -187,7 +188,8 @@ const styles = {
     fontSize: "5rem",
     textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
     "@media (max-width: 768px)": {
-      fontSize: "2.5rem", // Smaller for mobile
+      fontSize: "2.5rem", // Scale down for mobile
+      marginBottom: "20px", // Ensure spacing
     },
   },
   instructions: {
@@ -208,8 +210,10 @@ const styles = {
     height: "100%", // Ensure it takes the full height of the grid area
     boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
     "@media (max-width: 768px)": {
-      fontSize: "0.9rem", // Smaller font for mobile
-      padding: "10px", // Reduced padding
+      gridColumn: "1 / -1", // Full width on mobile
+      padding: "15px", // Smaller padding
+      fontSize: "0.9rem", // Adjust text size for mobile
+      gap: "10px", // Adjust spacing for mobile
     },
   },
   settings: {
@@ -225,11 +229,20 @@ const styles = {
     gap: "15px", // Space between elements
     height: "100%", // Ensure it takes the full height of the grid area
     boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+    "@media (max-width: 768px)": {
+      gridColumn: "1 / -1", // Full width on mobile
+      padding: "15px", // Adjust padding
+      gap: "10px", // Adjust spacing for mobile
+    },
   },
   buttonContainer: {
     display: "flex",
     justifyContent: "center",
     marginTop: "10px",
+    "@media (max-width: 768px)": {
+      flexDirection: "column", // Stack buttons vertically on mobile
+      gap: "10px", // Add spacing between buttons
+    },
   },
   settingsTitle: {
     fontSize: "1.5rem",
@@ -244,6 +257,10 @@ const styles = {
     alignItems: "center",
     gap: "10px", // Ensures even spacing between toggle buttons
     marginBottom: "10px",
+    "@media (max-width: 768px)": {
+      flexWrap: "wrap", // Allow wrapping on smaller screens
+      gap: "5px", // Adjust gap for mobile
+    },
   },
   toggleButton: {
     flex: "0 0 auto", // Prevents the button from stretching or shrinking
@@ -256,6 +273,10 @@ const styles = {
     cursor: "pointer",
     transition: "background-color 0.3s ease",
     textAlign: "center", // Centers text within the button
+    "@media (max-width: 768px)": {
+      padding: "8px 10px", // Smaller buttons for mobile
+      fontSize: "0.9rem", // Adjust font size
+    },
   },  
   button: {
     padding: "15px 30px",
@@ -266,8 +287,8 @@ const styles = {
     transition: "transform 0.2s ease", // Subtle hover effect
     boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
     "@media (max-width: 768px)": {
-      padding: "10px 15px", // Mobile
-      fontSize: "1rem",
+      padding: "10px 15px", // Adjust padding for mobile
+      fontSize: "1rem", // Smaller font size
     },
   },
 };
