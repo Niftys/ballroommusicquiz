@@ -15,7 +15,7 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.2 }}
-          transition={{ ease: "easeOut", duration: 0.4 }}
+          transition={{ ease: "easeOut", duration: 0.2, type: "spring", stiffness: "50" }}
           className="grid grid-cols-1 gap-5 w-full max-w-[1200px] mx-auto md:grid-cols-2 md:gap-[100px]"
         >
           {/* Header */}

@@ -66,7 +66,7 @@ export default function Leaderboard() {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
-          transition={{ ease: "easeOut", duration: 0.4 }}
+          transition={{ ease: "easeOut", duration: 0.2, type: "spring", stiffness: "50"}}
         >
           <h1 className="font-megrim text-[3.5rem] font-bold text-[#ffc107] mb-5 drop-shadow-lg">
             Leaderboard
