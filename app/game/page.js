@@ -207,10 +207,11 @@ function GameContent() {
         {!isPlaying && !showNameInput && (
           <motion.div
             key="ready"
-            initial={{ opacity: 0, scale: 0.8 }}
+            style={{...styles.container}}
+            initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.2 }}
-            transition={{ duration: 0.3 }}
+            exit={{ opacity: 0, x: 500}}
+            transition={{ ease: 'easeOut', duration: 0.3, type: "spring", stiffness: "50" }}
           >
             <h1 style={{ ...styles.header, color: COLORS.correctText }}>
               Are you ready?
@@ -223,12 +224,12 @@ function GameContent() {
   
         {isPlaying && !showNameInput && (
           <motion.div
-            style={{...styles.container}}
             key="game"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, y: 500 }}
-            transition={{ duration: 0.5, type: "spring" }}
+            style={{...styles.container}}
+            initial={{ opacity: 0, x: -500 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 500 }}
+            transition={{ ease: 'easeOut', duration: 0.3, type: "spring", stiffness: "50" }}
           >
             <h1 style={{...styles.header, color: COLORS.correctText}}>Ballroom Music Quiz</h1>
             <button onClick={quitGame} style={styles.quitButton}>
@@ -267,9 +268,9 @@ function GameContent() {
         {showNameInput && (
           <motion.div
             key="name"
-            initial={{ opacity: 0, y: -500 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, type: "spring"}}
+            initial={{ opacity: 0, x: -500 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ ease: 'easeOut', duration: 0.3, type: "spring", stiffness: "50"}}
             style={styles.popup}
           >
             <h2 style={styles.popupHeader}>Enter Your Name</h2>
@@ -303,6 +304,7 @@ export default function Game() {
 
 const styles = {
   container: {
+    width: "100%",
     fontFamily: "Lato, sans-serif",
     display: "flex",
     flexDirection: "column",
@@ -312,23 +314,24 @@ const styles = {
     textAlign: "center",
     padding: "20px",
     boxSizing: "border-box",
+    overflow: "hidden",
   },
   header: {
     fontFamily: "Megrim",
     marginBottom: "10px",
-    fontSize: "3rem",
+    fontSize: "5rem",
     color: COLORS.headerText,
     fontWeight: "bold",
     textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)", // Adds depth
   },
   score: {
-    fontSize: "1.5rem",
+    fontSize: "2rem",
     color: COLORS.textPrimary,
     marginBottom: "10px",
     fontWeight: "bold",
   },
   lives: {
-    fontSize: "1.5rem",
+    fontSize: "2rem",
     marginBottom: "10px",
     color: COLORS.textPrimary,
     textAlign: "center",

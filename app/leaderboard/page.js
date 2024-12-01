@@ -81,10 +81,10 @@ export default function Leaderboard() {
     <motion.div
     style={{...styles.container}}
     key="ready"
-    initial={{ opacity: 0, scale: 0.8 }}
-    animate={{ opacity: 1, scale: 1 }}
-    exit={{ opacity: 0, scale: 1.2 }}
-    transition={{ duration: 0.5 }}
+    initial={{ opacity: 0, y: 50 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: 50 }}
+    transition={{ ease: 'easeOut', duration: 0.4 }}
   >
       <h1 style={styles.header}>Leaderboard</h1>
 
