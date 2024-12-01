@@ -184,7 +184,7 @@ function GameContent() {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col justify-center items-center text-center bg-gradient-to-br from-[#3e1c5e] to-[#1a0c3e] p-5 overflow-hidden">
+    <div className="w-screen h-screen flex flex-col justify-center items-center text-center bg-gradient-to-br from-[#355262] to-[#1a0c3e] p-5 overflow-hidden">
       <AnimatePresence mode="popLayout">
         {!isPlaying && !showNameInput && (
           <motion.div
@@ -221,7 +221,7 @@ function GameContent() {
             {lives !== -1 && <p className="text-2xl font-bold mb-5">Lives: {lives}</p>}
             <div className="w-3/4 h-5 bg-[#333] rounded-md shadow-md overflow-hidden my-5">
               <div
-                className="h-full bg-[#9b59b6] transition-all"
+                className="h-full bg-[#1F5E80] transition-all"
                 style={{ width: `${progress}%` }}
               />
             </div>

@@ -58,7 +58,7 @@ export default function Leaderboard() {
   }, [selectedLives, selectedDuration, scores]);
 
   return (
-    <div className="flex flex-col items-center min-h-screen w-screen bg-gradient-to-br from-[#3e1c5e] to-[#1a0c3e] p-5">
+    <div className="flex flex-col items-center min-h-screen w-screen bg-gradient-to-br from-[#355262] to-[#1a0c3e] p-5">
       <AnimatePresence mode="wait">
         <motion.div
           className="flex flex-col items-center w-full text-center"
@@ -107,12 +107,12 @@ export default function Leaderboard() {
           <div className="w-full flex justify-center">
             <table className="w-4/5 max-w-[1000px] text-[#e0e0e0] bg-[#333] border-collapse shadow-md rounded-lg overflow-hidden">
               <thead>
-                <tr className="bg-[#9b59b6]">
-                  <th className="p-3 font-bold text-left uppercase">Rank</th>
-                  <th className="p-3 font-bold text-left uppercase">Name</th>
-                  <th className="p-3 font-bold text-left uppercase">Score</th>
-                  <th className="p-3 font-bold text-left uppercase">Lives</th>
-                  <th className="p-3 font-bold text-left uppercase">
+                <tr className="bg-[#1F5E80]">
+                  <th className="p-3 font-bold text-center uppercase">Rank</th>
+                  <th className="p-3 font-bold text-center uppercase">Name</th>
+                  <th className="p-3 font-bold text-center uppercase">Score</th>
+                  <th className="p-3 font-bold text-center uppercase">Lives</th>
+                  <th className="p-3 font-bold text-center uppercase">
                     Difficulty
                   </th>
                 </tr>
@@ -124,8 +124,8 @@ export default function Leaderboard() {
                       key={index}
                       className={`${
                         index % 2 === 0
-                          ? "bg-[#1a0c3e]"
-                          : "bg-[#3e1c5e]"
+                          ? "bg-[#1B3543]"
+                          : "bg-[#355E74]"
                       }`}
                     >
                       <td className="p-3">{index + 1}</td>

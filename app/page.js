@@ -8,7 +8,7 @@ export default function Home() {
   const [lives, setLives] = useState(-1);
 
   return (
-    <div className="min-h-screen w-screen flex flex-col bg-gradient-to-br from-[#3e1c5e] to-[#1a0c3e] px-5 py-10 overflow-y-auto">
+    <div className="min-h-screen w-screen flex flex-col bg-gradient-to-br from-[#355262] to-[#1a0c3e] px-5 py-10 overflow-y-auto">
       <AnimatePresence mode="wait">
         <motion.div
           key="ready"
@@ -116,7 +116,7 @@ export default function Home() {
             </div>
             <div className="flex justify-center mt-5">
               <Link href={`/game?duration=${clipDuration}&lives=${lives}`}>
-                <button className="px-6 py-3 rounded-lg bg-[#9b59b6] text-[#f5f5f5] hover:bg-[#222] transition-all shadow-md">
+                <button className="px-6 py-3 rounded-lg bg-[#1F5E80] text-[#f5f5f5] hover:bg-[#222] transition-all shadow-md">
                   Start Game
                 </button>
               </Link>
