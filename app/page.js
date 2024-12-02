@@ -116,12 +116,15 @@ export default function Home() {
             </div>
             <div className="flex justify-center mt-5">
               <Link href={`/game?duration=${clipDuration}&lives=${lives}`}>
-                <button className="px-6 py-3 rounded-lg bg-[#1F5E80] text-[#f5f5f5] hover:bg-[#222] transition-all shadow-md">
+                <button className="px-6 py-3 rounded-lg bg-[#1F5E80] text-[#f5f5f5] hover:bg-[#97770a] transition-all shadow-md">
                   Start Game
                 </button>
               </Link>
             </div>
           </section>
+          <p className="text-sm text-slate-500 text-center col-span-2">
+              A game by Seth Lowery. Please send any questions or concerns to lowerys@proton.me.
+          </p>
         </motion.div>
       </AnimatePresence>
     </div>
