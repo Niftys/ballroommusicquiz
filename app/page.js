@@ -122,9 +122,6 @@ export default function Home() {
               </Link>
             </div>
           </section>
-          <p className="text-sm text-slate-500 text-center col-span-2">
-              A game by Seth Lowery. Please send any questions or concerns to lowerys@proton.me.
-          </p>
         </motion.div>
       </AnimatePresence>
     </div>
