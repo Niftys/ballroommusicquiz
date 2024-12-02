@@ -192,7 +192,7 @@ function GameContent() {
             className="flex flex-col justify-center items-center"
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, x: 500 }}
+            exit={{ opacity: 0, scale: 1.5, transition: { ease: "anticipate", duration: 1 } }}
             transition={{ ease: 'easeOut', duration: 0.3, type: "spring", stiffness: "50" }}
           >
             <h1 className="font-bold w-screen font-megrim text-[5rem] text-[#ffc107] drop-shadow-lg mb-5">
@@ -208,10 +208,10 @@ function GameContent() {
           <motion.div
             key="game"
             className="flex w-screen flex-col justify-center items-center text-[#e0e0e0]"
-            initial={{ opacity: 0, x: -500 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 500 }}
-            transition={{ ease: 'easeOut', duration: 0.3, type: "spring", stiffness: "50" }}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0, transition: { ease: "anticipate", duration: 1 } }}
+            transition={{ ease: 'easeOut', duration: 0.5, type: "spring", stiffness: "50", delay: 0.4 }}
           >
             <h1 className="font-bold font-megrim text-[5rem] text-[#ffc107] drop-shadow-lg mb-5">Ballroom Music Quiz</h1>
             <button className="px-10 py-4 rounded-lg bg-[#8b0000] text-[#f5f5f5] shadow-lg mb-5" onClick={quitGame}>
@@ -247,9 +247,9 @@ function GameContent() {
           <motion.div
             key="name"
             className="flex flex-col justify-center items-center bg-[#333] text-[#f5f5f5] p-10 rounded-lg shadow-lg"
-            initial={{ opacity: 0, x: -500 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ ease: 'easeOut', duration: 0.3, type: "spring", stiffness: "50" }}
+            initial={{ opacity: 0, scale: 1.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ ease: 'easeOut', duration: 0.3, type: "spring", stiffness: "50", delay: 0.5 }}
           >
             <h2 className="text-2xl font-bold mb-5">Enter Your Name</h2>
             <input

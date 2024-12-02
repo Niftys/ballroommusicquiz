@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const [clipDuration, setClipDuration] = useState(10);
@@ -9,9 +9,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-screen flex flex-col bg-gradient-to-br from-[#355262] to-[#1a0c3e] px-5 py-10 overflow-y-auto">
-      <AnimatePresence mode="wait">
         <motion.div
-          key="ready"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.2 }}
@@ -27,7 +25,7 @@ export default function Home() {
 
           {/* Instructions */}
           <section className="flex flex-col justify-center items-center text-[#e0e0e0] border border-[#ffc107] rounded-lg bg-black/10 p-5 shadow-2xl gap-5">
-            <p className="font-bold text-[1.2rem] text-center mb-2 md:text-[1.5rem]">
+            <p className="font-bold text-[1.2rem] text-center mb-2 my-4 md:text-[1.5rem]">
               Don&apos;t know how to play?
             </p>
             <ul className="space-y-3 text-center text-sm md:text-base">
@@ -38,7 +36,7 @@ export default function Home() {
             </ul>
             <div className="flex justify-center mt-3">
               <Link href="/leaderboard">
-                <button className="px-6 py-3 rounded-lg bg-[#333] text-[#f5f5f5] hover:bg-[#222] transition-all shadow-2xl">
+                <button className="px-6 py-3 rounded-lg bg-[#333] text-[#f5f5f5] hover:bg-[#222] transition-all shadow-2xl mb-3">
                   View Leaderboard
                 </button>
               </Link>
@@ -46,8 +44,8 @@ export default function Home() {
           </section>
 
           {/* Settings */}
-          <section className="flex flex-col justify-center items-center text-[#e0e0e0] border border-[#ffc107] rounded-lg bg-black/10 p-5 shadow-lg gap-4">
-            <p className="font-bold text-[1.2rem] text-center mb-4 md:text-[1.5rem]">
+          <section className="flex flex-col justify-center items-center text-[#e0e0e0] border border-[#ffc107] rounded-lg bg-black/10 p-5 shadow-lg gap-5">
+            <p className="font-bold text-[1.2rem] text-center mb-2 md:text-[1.5rem]">
               Choose Settings:
             </p>
             <div className="flex justify-center gap-3">
@@ -116,14 +114,13 @@ export default function Home() {
             </div>
             <div className="flex justify-center mt-5">
               <Link href={`/game?duration=${clipDuration}&lives=${lives}`}>
-                <button className="px-6 py-3 rounded-lg bg-[#1F5E80] text-[#f5f5f5] hover:bg-[#97770a] transition-all shadow-md">
+                <button className="px-6 py-3 rounded-lg bg-[#1F5E80] text-[#f5f5f5] hover:bg-[#97770a] transition-all shadow-md mb-2">
                   Start Game
                 </button>
               </Link>
             </div>
           </section>
         </motion.div>
-      </AnimatePresence>
     </div>
   );
 }
