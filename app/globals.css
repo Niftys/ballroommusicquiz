@@ -80,6 +80,40 @@ h1 {
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
 }
 
+/* Tailwind Scrollbar Customization */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(255, 193, 7, 0.8);
+  border-radius: 10px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 193, 7, 1);
+}
+
+/* Apply for Firefox */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 193, 7, 0.8) rgba(0, 0, 0, 0.1);
+}
+
+/* Hide Scrollbar */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none; /* Firefox */
+}
+
 /* Responsive stacking behavior for mobile */
 @media (max-width: 768px) {
   .grid-container {

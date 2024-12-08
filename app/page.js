@@ -34,7 +34,12 @@ export default function Home() {
               <li>✰ Score points for every correct answer within the time limit ✰</li>
               <li>✖ Lose lives when you don&apos;t guess the style in time ✖</li>
             </ul>
-            <div className="flex justify-center mt-3">
+            <div className="flex justify-center mt-3 gap-5">
+              <Link href="/browse">
+                <button className="px-6 py-3 rounded-lg bg-[#333] text-[#f5f5f5] hover:bg-[#222] transition-all shadow-2xl mb-3">
+                  Music List
+                </button>
+              </Link>
               <Link href="/leaderboard">
                 <button className="px-6 py-3 rounded-lg bg-[#333] text-[#f5f5f5] hover:bg-[#222] transition-all shadow-2xl mb-3">
                   View Leaderboard
