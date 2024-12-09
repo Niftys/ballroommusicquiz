@@ -1,7 +1,7 @@
 {
     "functions": {
       "api/get-music-files/route.js": {
-        "excludeFiles": "public/audio/**"
+        "runtime": "nodejs16.x"
       }
     }
   }
