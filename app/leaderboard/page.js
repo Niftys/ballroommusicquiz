@@ -66,9 +66,14 @@ export default function Leaderboard() {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
-          transition={{ ease: "easeOut", duration: 0.2, type: "spring", stiffness: "50"}}
+          transition={{
+            ease: "easeOut",
+            duration: 0.2,
+            type: "spring",
+            stiffness: "50",
+          }}
         >
-          <h1 className="font-megrim text-[3.5rem] font-bold text-[#ffc107] mb-5 drop-shadow-lg">
+          <h1 className="font-megrim text-[3.5rem] font-bold text-[#4db6e1] mb-5 drop-shadow-lg">
             Leaderboard
           </h1>
 
@@ -77,7 +82,7 @@ export default function Leaderboard() {
             <div>
               <label className="mr-2 text-[#e0e0e0]">Lives:</label>
               <select
-                className="p-2 bg-[#333] text-[#e0e0e0] border border-gray-500 rounded"
+                className="p-2 bg-[#2b3e48] text-[#e0e0e0] border border-[#3b8ca8] rounded"
                 value={selectedLives}
                 onChange={(e) => setSelectedLives(e.target.value)}
               >
@@ -91,7 +96,7 @@ export default function Leaderboard() {
             <div>
               <label className="mr-2 text-[#e0e0e0]">Difficulty:</label>
               <select
-                className="p-2 bg-[#333] text-[#e0e0e0] border border-gray-500 rounded"
+                className="p-2 bg-[#2b3e48] text-[#e0e0e0] border border-[#3b8ca8] rounded"
                 value={selectedDuration}
                 onChange={(e) => setSelectedDuration(e.target.value)}
               >
@@ -105,27 +110,26 @@ export default function Leaderboard() {
 
           {/* Table */}
           <div className="w-full flex justify-center">
-            <table className="w-4/5 max-w-[1000px] text-[#e0e0e0] bg-[#333] border-collapse shadow-md rounded-lg overflow-hidden">
+            <table className="w-4/5 max-w-[1000px] text-[#e0e0e0] bg-opacity-0 border-collapse shadow-md rounded-lg overflow-hidden">
               <thead>
-                <tr className="bg-[#1F5E80]">
+                <tr className="bg-[#3b8ca8]">
                   <th className="p-3 font-bold text-center uppercase">Rank</th>
                   <th className="p-3 font-bold text-center uppercase">Name</th>
                   <th className="p-3 font-bold text-center uppercase">Score</th>
                   <th className="p-3 font-bold text-center uppercase">Lives</th>
-                  <th className="p-3 font-bold text-center uppercase">
-                    Difficulty
-                  </th>
+                  <th className="p-3 font-bold text-center uppercase">Difficulty</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredScores.length > 0 ? (
                   filteredScores.map((score, index) => (
-                    <tr
+                    <motion.tr
                       key={index}
+                      initial={{ opacity: 0, y: 20 }} // Start hidden and slightly below
+                      animate={{ opacity: 1, y: 0 }} // Fade in and move into place
+                      transition={{ duration: 0.3, delay: index * 0.1 }} // Staggered animation
                       className={`${
-                        index % 2 === 0
-                          ? "bg-[#1B3543]"
-                          : "bg-[#355E74]"
+                        index % 2 === 0 ? "bg-[#28464d]" : "bg-[#1c3139]"
                       }`}
                     >
                       <td className="p-3">{index + 1}</td>
@@ -134,20 +138,19 @@ export default function Leaderboard() {
                       <td className="p-3">
                         {score.lives === -1 ? "Endless" : score.lives}
                       </td>
-                      <td className="p-3">
-                        {getDifficultyLevel(score.duration)}
-                      </td>
-                    </tr>
+                      <td className="p-3">{getDifficultyLevel(score.duration)}</td>
+                    </motion.tr>
                   ))
                 ) : (
-                  <tr>
-                    <td
-                      colSpan="5"
-                      className="p-5 text-center text-[#e0e0e0]"
-                    >
+                  <motion.tr
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <td colSpan="5" className="p-5 text-center text-[#e0e0e0]">
                       No scores match your filters.
                     </td>
-                  </tr>
+                  </motion.tr>
                 )}
               </tbody>
             </table>

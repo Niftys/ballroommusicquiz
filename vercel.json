@@ -1,0 +1,8 @@
+{
+    "functions": {
+      "api/get-music-files/route.js": {
+        "excludeFiles": "public/audio/**"
+      }
+    }
+  }
+  

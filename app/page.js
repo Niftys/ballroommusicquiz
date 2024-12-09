@@ -36,14 +36,22 @@ export default function Home() {
             </ul>
             <div className="flex justify-center mt-3 gap-5">
               <Link href="/browse">
-                <button className="px-6 py-3 rounded-lg bg-[#333] text-[#f5f5f5] hover:bg-[#222] transition-all shadow-2xl mb-3">
+                <motion.button 
+                className="px-6 py-3 rounded-lg bg-[#333] text-[#f5f5f5] hover:bg-[#222] shadow-2xl mb-3"
+                whileHover={{ scale: 1.05}}
+                whileTap={{ scale: 0.9 }}
+                >
                   Music List
-                </button>
+                </motion.button>
               </Link>
               <Link href="/leaderboard">
-                <button className="px-6 py-3 rounded-lg bg-[#333] text-[#f5f5f5] hover:bg-[#222] transition-all shadow-2xl mb-3">
+                <motion.button 
+                className="px-6 py-3 rounded-lg bg-[#333] text-[#f5f5f5] hover:bg-[#222] shadow-2xl mb-3"
+                whileHover={{ scale: 1.05}}
+                whileTap={{ scale: 0.9 }}
+                >
                   View Leaderboard
-                </button>
+                </motion.button>
               </Link>
             </div>
           </section>
@@ -119,9 +127,13 @@ export default function Home() {
             </div>
             <div className="flex justify-center mt-5">
               <Link href={`/game?duration=${clipDuration}&lives=${lives}`}>
-                <button className="px-6 py-3 rounded-lg bg-[#1F5E80] text-[#f5f5f5] hover:bg-[#97770a] transition-all shadow-md mb-2">
+                <motion.button 
+                className="px-6 py-3 rounded-lg bg-[#1F5E80] text-[#f5f5f5] hover:bg-[#97770a] shadow-md mb-2"
+                whileHover={{ scale: 1.1}}
+                whileTap={{ scale: 0.9 }}
+                >
                   Start Game
-                </button>
+                </motion.button>
               </Link>
             </div>
           </section>

@@ -42,23 +42,31 @@ function GameContent() {
 
   const fetchRandomSong = async () => {
     if (isGameOver) return;
-
+  
     try {
-      const response = await fetch('/api/get-random-song');
-      if (!response.ok) throw new Error('Failed to fetch song.');
-
-      const song = await response.json();
-      const startTime = Math.floor(Math.random() * (60 - 20 + 1)) + 20;
-
+      const response = await fetch('/api/get-music-files');
+      if (!response.ok) throw new Error('Failed to fetch songs.');
+  
+      const musicFiles = await response.json(); // This returns the entire JSON structure from S3.
+  
+      // Flatten the JSON structure into an array of songs with styles
+      const songs = Object.entries(musicFiles).flatMap(([style, urls]) =>
+        urls.map((url) => ({ style, url }))
+      );
+  
+      // Randomly select one song
+      const randomSong = songs[Math.floor(Math.random() * songs.length)];
+      const startTime = Math.floor(Math.random() * (60 - 20 + 1)) + 20; // Random start time
+  
       resetAudio();
-      setCurrentSong({ ...song, startTime });
+      setCurrentSong({ ...randomSong, startTime });
       setTimer(clipDuration);
       setProgress(100);
       setFeedback("");
       setGuess("");
-
+  
       if (audioRef.current) {
-        audioRef.current.src = song.url;
+        audioRef.current.src = randomSong.url;
         audioRef.current.currentTime = startTime;
         await audioRef.current.play().catch((error) => {
           console.error("Audio playback error:", error);
@@ -67,9 +75,9 @@ function GameContent() {
         });
       }
     } catch (error) {
-      console.error("Error fetching song:", error);
+      console.error("Error fetching songs:", error);
     }
-  };
+  };  
 
   const startGame = () => {
     setIsPlaying(true);
@@ -198,9 +206,13 @@ function GameContent() {
             <h1 className="font-bold w-screen font-megrim text-[5rem] text-[#ffc107] drop-shadow-lg mb-5">
               Are you ready?
             </h1>
-            <button className="px-10 py-4 rounded-full text-xl font-bold bg-[#333] text-[#f5f5f5] hover:bg-[#222] shadow-lg" onClick={startGame}>
+            <motion.button 
+            className="px-10 py-4 rounded-full text-xl font-bold bg-[#333] text-[#f5f5f5] hover:bg-[#222] shadow-lg" onClick={startGame}
+            whileHover={{ scale: 1.1}}
+            whileTap={{ scale: 0.9 }}
+            >
               Begin
-            </button>
+            </motion.button>
           </motion.div>
         )}
 
@@ -214,9 +226,14 @@ function GameContent() {
             transition={{ ease: 'easeOut', duration: 0.5, type: "spring", stiffness: "50", delay: 0.4 }}
           >
             <h1 className="font-bold font-megrim text-[5rem] text-[#ffc107] drop-shadow-lg mb-5">Ballroom Music Quiz</h1>
-            <button className="px-10 py-4 rounded-lg bg-[#8b0000] text-[#f5f5f5] shadow-lg mb-5" onClick={quitGame}>
+            <motion.button 
+            className="px-10 py-4 rounded-lg bg-[#8b0000] text-[#f5f5f5] shadow-lg mb-5" 
+            onClick={quitGame}
+            whileHover={{ scale: 1.05}}
+            whileTap={{ scale: 0.9 }}
+            >
               Quit Game
-            </button>
+            </motion.button>
             <p className="text-2xl font-bold">Score: {score}</p>
             {lives !== -1 && <p className="text-2xl font-bold mb-5">Lives: {lives}</p>}
             <div className="w-3/4 h-5 bg-[#333] rounded-md shadow-md overflow-hidden my-5">
@@ -235,9 +252,13 @@ function GameContent() {
               placeholder="Enter style..."
               className="text-lg border-2 border-[#333] rounded-md p-2 w-80 max-w-[400px] text-center bg-[#222] text-[#f5f5f5] outline-none"
             />
-            <button className="mt-5 px-10 py-4 rounded-lg bg-[#333] text-[#f5f5f5] hover:bg-[#222] shadow-lg" onClick={handleGuess}>
+            <motion.button 
+            className="mt-5 px-10 py-4 rounded-lg bg-[#333] text-[#f5f5f5] hover:bg-[#222] shadow-lg" onClick={handleGuess}
+            whileHover={{ scale: 1.05}}
+            whileTap={{ scale: 0.9 }}
+            >
               Submit
-            </button>
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -260,12 +281,14 @@ function GameContent() {
               placeholder="Your Name"
               className="text-lg border-2 border-[#333] rounded-md p-2 w-80 max-w-[400px] text-center bg-[#222] text-[#f5f5f5] outline-none"
             />
-            <button
+            <motion.button
               onClick={submitScore}
               className="mt-5 px-10 py-4 rounded-lg bg-[#ffc107] text-[#333] hover:bg-[#e0b307] shadow-lg"
+              whileHover={{ scale: 1.05}}
+              whileTap={{ scale: 0.9 }}
             >
               Submit
-            </button>
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
