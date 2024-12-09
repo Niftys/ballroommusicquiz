@@ -1,8 +1,0 @@
-{
-    "functions": {
-      "api/get-music-files/route.js": {
-        "runtime": "nodejs16.x"
-      }
-    }
-  }
-  
