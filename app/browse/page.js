@@ -37,7 +37,8 @@ export default function Browse() {
       .join(" ");
 
   return (
-    <div className="h-screen flex flex-col md:flex-row bg-gradient-to-br from-[#355262] to-[#1a0c3e] text-[#e0e0e0]">
+    <div className="h-screen w-screen overflow-hidden md:overflow-auto flex flex-col text-[#e0e0e0] 
+                    md:relative md:mx-auto md:flex md:flex-row">
       {/* Mobile Toggle Button */}
       <button
         className="md:hidden px-4 py-2 bg-[#1F5E80] text-[#f5f5f5] rounded hover:bg-[#97770a] transition m-3"
@@ -52,7 +53,7 @@ export default function Browse() {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ ease: "easeOut" }}
-          className="w-full md:w-1/3 p-5 border-r border-[#ffc107] overflow-y-auto scrollbar-thin"
+          className="w-screen md:w-1/3 p-5 border-r border-[#ffc107] overflow-y-auto scrollbar-thin rounded-lg min-h-screen"
         >
           <h2 className="font-bold text-xl text-[#ffc107] mb-5">Genres</h2>
           <ul className="space-y-3">
@@ -83,7 +84,7 @@ export default function Browse() {
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
-        className="flex-1 p-5 overflow-y-auto"
+        className="flex-1 p-5 overflow-y-auto scrollbar-thin"
         transition={{ ease: "easeOut" }}
       >
         <h2 className="font-bold text-xl text-[#ffc107] mb-5">
@@ -123,8 +124,8 @@ export default function Browse() {
       <AnimatePresence>
         {selectedSong && (
             <motion.div
-            className={`fixed bottom-0 md:bottom-5 inset-x-0 md:w-3/4 m-auto bg-[#333] bg-opacity-50 text-[#f5f5f5] shadow-lg ${
-                isPlayerMinimized ? "h-[40px]" : "h-[120px]"
+            className={`fixed bottom-7 md:bottom-10 inset-x-0 md:w-3/4 m-auto bg-[#333] bg-opacity-50 text-[#f5f5f5] shadow-lg ${
+                isPlayerMinimized ? "h-[13px]" : "h-[99px]"
             }`}
             initial={{ opacity: 0, y: "100%" }}
             animate={{ opacity: 1, y: "0%" }}
