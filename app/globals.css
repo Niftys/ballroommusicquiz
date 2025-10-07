@@ -4,141 +4,334 @@
 
 :root {
   --font-lato: 'Lato', sans-serif;
-  --background-gradient: linear-gradient(135deg, #355262, #1a0c3e);
-  --font-megrim: 'Megrim', cursive;
+  --font-inter: 'Inter', sans-serif;
+  
+  /* Black & Gold Minimal Color Palette */
+  --primary-bg: #000000;
+  --secondary-bg: #111111;
+  --card-bg: #1a1a1a;
+  --border-color: #333333;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-muted: #888888;
+  --accent-gold: #d4af37;
+  --accent-gold-light: #f4d03f;
+  --accent-gold-dark: #b8860b;
+  --success: #22c55e;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  
+  /* Minimal Gradients */
+  --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+  --dark-gradient: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
 }
 
-/* Set fonts globally */
+/* Minimal Base Styles */
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
-  background: var(--background-gradient);
+  background: var(--primary-bg);
   overflow: auto;
-  font-family: var(--font-lato);
+  font-family: var(--font-inter);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @media (min-width: 768px) {
   html, body {
-    overflow-y: hidden; /* Disable scrolling */
-    overflow-x: hidden; /* Disable scrolling */
+    overflow-y: hidden;
+    overflow-x: hidden;
   }
 }
 
-/* Headers use Megrim */
+/* Clean Minimal Typography */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-megrim);
+  font-family: var(--font-inter);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
 }
 
-/* Grid container styles for desktop */
+h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Minimal Card Components */
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.glass-button {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  color: var(--text-primary);
+}
+
+.glass-button:hover {
+  background: var(--secondary-bg);
+  border-color: var(--accent-gold);
+  transform: translateY(-1px);
+}
+
+/* Modern Grid System */
 .grid-container {
   display: grid;
   grid-template-rows: auto 1fr 1fr auto;
   grid-template-columns: 1fr 1fr;
-  gap: 100px;
+  gap: 2rem;
   width: 100%;
-  max-width: 1200px;
-  padding: 20px;
+  max-width: 1400px;
+  padding: 2rem;
   box-sizing: border-box;
   margin: auto;
 }
 
-/* Header styles */
+/* Modern Header */
 header {
   grid-column: 1 / -1;
   text-align: center;
-  margin-top: 100px;
-  margin-bottom: -30px;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
-/* Title styles */
-h1 {
-  font-weight: bold;
-  font-size: 5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-  color: #ffc107;
-}
-
-/* Instructions and Settings styles */
+/* Modern Card Styles */
 .instructions,
 .settings {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #e0e0e0;
-  padding: 20px;
-  border: 1px solid #ffc107;
-  border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.1);
+  color: var(--text-secondary);
+  padding: 2rem;
+  border-radius: 20px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 1.5rem;
   height: 100%;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Tailwind Scrollbar Customization */
+.instructions:hover,
+.settings:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Modern Scrollbar Styling */
 .scrollbar-thin::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background: rgba(255, 193, 7, 0.8);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
 }
 
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 193, 7, 1);
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-gold));
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
-/* Apply for Firefox */
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #2563eb, #f59e0b);
+  transform: scale(1.1);
+}
+
+/* Firefox Scrollbar */
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 193, 7, 0.8) rgba(0, 0, 0, 0.1);
+  scrollbar-color: var(--accent-blue) rgba(255, 255, 255, 0.1);
 }
 
-/* Hide Scrollbar */
+/* Hidden Scrollbar */
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
 }
 
 .scrollbar-hidden {
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 
-/* Responsive stacking behavior for mobile */
+/* Minimal Button Styles */
+.btn-primary {
+  background: var(--accent-gold);
+  color: var(--primary-bg);
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+  background: var(--accent-gold-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-secondary {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--secondary-bg);
+  border-color: var(--accent-gold);
+  transform: translateY(-1px);
+}
+
+/* Minimal Input Styles */
+.input-modern {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-modern:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+  background: var(--secondary-bg);
+}
+
+.input-modern::placeholder {
+  color: var(--text-muted);
+}
+
+/* Minimal Progress Bar */
+.progress-modern {
+  background: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.progress-fill {
+  background: var(--accent-gold);
+  height: 100%;
+  transition: width 0.3s ease;
+  box-shadow: 0 1px 3px rgba(212, 175, 55, 0.3);
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .grid-container {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Smaller gap between stacked sections */
-    padding: 10px; /* Reduce padding */
+    gap: 1.5rem;
+    padding: 1rem;
   }
 
   header {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-
-  h1 {
-    font-size: 2.5rem; /* Reduce font size for mobile */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 
   .instructions,
   .settings {
-    grid-column: unset; /* Remove grid behavior */
-    height: auto; /* Allow sections to fit content */
+    grid-column: unset;
+    height: auto;
+    padding: 1.5rem;
   }
 
   body {
-    font-size: 0.9rem; /* Smaller font size for mobile readability */
+    font-size: 0.9rem;
   }
+
+  h1 {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+}
+
+/* Animation Utilities */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

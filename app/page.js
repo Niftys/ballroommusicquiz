@@ -1,143 +1,151 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+// Removed motion imports for simplified animations
+import { logPageView } from "../lib/analytics";
 
 export default function Home() {
   const [clipDuration, setClipDuration] = useState(10);
   const [lives, setLives] = useState(-1);
 
+  useEffect(() => {
+    logPageView('home');
+  }, []);
+
   return (
-    <div className="min-h-screen w-screen flex flex-col bg-gradient-to-br from-[#355262] to-[#1a0c3e] px-5 py-10 overflow-y-auto">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1.2 }}
-          transition={{ ease: "easeOut", duration: 0.2, type: "spring", stiffness: "50" }}
-          className="grid grid-cols-1 gap-5 w-full max-w-[1200px] mx-auto md:grid-cols-2 md:gap-[100px]"
-        >
+    <div className="min-h-screen w-screen flex flex-col px-5 py-10 overflow-y-auto" style={{ background: 'var(--primary-bg)' }}>
+        <div className="grid grid-cols-1 gap-8 w-full max-w-[1400px] mx-auto md:grid-cols-2 md:gap-16">
           {/* Header */}
           <header className="text-center md:col-span-2">
-            <h1 className="font-bold font-megrim text-[3rem] text-[#ffc107] drop-shadow-lg md:text-[5rem]">
+            <h1 
+              className="font-bold text-[3rem] md:text-[5rem]"
+              style={{ color: 'var(--accent-gold)' }}
+            >
               Ballroom Music Quiz
             </h1>
+            <p 
+              className="text-lg mt-4"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              Test your knowledge of ballroom dance music
+            </p>
           </header>
 
           {/* Instructions */}
-          <section className="flex flex-col justify-center items-center text-[#e0e0e0] border border-[#ffc107] rounded-lg bg-black/10 p-5 shadow-2xl gap-5">
-            <p className="font-bold text-[1.2rem] text-center mb-2 my-4 md:text-[1.5rem]">
-              Don&apos;t know how to play?
-            </p>
-            <ul className="space-y-3 text-center text-sm md:text-base">
-              <li>♫ You&apos;ll hear a clip of a song from any ballroom style ♫</li>
-              <li>💭 Guess the correct dance style associated with the song 💭</li>
-              <li>✰ Score points for every correct answer within the time limit ✰</li>
-              <li>✖ Lose lives when you don&apos;t guess the style in time ✖</li>
-            </ul>
-            <div className="flex justify-center mt-3 gap-5">
+          <section 
+            className="glass-card flex flex-col justify-center items-center p-8 gap-6"
+          >
+            <div className="text-center">
+              <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--accent-gold)' }}>
+                How to Play
+              </h2>
+              <div className="space-y-4 text-left">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full" style={{ background: 'var(--accent-gold)' }}></div>
+                  <p style={{ color: 'var(--text-secondary)' }}>Listen to a clip of ballroom music</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full" style={{ background: 'var(--accent-gold)' }}></div>
+                  <p style={{ color: 'var(--text-secondary)' }}>Guess the correct dance style</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full" style={{ background: 'var(--accent-gold)' }}></div>
+                  <p style={{ color: 'var(--text-secondary)' }}>Score points for correct answers</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full" style={{ background: 'var(--accent-gold)' }}></div>
+                  <p style={{ color: 'var(--text-secondary)' }}>Beat the time limit to win</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
               <Link href="/browse">
-                <motion.button 
-                className="px-6 py-3 rounded-lg bg-[#333] text-[#f5f5f5] hover:bg-[#222] shadow-2xl mb-3"
-                whileHover={{ scale: 1.05}}
-                whileTap={{ scale: 0.9 }}
+                <button 
+                  className="btn-secondary px-6 py-3 font-semibold"
                 >
-                  Music List
-                </motion.button>
+                  Browse Music
+                </button>
               </Link>
               <Link href="/leaderboard">
-                <motion.button 
-                className="px-6 py-3 rounded-lg bg-[#333] text-[#f5f5f5] hover:bg-[#222] shadow-2xl mb-3"
-                whileHover={{ scale: 1.05}}
-                whileTap={{ scale: 0.9 }}
+                <button 
+                  className="btn-secondary px-6 py-3 font-semibold"
                 >
-                  View Leaderboard
-                </motion.button>
+                  Leaderboard
+                </button>
               </Link>
             </div>
           </section>
 
           {/* Settings */}
-          <section className="flex flex-col justify-center items-center text-[#e0e0e0] border border-[#ffc107] rounded-lg bg-black/10 p-5 shadow-lg gap-5">
-            <p className="font-bold text-[1.2rem] text-center mb-2 md:text-[1.5rem]">
-              Choose Settings:
-            </p>
-            <div className="flex justify-center gap-3">
-              <button
-                className={`px-5 py-3 rounded-md ${
-                  clipDuration === 20
-                    ? "bg-[#333] text-[#f5f5f5]"
-                    : "bg-[#222] text-[#e0e0e0]"
-                }`}
-                onClick={() => setClipDuration(20)}
-              >
-                Easy
-              </button>
-              <button
-                className={`px-5 py-3 rounded-md ${
-                  clipDuration === 10
-                    ? "bg-[#333] text-[#f5f5f5]"
-                    : "bg-[#222] text-[#e0e0e0]"
-                }`}
-                onClick={() => setClipDuration(10)}
-              >
-                Normal
-              </button>
-              <button
-                className={`px-5 py-3 rounded-md ${
-                  clipDuration === 5
-                    ? "bg-[#333] text-[#f5f5f5]"
-                    : "bg-[#222] text-[#e0e0e0]"
-                }`}
-                onClick={() => setClipDuration(5)}
-              >
-                Hard
-              </button>
+          <section 
+            className="glass-card flex flex-col justify-center items-center p-8 gap-6"
+          >
+            <h2 className="text-2xl font-bold text-center" style={{ color: 'var(--accent-gold)' }}>
+              Game Settings
+            </h2>
+            
+            {/* Difficulty Settings */}
+            <div className="w-full">
+              <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-secondary)' }}>Difficulty Level</h3>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { value: 20, label: 'Easy', desc: '20s' },
+                  { value: 10, label: 'Normal', desc: '10s' },
+                  { value: 5, label: 'Hard', desc: '5s' }
+                ].map(({ value, label, desc }) => (
+                  <button
+                    key={value}
+                    className={`px-4 py-3 rounded-lg font-semibold transition-all ${
+                      clipDuration === value
+                        ? 'glass-button'
+                        : 'bg-white/10 text-white/70 hover:bg-white/20'
+                    }`}
+                    onClick={() => setClipDuration(value)}
+                  >
+                    <div className="text-sm">{label}</div>
+                    <div className="text-xs opacity-80">{desc}</div>
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="flex justify-center gap-3">
-              <button
-                className={`px-5 py-3 rounded-md ${
-                  lives === -1
-                    ? "bg-[#333] text-[#f5f5f5]"
-                    : "bg-[#222] text-[#e0e0e0]"
-                }`}
-                onClick={() => setLives(-1)}
-              >
-                Endless
-              </button>
-              <button
-                className={`px-5 py-3 rounded-md ${
-                  lives === 3
-                    ? "bg-[#333] text-[#f5f5f5]"
-                    : "bg-[#222] text-[#e0e0e0]"
-                }`}
-                onClick={() => setLives(3)}
-              >
-                3 Lives
-              </button>
-              <button
-                className={`px-5 py-3 rounded-md ${
-                  lives === 1
-                    ? "bg-[#333] text-[#f5f5f5]"
-                    : "bg-[#222] text-[#e0e0e0]"
-                }`}
-                onClick={() => setLives(1)}
-              >
-                1 Life
-              </button>
+
+            {/* Lives Settings */}
+            <div className="w-full">
+              <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-secondary)' }}>Lives Mode</h3>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { value: -1, label: 'Endless', desc: '∞' },
+                  { value: 3, label: '3 Lives', desc: '3' },
+                  { value: 1, label: '1 Life', desc: '1' }
+                ].map(({ value, label, desc }) => (
+                  <button
+                    key={value}
+                    className={`px-4 py-3 rounded-lg font-semibold transition-all ${
+                      lives === value
+                        ? 'glass-button'
+                        : 'bg-white/10 text-white/70 hover:bg-white/20'
+                    }`}
+                    onClick={() => setLives(value)}
+                  >
+                    <div className="text-sm">{label}</div>
+                    <div className="text-xs opacity-80">{desc}</div>
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="flex justify-center mt-5">
+
+            {/* Start Game Button */}
+            <div className="w-full mt-6">
               <Link href={`/game?duration=${clipDuration}&lives=${lives}`}>
-                <motion.button 
-                className="px-6 py-3 rounded-lg bg-[#1F5E80] text-[#f5f5f5] hover:bg-[#97770a] shadow-md mb-2"
-                whileHover={{ scale: 1.1}}
-                whileTap={{ scale: 0.9 }}
+                <button 
+                  className="btn-primary w-full py-4 text-lg font-bold"
                 >
                   Start Game
-                </motion.button>
+                </button>
               </Link>
             </div>
           </section>
-        </motion.div>
+        </div>
     </div>
   );
 }

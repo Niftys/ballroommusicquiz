@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { motion } from "framer-motion";
+// Removed motion imports for simplified animations
 
 export default function NowPlaying({ song }) {
   const audioRef = useRef(null);
@@ -39,35 +39,40 @@ export default function NowPlaying({ song }) {
   const fileName = url.split("/").pop().replace(/\.[^/.]+$/, ""); // Remove file extension
 
   return (
-    <motion.div
-      className="fixed bottom-0 left-0 w-full bg-[#333] text-[#f5f5f5] p-3 shadow-lg"
-      initial={{ y: "100%" }}
-      animate={{ y: song ? "0%" : "100%" }}
+    <div
+      className="fixed bottom-0 left-0 w-full glass-card text-white p-4 shadow-lg"
     >
       <audio ref={audioRef} src={url} onTimeUpdate={handleTimeUpdate} />
 
-      <div className="flex flex-col items-center space-y-2">
-        <h2 className="text-lg font-bold">
-          Now Playing: {fileName}
-        </h2>
-        <p className="text-sm text-gray-400">{style}</p>
-        <div className="flex items-center space-x-3 w-full">
+      <div className="flex flex-col items-center space-y-3">
+        <div className="text-center">
+          <h2 className="text-lg font-bold text-white">
+            {fileName}
+          </h2>
+          <p className="text-sm text-white/70">{style}</p>
+        </div>
+        <div className="flex items-center space-x-4 w-full max-w-md">
           <button
             onClick={handlePlayPause}
-            className="px-4 py-2 bg-[#1F5E80] text-[#f5f5f5] rounded hover:bg-[#97770a] transition"
+            className="btn-primary px-4 py-2 flex items-center gap-2"
           >
             {isPlaying ? "Pause" : "Play"}
           </button>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={progress}
-            onChange={handleSeek}
-            className="w-full"
-          />
+          <div className="flex-1">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={progress}
+              onChange={handleSeek}
+              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+              style={{
+                background: `linear-gradient(to right, var(--accent-blue) 0%, var(--accent-blue) ${progress}%, rgba(255,255,255,0.2) ${progress}%, rgba(255,255,255,0.2) 100%)`
+              }}
+            />
+          </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

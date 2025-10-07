@@ -1,17 +1,11 @@
-import { Lato, Megrim } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import AnimationWrapper from "./components/AnimationWrapper"; // Import wrapper
 
-const megrim = Megrim({
+const inter = Inter({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-megrim",
-});
-
-const lato = Lato({
-  subsets: ["latin"],
-  variable: "--font-lato",
-  weight: ["300", "400", "700"],
+  variable: "--font-inter",
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata = {
@@ -24,9 +18,9 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${megrim.variable} ${lato.variable}`}
+      className={`${inter.variable}`}
     >
-      <body className={`${lato.variable} antialiased`}>
+      <body className={`${inter.variable} antialiased`}>
         <AnimationWrapper>
           {children}
         </AnimationWrapper>
